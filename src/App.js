@@ -10,7 +10,8 @@ import Footer from "./components/Footer";
 function App() {
 
   const CLIENT_ID = "4824b5ae50b14db4b523abf744daed42";
-  const REDIRECT_URI = "http://localhost:3000/";
+  // const REDIRECT_URI = "http://localhost:3000/";
+  const REDIRECT_URI = "https://randomify-silk.vercel.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private";
