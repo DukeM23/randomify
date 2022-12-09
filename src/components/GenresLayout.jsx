@@ -24,7 +24,7 @@ function GenresLayout({genres, formatGenres}) {
     formatGenres(selectedGenres);
 
     return(
-        <div className='flex flex-wrap justify-center space-x-4 pt-5 pb-10'>
+        <div className='flex flex-wrap justify-center space-x-1 sm:space-x-4 pt-5 pb-10'>
             {genres.map((genre, index) => {
                 return <Genre genre={genre} addGenre={addGenre} removeGenre={removeGenre} key={index} />
             })}

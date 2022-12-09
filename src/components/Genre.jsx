@@ -25,7 +25,7 @@ function Genre({genre, addGenre, removeGenre}) {
 
     return(
         <div className={toggleColor()} onClick={handleClick}>
-            <p className='px-4 py-2 text-lg font-bold cursor-pointer'>{genre}</p>
+            <p className='px-4 py-2 text-xs sm:text-lg font-bold cursor-pointer'>{genre}</p>
         </div>
     );
 }

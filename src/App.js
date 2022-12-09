@@ -10,11 +10,11 @@ import Footer from "./components/Footer";
 function App() {
 
   const CLIENT_ID = "4824b5ae50b14db4b523abf744daed42";
-  // const REDIRECT_URI = "http://localhost:3000/";
-  const REDIRECT_URI = "https://randomify-silk.vercel.app/";
+  const REDIRECT_URI = "http://localhost:3000/";
+  // const REDIRECT_URI = "https://randomify-silk.vercel.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
-  const SCOPE = "playlist-modify-private";
+  const SCOPE = "playlist-modify-private playlist-modify-public";
 
   const [token, setToken] = useState("");
   const [artists, setArtists] = useState([])
@@ -41,6 +41,7 @@ function App() {
       
       setTimeout(() => {
         window.alert("You have exceeded the 1 hour activity. Please login again.");
+        window.localStorage.removeItem("token");
         window.location.reload();
       }, 3600000)
       
@@ -97,12 +98,9 @@ function App() {
             target_tempo: tempo
         }
     });
-
     console.log(data);
 
     setArtists(data.tracks);
-
-    console.log("cpcl");
 
     const results = document.getElementById("results").classList;
     const sliderId = document.getElementById("attribute-slider").classList;
@@ -156,22 +154,47 @@ function App() {
   }
 
   function handleSave() {
-    const {data} = axios.post("https://api.spotify.com/v1/me", {
-      "name": "Randomify #1",
-      "description": "Goofy ahh",
-      "public": false
-      },
+    axios.get("https://api.spotify.com/v1/me", 
       {
         headers: {
             Authorization: `Bearer ${token}`
         }
       }).then(res => {
-          const playlistId = res.id;
-          axios.post(`https://api.spotify.com/v1/playlist/${playlistId}/tracks`)
+        // console.log(res.data.id);
+
+          let trackUris = [];
+          artists.forEach(track => {
+            let uriString = track.uri;
+            trackUris = [...trackUris, uriString ];
+          });
+
+          console.log(trackUris);
+
+          const userId = res.data.id;
+          axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+            "name": "Randomify #1",
+            "description": "Goofy ahh",
+            "public": true
+          }, 
+          {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+          }).then(res => {
+            console.log(res.data.id);
+            const playlistId = res.data.id;
+            axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks `, {
+              "uris": trackUris,
+              "position": 0
+            }, 
+            {
+              headers: {
+                  Authorization: `Bearer ${token}`
+              }
+            })
+          })
       });
-    
-    console.log(data)
-    setUserId(data.id);
+    // setUserId(data.id);
     
 
 
@@ -182,12 +205,12 @@ function App() {
     return artists.map((artist, index) => (
       <div className="mx-auto my-2 bg-gray-300 text-gray-900 rounded-lg shadow-lg w-8/12 sm:w-2/3 xl:w-1/2" key={Math.random() * index}>
         <div className="flex flex-row">
-          <a className="shadow-2xl hover:underline w-3/12 sm:w-4/12 " href={artist.external_urls.spotify}>
+          <a className="basis-2/6 lg:basis-3/12 drop-shadow-2xl hover:underline" href={artist.external_urls.spotify}>
             {artist.album.images ? <img className="rounded-l-md" src={artist.album.images[0].url} alt="Band lmao"/> : <div>No Image</div>}
           </a>
-          <div className="flex flex-col basis-3/4 justify-center ml-10 gap-y-2">
-            <h2 className="font-bold text-font sm:text-2xl md:text-4xl lg:text-5xl"><a className="hover:underline" href={artist.external_urls.spotify}>{artist.name}</a></h2>
-            <h2 className="text-sm sm:text-xl md:text-md lg:text-xl xl:text-2xl capitalize">{artist.artists[0].name}</h2>  
+          <div className="flex flex-col basis-4/6 lg:basis-9/12 justify-center pl-5 sm:gap-y-2">
+            <h2 className="font-bold text-xs sm:text-2xl md:text-4xl"><a className="hover:underline" href={artist.external_urls.spotify}>{artist.name}</a></h2>
+            <h2 className="font-semibold text-sm sm:text-xl md:text-md lg:text-xl capitalize">{artist.artists[0].name}</h2>  
             {/* <h2 className="font-semibold capitalize">Album: {artist.album.name}</h2> */}
             {/* Not a good idea to have the embedded player */}
             {/* <iframe className="rounded" src="https://open.spotify.com/embed/album/1tTNmG8vM17Aboe7vB43Tf?utm_source=generator" width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> */}
@@ -204,7 +227,7 @@ function App() {
       {token 
         ? <div className="flex justify-center items-center px-5">
             <form onSubmit={searchArtists}>
-              <div id="genre-selector" className="mx-32 pb-5">
+              <div id="genre-selector" className="sm:mx-auto pb-5">
                 {/* <h3 className="text-5xl text-emerald-300 font-semibold">Click on genres you want to hear: </h3> */}
                 <GenresLayout genres={availableGenres} formatGenres={formatGenres} />
 
@@ -220,39 +243,39 @@ function App() {
               </div>
               <div id="attribute-slider" className="block pb-36 pt-36 opacity-0 hidden">
                 <div className="bg-emerald-600 border-emerald-500 rounded-2xl p-5">
-                  <h1 className="text-2xl font-semibold">Move the sliders depending on what you're feeling. (Don't worry we won't judge 😉)</h1>
+                  <h1 className="text-lg sm:text-2xl font-semibold">Move the sliders depending on what you're feeling.<br /> Don't worry we won't judge 😉</h1>
                   <div className="flex justify-center">
-                    <div className="grid grid-cols-2 gap-x-10 gap-y-5 my-5">
+                    <div className="grid grid-cols-2 text-base sm:text-2xl gap-x-10 gap-y-5 my-5">
                         <div className="font-semibold">
-                          <label className="text-2xl" forhtml="accousticness">Acousticness</label>
+                          <label className="" forhtml="accousticness">Acousticness</label>
                           <input className="w-full range-lg cursor-pointer accent-gray-900 bg-gray-900" id="accousticness" min={0} max={100} type="range" onChange={(e) => {setAccousticness(document.getElementById("accousticness").value / 100)}} />
                         </div>
                         <div className="font-semibold">
-                          <label className="text-2xl" forhtml="danceability">Danceability</label>
+                          <label className="" forhtml="danceability">Danceability</label>
                           <input className="w-full range-lg cursor-pointer accent-gray-900 bg-gray-900" id="danceability" min={0} max={100} type="range" onChange={(e) => {setDanceability(document.getElementById("danceability").value / 100)}} />
                         </div>
                         <div className="font-semibold">
-                          <label className="text-2xl" forhtml="energy">Energy</label>
+                          <label className="" forhtml="energy">Energy</label>
                           <input className="w-full range-lg cursor-pointer accent-gray-900 bg-gray-900" id="energy" min={0} max={100} type="range" onChange={(e) => {setEnergy(document.getElementById("energy").value / 100)}} />
                         </div>
                         <div className="font-semibold">
-                          <label className="text-2xl" forhtml="instrumentalness">Instrumentalness</label>
+                          <label className="" forhtml="instrumentalness">Instrumentalness</label>
                           <input className="w-full range-lg cursor-pointer accent-gray-900 bg-gray-900" id="instrumentalness" min={0} max={100} type="range" onChange={(e) => {setInstrumentalness(document.getElementById("instrumentalness").value / 100)}} />
                         </div>
                         <div className="font-semibold">
-                          <label className="text-2xl" forhtml="loudness">Loudness</label>
+                          <label className="" forhtml="loudness">Loudness</label>
                           <input className="w-full range-lg cursor-pointer accent-gray-900 bg-gray-900" id="loudness" min={0} max={100} type="range" onChange={(e) => {setLoudness(document.getElementById("loudness").value / 100)}} />
                         </div>
                         <div className="font-semibold">
-                          <label className="text-2xl" forhtml="tempo">Tempo</label>
+                          <label className="" forhtml="tempo">Tempo</label>
                           <input className="w-full range-lg cursor-pointer accent-gray-900 bg-gray-900" id="tempo" min={0} max={100} type="range" onChange={(e) => {setTempo(document.getElementById("tempo").value / 100)}} />
                         </div>
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-between mt-3">
-                    <button className="border-2 text-2xl rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-grey-900 font-semibold my-2 px-3 py-2" type={"button"} onClick={handleBack}>Back</button>
-                    <button className="border-2 text-2xl rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-grey-900 font-semibold my-2 px-3 py-2" type={"submit"}>Search</button>
+                <div className="flex justify-between mt-3 text-xl sm:text-2xl text-gray-900">
+                    <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"button"} onClick={handleBack}>Back</button>
+                    <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"submit"}>Search</button>
                   </div>
               </div>
             </form>
@@ -262,8 +285,8 @@ function App() {
       <div id="results" className="flex flex-col hidden">
         {renderArtists()}
         <div className="flex flex-row justify-evenly py-5">
-          <button className="border-2 text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={handleRIB}>Run it back!</button>
-          {/* <button className="border-2 text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={handleSave}>Save Playlist</button> */}
+          <button className="border-2 text-lg sm:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={handleRIB}>Run it back!</button>
+          <button className="border-2 text-lg sm:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={handleSave}>Save Playlist</button>
         </div>
       </div>
       <div className="mt-auto">
