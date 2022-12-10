@@ -6,6 +6,7 @@ import axios from "axios";
 import GenresLayout from "./components/GenresLayout";
 import Splash from "./components/Splash";
 import Footer from "./components/Footer";
+import checkPlaylist from "./functions/checkPlaylist";
 
 function App() {
 
@@ -98,7 +99,6 @@ function App() {
             target_tempo: tempo
         }
     });
-    console.log(data);
 
     setArtists(data.tracks);
 
@@ -167,37 +167,38 @@ function App() {
             let uriString = track.uri;
             trackUris = [...trackUris, uriString ];
           });
+          
+          console.log(checkPlaylist(token));
 
-          console.log(trackUris);
-
-          const userId = res.data.id;
-          axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-            "name": "Randomify #1",
-            "description": "Goofy ahh",
-            "public": true
-          }, 
-          {
-            headers: {
-                Authorization: `Bearer ${token}`
+          checkPlaylist(token).then(isExists => {
+            if(isExists) {
+              window.alert("You already have a Randomify Playlist already!");
+            } else {
+              const userId = res.data.id;
+              axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+                "name": "Randomify #1",
+                "description": "Goofy ahh",
+                "public": true
+              }, 
+              {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+              }).then(res => {
+                const playlistId = res.data.id;
+                axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks `, {
+                  "uris": trackUris,
+                  "position": 0
+                }, 
+                {
+                  headers: {
+                      Authorization: `Bearer ${token}`
+                  }
+                })
+              }) 
             }
-          }).then(res => {
-            console.log(res.data.id);
-            const playlistId = res.data.id;
-            axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks `, {
-              "uris": trackUris,
-              "position": 0
-            }, 
-            {
-              headers: {
-                  Authorization: `Bearer ${token}`
-              }
-            })
-          })
+          });
       });
-    // setUserId(data.id);
-    
-
-
   }
 
   const renderArtists = () => {
