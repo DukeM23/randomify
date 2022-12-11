@@ -7,6 +7,12 @@ import GenresLayout from "./components/GenresLayout";
 import Splash from "./components/Splash";
 import Footer from "./components/Footer";
 import checkPlaylist from "./functions/checkPlaylist";
+import checkStatus from "./functions/checkStatus";
+import getRecommended from "./functions/getReccomended";
+import getUserId from "./functions/getUserId";
+import overwritePlaylist from "./functions/overwritePlaylist";
+import createPlaylist from "./functions/createPlaylist";
+import addTracks from "./functions/addTracks";
 
 function App() {
 
@@ -64,12 +70,14 @@ function App() {
 
   const genreSeeds = async (token) => {
     try {
-      const {data} = await axios.get("https://api.spotify.com/v1/recommendations/available-genre-seeds", {
+      const {data, status} = await axios.get("https://api.spotify.com/v1/recommendations/available-genre-seeds", {
         headers: {
             Authorization: `Bearer ${token}`
         }
       });
-      // console.log(`${response} response`)
+
+      checkStatus(status);
+
       setAvailableGenres(data.genres);
     } catch (e) {
       console.log("something went wrong");
@@ -85,22 +93,9 @@ function App() {
       return false;
     }
 
-    const {data} = await axios.get("https://api.spotify.com/v1/recommendations", {
-        headers: {
-            Authorization: `Bearer ${token}`
-        },
-        params: {
-            seed_genres: seedGenre,
-            target_accousticness: accousticness,
-            target_danceability: danceability,
-            target_energy: energy,
-            target_instrumentalness: instrumentalness,
-            target_loudness: loudness,
-            target_tempo: tempo
-        }
-    });
+    const tracks = await getRecommended(token, seedGenre, accousticness, danceability, energy, instrumentalness, loudness, tempo);
 
-    setArtists(data.tracks);
+    setArtists(tracks);
 
     const results = document.getElementById("results").classList;
     const sliderId = document.getElementById("attribute-slider").classList;
@@ -153,53 +148,73 @@ function App() {
     window.location.reload();
   }
 
-  function handleSave() {
-    axios.get("https://api.spotify.com/v1/me", 
-      {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-      }).then(res => {
-        // console.log(res.data.id);
+  async function handleSave() {
+    const userId = await getUserId(token);
 
-          let trackUris = [];
-          artists.forEach(track => {
-            let uriString = track.uri;
-            trackUris = [...trackUris, uriString ];
-          });
+    let trackUris = [];
+    artists.forEach(track => {
+      let uriString = track.uri;
+      trackUris = [...trackUris, uriString ];
+    });
+
+    const isExist = await checkPlaylist(token);
+
+    if(isExist) {
+      const confirmation = window.confirm("You already have a Randomify Playlist already! Would you like to overwrite the playlist?");
+      if(confirmation) {
+        overwritePlaylist(token, trackUris);
+      }
+    } else {
+      const playlistId = await createPlaylist(token, userId);
+
+      addTracks(token, playlistId, trackUris);
+    }
+  
+      
+      
+      // .then(res => {
+      //   // console.log(res.data.id);
+
+      //     let trackUris = [];
+      //     artists.forEach(track => {
+      //       let uriString = track.uri;
+      //       trackUris = [...trackUris, uriString ];
+      //     });
           
-          console.log(checkPlaylist(token));
+      //     console.log(checkPlaylist(token));
 
-          checkPlaylist(token).then(isExists => {
-            if(isExists) {
-              window.alert("You already have a Randomify Playlist already!");
-            } else {
-              const userId = res.data.id;
-              axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-                "name": "Randomify #1",
-                "description": "Goofy ahh",
-                "public": true
-              }, 
-              {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-              }).then(res => {
-                const playlistId = res.data.id;
-                axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks `, {
-                  "uris": trackUris,
-                  "position": 0
-                }, 
-                {
-                  headers: {
-                      Authorization: `Bearer ${token}`
-                  }
-                })
-              }) 
-            }
-          });
-      });
+          
+      //     // checkPlaylist(token).then(isExists => {
+      //     //   if(isExists) {
+      //     //     window.alert("You already have a Randomify Playlist already!");
+      //     //   } else {
+      //     //     const userId = res.data.id;
+      //     //     axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+      //     //       "name": "Randomify #1",
+      //     //       "description": "Goofy ahh",
+      //     //       "public": true
+      //     //     }, 
+      //     //     {
+      //     //       headers: {
+      //     //           Authorization: `Bearer ${token}`
+      //     //       }
+      //     //     }).then(res => {
+      //     //       const playlistId = res.data.id;
+      //     //       axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks `, {
+      //     //         "uris": trackUris,
+      //     //         "position": 0
+      //     //       }, 
+      //     //       {
+      //     //         headers: {
+      //     //             Authorization: `Bearer ${token}`
+      //     //         }
+      //     //       })
+      //     //     }) 
+      //     //   }
+      //     // });
+      // });
   }
+
 
   const renderArtists = () => {
     // console.log(artists)
