@@ -13,12 +13,14 @@ import getUserId from "./functions/getUserId";
 import overwritePlaylist from "./functions/overwritePlaylist";
 import createPlaylist from "./functions/createPlaylist";
 import addTracks from "./functions/addTracks";
+import OverwritePrompt from "./components/OverwritePrompt";
+import Loader from "./components/Loader";
 
 function App() {
 
   const CLIENT_ID = "4824b5ae50b14db4b523abf744daed42";
-  // const REDIRECT_URI = "http://localhost:3000/";
-  const REDIRECT_URI = "https://randomify-silk.vercel.app/";
+  const REDIRECT_URI = "http://localhost:3000/";
+  // const REDIRECT_URI = "https://randomify-silk.vercel.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private playlist-modify-public";
@@ -26,7 +28,8 @@ function App() {
   const [token, setToken] = useState("");
   const [artists, setArtists] = useState([])
 
-  const [userId, setUserId] = useState("");
+  const [exists, setExists] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [seedGenre, setSeedGenre] = useState("");
   const [availableGenres, setAvailableGenres] = useState([]);
@@ -93,9 +96,11 @@ function App() {
       return false;
     }
 
+    setLoading(true);
     const tracks = await getRecommended(token, seedGenre, accousticness, danceability, energy, instrumentalness, loudness, tempo);
 
     setArtists(tracks);
+    setLoading(false);
 
     const results = document.getElementById("results").classList;
     const sliderId = document.getElementById("attribute-slider").classList;
@@ -158,61 +163,14 @@ function App() {
     });
 
     const isExist = await checkPlaylist(token);
+    setExists(isExist);
 
     if(isExist) {
-      const confirmation = window.confirm("You already have a Randomify Playlist already! Would you like to overwrite the playlist?");
-      if(confirmation) {
-        overwritePlaylist(token, trackUris);
-      }
+      overwritePlaylist(token, trackUris);
     } else {
       const playlistId = await createPlaylist(token, userId);
-
       addTracks(token, playlistId, trackUris);
     }
-  
-      
-      
-      // .then(res => {
-      //   // console.log(res.data.id);
-
-      //     let trackUris = [];
-      //     artists.forEach(track => {
-      //       let uriString = track.uri;
-      //       trackUris = [...trackUris, uriString ];
-      //     });
-          
-      //     console.log(checkPlaylist(token));
-
-          
-      //     // checkPlaylist(token).then(isExists => {
-      //     //   if(isExists) {
-      //     //     window.alert("You already have a Randomify Playlist already!");
-      //     //   } else {
-      //     //     const userId = res.data.id;
-      //     //     axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-      //     //       "name": "Randomify #1",
-      //     //       "description": "Goofy ahh",
-      //     //       "public": true
-      //     //     }, 
-      //     //     {
-      //     //       headers: {
-      //     //           Authorization: `Bearer ${token}`
-      //     //       }
-      //     //     }).then(res => {
-      //     //       const playlistId = res.data.id;
-      //     //       axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks `, {
-      //     //         "uris": trackUris,
-      //     //         "position": 0
-      //     //       }, 
-      //     //       {
-      //     //         headers: {
-      //     //             Authorization: `Bearer ${token}`
-      //     //         }
-      //     //       })
-      //     //     }) 
-      //     //   }
-      //     // });
-      // });
   }
 
 
@@ -227,14 +185,10 @@ function App() {
           <div className="flex flex-col basis-4/6 lg:basis-9/12 justify-center pl-5 sm:gap-y-2">
             <h2 className="font-bold text-xs sm:text-2xl md:text-4xl"><a className="hover:underline" href={artist.external_urls.spotify}>{artist.name}</a></h2>
             <h2 className="font-semibold text-sm sm:text-xl md:text-md lg:text-xl capitalize">{artist.artists[0].name}</h2>  
-            {/* <h2 className="font-semibold capitalize">Album: {artist.album.name}</h2> */}
-            {/* Not a good idea to have the embedded player */}
-            {/* <iframe className="rounded" src="https://open.spotify.com/embed/album/1tTNmG8vM17Aboe7vB43Tf?utm_source=generator" width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> */}
           </div>
         </div>
       </div>
     ));      
-
   }
 
   return (
@@ -244,18 +198,10 @@ function App() {
         ? <div className="flex justify-center items-center px-5">
             <form onSubmit={searchArtists}>
               <div id="genre-selector" className="sm:mx-auto pb-5">
-                {/* <h3 className="text-5xl text-emerald-300 font-semibold">Click on genres you want to hear: </h3> */}
                 <GenresLayout genres={availableGenres} formatGenres={formatGenres} />
-
-                {
-                  // seedGenre !== "" 
-                  // ? 
-                  <div className={(seedGenre !== "" ? "flex justify-end gap-x-3" : "invisible") }>
-                    <button className="border-2 text-3xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" type={"button"} onClick={handleNext}>Next</button>
-                  </div>
-                  // : ""
-                }
-
+                <div className={(seedGenre !== "" ? "flex justify-end gap-x-3" : "invisible") }>
+                  <button className="border-2 text-3xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" type={"button"} onClick={handleNext}>Next</button>
+                </div>
               </div>
               <div id="attribute-slider" className="block pb-36 pt-36 opacity-0 hidden">
                 <div className="bg-emerald-600 border-emerald-500 rounded-2xl p-5">
@@ -291,7 +237,7 @@ function App() {
                 </div>
                 <div className="flex justify-between mt-3 text-xl sm:text-2xl text-gray-900">
                     <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"button"} onClick={handleBack}>Back</button>
-                    <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"submit"}>Search</button>
+                    <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"submit"}>{loading ? <Loader /> : "Search"}</button>
                   </div>
               </div>
             </form>
@@ -303,6 +249,11 @@ function App() {
         <div className="flex flex-row justify-evenly py-5">
           <button className="border-2 text-lg sm:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={handleRIB}>Run it back!</button>
           <button className="border-2 text-lg sm:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={handleSave}>Save Playlist</button>
+          { 
+            exists 
+            ? <OverwritePrompt token={token} artists={artists} setExists={setExists}/>
+            : ""
+          }
         </div>
       </div>
       <div className="mt-auto">
