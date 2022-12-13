@@ -2,7 +2,7 @@ import React from 'react';
 
 function Loader() {
     return(
-        <div className="flex status">
+        <div className="flex justify-center status">
           <p>Please wait... &nbsp;</p>
           <div>
             <svg

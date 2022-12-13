@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import Header from "./components/Header";
 
@@ -13,15 +13,16 @@ import getUserId from "./functions/getUserId";
 import overwritePlaylist from "./functions/overwritePlaylist";
 import createPlaylist from "./functions/createPlaylist";
 import addTracks from "./functions/addTracks";
-import OverwritePrompt from "./components/OverwritePrompt";
 import Loader from "./components/Loader";
 import ResultTracks from "./components/ResultTracks";
+
+export const ResultContext = React.createContext();
 
 function App() {
 
   const CLIENT_ID = "4824b5ae50b14db4b523abf744daed42";
-  // const REDIRECT_URI = "http://localhost:3000/";
-  const REDIRECT_URI = "https://randomify-silk.vercel.app/";
+  const REDIRECT_URI = "http://localhost:3000/";
+  // const REDIRECT_URI = "https://randomify-silk.vercel.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private playlist-modify-public";
@@ -230,8 +231,16 @@ function App() {
           </div>
         : <Splash token={token} authEndpoint={AUTH_ENDPOINT} clientId={CLIENT_ID} redirectUri={REDIRECT_URI} responseType={RESPONSE_TYPE} scope={SCOPE} logout={logout}/>}
       
-      <ResultTracks token={token} artists={artists} exists={exists} setExists={setExists} handleRIB={handleRIB} handleSave={handleSave} />
-
+      <ResultContext.Provider value={{
+        token: token,
+        artists: artists, 
+        exists: exists,
+        setExists: setExists,
+        handleRIB: handleRIB,
+        handleSave: handleSave
+      }}>
+        <ResultTracks token={token} artists={artists} exists={exists} setExists={setExists} handleRIB={handleRIB} handleSave={handleSave} />
+      </ResultContext.Provider>
       <div className="mt-auto">
         <Footer />
       </div>

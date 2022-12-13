@@ -41,7 +41,9 @@ function GenresLayout({ genres, formatGenres }) {
           );
         })
       ) : (
-        <Loader />
+        <div className="font-semibold text-3xl text-emerald-500 justify-center my-40">
+          <Loader />
+        </div>
       )}
     </div>
   );
