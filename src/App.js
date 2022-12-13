@@ -15,12 +15,13 @@ import createPlaylist from "./functions/createPlaylist";
 import addTracks from "./functions/addTracks";
 import OverwritePrompt from "./components/OverwritePrompt";
 import Loader from "./components/Loader";
+import ResultTracks from "./components/ResultTracks";
 
 function App() {
 
   const CLIENT_ID = "4824b5ae50b14db4b523abf744daed42";
-  const REDIRECT_URI = "http://localhost:3000/";
-  // const REDIRECT_URI = "https://randomify-silk.vercel.app/";
+  // const REDIRECT_URI = "http://localhost:3000/";
+  const REDIRECT_URI = "https://randomify-silk.vercel.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private playlist-modify-public";
@@ -67,8 +68,10 @@ function App() {
 
   const logout = () => {
     setToken("");
+    const results = document.getElementById("results").classList;
+    results.add("hidden");
     window.localStorage.removeItem("token");
-    window.location.reload();
+    window.location.href = REDIRECT_URI;
   }
 
   const genreSeeds = async (token) => {
@@ -174,23 +177,6 @@ function App() {
   }
 
 
-  const renderArtists = () => {
-    // console.log(artists)
-    return artists.map((artist, index) => (
-      <div className="mx-auto my-2 bg-gray-300 text-gray-900 rounded-lg shadow-lg w-8/12 sm:w-2/3 xl:w-1/2" key={Math.random() * index}>
-        <div className="flex flex-row">
-          <a className="basis-2/6 lg:basis-3/12 drop-shadow-2xl hover:underline" href={artist.external_urls.spotify}>
-            {artist.album.images ? <img className="rounded-l-md" src={artist.album.images[0].url} alt="Band lmao"/> : <div>No Image</div>}
-          </a>
-          <div className="flex flex-col basis-4/6 lg:basis-9/12 justify-center pl-5 sm:gap-y-2">
-            <h2 className="font-bold text-xs sm:text-2xl md:text-4xl"><a className="hover:underline" href={artist.external_urls.spotify}>{artist.name}</a></h2>
-            <h2 className="font-semibold text-sm sm:text-xl md:text-md lg:text-xl capitalize">{artist.artists[0].name}</h2>  
-          </div>
-        </div>
-      </div>
-    ));      
-  }
-
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <Header token={token} authEndpoint={AUTH_ENDPOINT} clientId={CLIENT_ID} redirectUri={REDIRECT_URI} responseType={RESPONSE_TYPE} scope={SCOPE} logout={logout} />
@@ -244,18 +230,8 @@ function App() {
           </div>
         : <Splash token={token} authEndpoint={AUTH_ENDPOINT} clientId={CLIENT_ID} redirectUri={REDIRECT_URI} responseType={RESPONSE_TYPE} scope={SCOPE} logout={logout}/>}
       
-      <div id="results" className="flex flex-col hidden">
-        {renderArtists()}
-        <div className="flex flex-row justify-evenly py-5">
-          <button className="border-2 text-lg sm:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={handleRIB}>Run it back!</button>
-          <button className="border-2 text-lg sm:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={handleSave}>Save Playlist</button>
-          { 
-            exists 
-            ? <OverwritePrompt token={token} artists={artists} setExists={setExists}/>
-            : ""
-          }
-        </div>
-      </div>
+      <ResultTracks token={token} artists={artists} exists={exists} setExists={setExists} handleRIB={handleRIB} handleSave={handleSave} />
+
       <div className="mt-auto">
         <Footer />
       </div>
