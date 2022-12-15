@@ -1,21 +1,35 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ResultContext } from "../App";
+import Artists from "./Artist";
 import OverwritePrompt from "./OverwritePrompt";
 
 function ResultTracks() {
     const value = React.useContext(ResultContext);
 
+    function artistFormat(artist) {
+        return artist.artists.map((el, index) => {
+            return el.name
+        }).join(', ')
+    }
+
     const renderArtists = () => {
-        // console.log(artists)
+        console.log(value.artists);
         return value.artists.map((artist, index) => (
-          <div className="mx-auto my-2 bg-gray-300 text-gray-900 rounded-lg shadow-lg w-8/12 sm:w-2/3 xl:w-1/2" key={Math.random() * index}>
+          <div className="mx-auto my-2 bg-gray-300 text-gray-900 rounded-lg shadow-lg w-8/12 sm:w-2/3 xl:w-1/2" key={index}>
             <div className="flex flex-row">
               <a className="basis-2/6 lg:basis-3/12 drop-shadow-2xl hover:underline overflow-hidden" href={artist.external_urls.spotify}>
-                {artist.album.images ? <img className="rounded-l-md hover:scale-105 ease-in duration-200" src={artist.album.images[0].url} alt="Band lmao"/> : <div>No Image</div>}
+                {artist.album.images ? <img className="rounded-l-md" src={artist.album.images[0].url} alt="Band lmao"/> : <div>No Image</div>}
               </a>
               <div className="flex flex-col basis-4/6 lg:basis-9/12 justify-center pl-5 sm:gap-y-2">
-                <h2 className="font-bold text-xs sm:text-2xl md:text-4xl"><a className="hover:underline" href={artist.external_urls.spotify}>{artist.name}</a></h2>
-                <h2 className="font-semibold text-sm sm:text-xl md:text-md lg:text-xl capitalize">{artist.artists[0].name}</h2>  
+                <h2 className="font-bold text-xs sm:text-2xl md:text-4xl"><a className="hover:underline" href={artist.external_urls.spotify} target="_blank">{artist.name}</a></h2>
+                <div className="flex flex-wrap text-xs sm:text-base md:text-4xl">
+                {
+                    artistFormat(artist)
+                }
+                </div>
+            
+                {/* <h2 className="font-semibold text-sm sm:text-xl md:text-md lg:text-xl capitalize"><a href={artist.artists.external_urls.spotify}>{artist.artists[0].name}</a></h2>    */}
+                 {/* <Artists artist={artist} /> */}
               </div>
             </div>
           </div>

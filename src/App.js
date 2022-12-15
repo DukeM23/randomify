@@ -19,10 +19,9 @@ import ResultTracks from "./components/ResultTracks";
 export const ResultContext = React.createContext();
 
 function App() {
-
   const CLIENT_ID = "4824b5ae50b14db4b523abf744daed42";
-  // const REDIRECT_URI = "http://localhost:3000/";
-  const REDIRECT_URI = "https://randomify-silk.vercel.app/";
+  const REDIRECT_URI = "http://localhost:3000/";
+  // const REDIRECT_URI = "https://randomify-silk.vercel.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private playlist-modify-public";
@@ -179,7 +178,7 @@ function App() {
 
 
   return (
-    <div className="flex flex-col overflow-auto h-screen">
+    <div className="flex flex-col overflow-auto h-screen bg-gray-900">
       <Header token={token} authEndpoint={AUTH_ENDPOINT} clientId={CLIENT_ID} redirectUri={REDIRECT_URI} responseType={RESPONSE_TYPE} scope={SCOPE} logout={logout} />
       {token 
         ? <div className="flex justify-center items-center px-5">
