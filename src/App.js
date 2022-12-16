@@ -15,13 +15,14 @@ import createPlaylist from "./functions/createPlaylist";
 import addTracks from "./functions/addTracks";
 import Loader from "./components/Loader";
 import ResultTracks from "./components/ResultTracks";
+import Genre from "./components/Genre";
 
 export const ResultContext = React.createContext();
 
 function App() {
   const CLIENT_ID = "4824b5ae50b14db4b523abf744daed42";
-  // const REDIRECT_URI = "http://localhost:3000/";
-  const REDIRECT_URI = "https://randomify-silk.vercel.app/";
+  const REDIRECT_URI = "http://localhost:3000/";
+  // const REDIRECT_URI = "https://randomify-silk.vercel.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private playlist-modify-public";
@@ -42,13 +43,11 @@ function App() {
   const [tempo, setTempo] = useState(0.50);
   
   useEffect(() => {
-    
     const hash = window.location.hash;
     let token = window.localStorage.getItem("token");
 
     if(!token && hash) {
       token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
-      const timeout = hash.substring(1).split("&").find(elem => elem.startsWith("expires_in")).split("=")[1];
       
       setTimeout(() => {
         window.alert("You have exceeded the 1 hour activity. Please login again.");
@@ -86,21 +85,31 @@ function App() {
 
       setAvailableGenres(data.genres);
     } catch (e) {
-      console.log("something went wrong");
+      console.log(e);
     }
-    
   }
 
   const searchArtists = async (e) => {
     e.preventDefault()
 
-    if(seedGenre === "") {
+    let query = "";
+    let i = 0
+    seedGenre.forEach(genre => {
+      if(i === seedGenre.length-1) {
+        query += genre;
+      } else {
+        query += `${genre},`
+      }
+      i++;
+    });
+
+    if(query === "") {
       setArtists([]);
       return false;
     }
 
     setLoading(true);
-    const tracks = await getRecommended(token, seedGenre, accousticness, danceability, energy, instrumentalness, loudness, tempo);
+    const tracks = await getRecommended(token, query, accousticness, danceability, energy, instrumentalness, loudness, tempo);
 
     setArtists(tracks);
     setLoading(false);
@@ -112,17 +121,7 @@ function App() {
   } 
 
   function formatGenres(genres) {
-    let query = "";
-    let i = 0
-    genres.forEach(genre => {
-      if(i === genres.length-1) {
-        query += genre;
-      } else {
-        query += `${genre},`
-      }
-      i++;
-    });
-    setSeedGenre(query);
+    setSeedGenre(genres);
   }
 
   function handleNext() {
@@ -176,7 +175,6 @@ function App() {
     }
   }
 
-
   return (
     <div className="flex flex-col overflow-auto h-screen bg-gray-900">
       <Header token={token} authEndpoint={AUTH_ENDPOINT} clientId={CLIENT_ID} redirectUri={REDIRECT_URI} responseType={RESPONSE_TYPE} scope={SCOPE} logout={logout} />
@@ -184,12 +182,14 @@ function App() {
         ? <div className="flex justify-center items-center px-5">
             <form onSubmit={searchArtists}>
               <div id="genre-selector" className="sm:mx-auto pb-5">
-                <GenresLayout genres={availableGenres} formatGenres={formatGenres} />
+                <GenresLayout genres={availableGenres} setSeedGenre={setSeedGenre} />
                 <div className={(seedGenre !== "" ? "flex justify-end gap-x-3" : "invisible") }>
                   <button className="border-2 text-3xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" type={"button"} onClick={handleNext}>Next</button>
                 </div>
               </div>
               <div id="attribute-slider" className="block pb-36 pt-36 opacity-0 hidden">
+                <div className="flex flex-wrap justify-center">
+                </div>
                 <div className="bg-emerald-600 border-emerald-500 rounded-2xl p-5">
                   <h1 className="text-lg sm:text-2xl font-semibold">Move the sliders depending on what you're feeling.<br /> Don't worry we won't judge 😉</h1>
                   <div className="flex justify-center">

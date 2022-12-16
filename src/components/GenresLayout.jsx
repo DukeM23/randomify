@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import Genre from "./Genre";
 import Loader from "./Loader";
 
-function GenresLayout({ genres, formatGenres }) {
+function GenresLayout({ genres, setSeedGenre }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
 
   useEffect(() => {
-    formatGenres(selectedGenres);
+    setSeedGenre(selectedGenres);
   });
 
   function addGenre(genre) {

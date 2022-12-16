@@ -17,10 +17,10 @@ function Splash({ authEndpoint, clientId, redirectUri, responseType, scope }) {
         </div>
         <div className="flex justify-center my-5">
           <a
-            className="border-2 text-xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 my-2 px-5 py-4"
+            className="border-2 text-xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 my-2 px-5 py-3 sm:py-4"
             href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`}
           >
-            Login to Spotify <img className="inline w-12" src={logo} alt="Spotify Icon" />
+            Login to Spotify <img className="inline w-12 sm:w-16 md:w-20 lg:w-24" src={logo} alt="Spotify Icon" />
           </a>
         </div>
       </div>
