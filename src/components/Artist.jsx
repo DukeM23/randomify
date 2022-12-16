@@ -1,7 +1,6 @@
 import React from "react";
 
 function Artists(metadata) {
-    console.log(metadata.metadata);
     return(
         // metadata.map((data, index ) => {
         //     return <div key={Math.random() * index}>

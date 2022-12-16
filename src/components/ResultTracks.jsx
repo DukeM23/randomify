@@ -13,16 +13,15 @@ function ResultTracks() {
     }
 
     const renderArtists = () => {
-        console.log(value.artists);
         return value.artists.map((artist, index) => (
-          <div className="mx-auto my-2 bg-gray-300 text-gray-900 rounded-lg shadow-lg w-8/12 sm:w-2/3 xl:w-1/2" key={index}>
+          <div className="mx-auto my-2 bg-gray-300 text-gray-900 rounded-lg shadow-lg w-8/12 sm:w-2/3 xl:w-3/5" key={index}>
             <div className="flex flex-row">
               <a className="basis-2/6 lg:basis-3/12 drop-shadow-2xl hover:underline overflow-hidden" href={artist.external_urls.spotify}>
                 {artist.album.images ? <img className="rounded-l-md" src={artist.album.images[0].url} alt="Band lmao"/> : <div>No Image</div>}
               </a>
               <div className="flex flex-col basis-4/6 lg:basis-9/12 justify-center pl-5 sm:gap-y-2">
                 <h2 className="font-bold text-xs sm:text-2xl md:text-4xl"><a className="hover:underline" href={artist.external_urls.spotify} target="_blank">{artist.name}</a></h2>
-                <div className="flex flex-wrap text-xs sm:text-base md:text-4xl">
+                <div className="flex flex-wrap text-xs sm:text-base md:text-2xl">
                 {
                     artistFormat(artist)
                 }
