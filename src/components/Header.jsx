@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Header({token, authEndpoint, clientId, redirectUri, responseType, logout }) {
+function Header({token, logout }) {
     return(
      <div className='grid grid-cols-2 place-content-between py-10 px-6'>
         <div>
@@ -14,7 +14,6 @@ function Header({token, authEndpoint, clientId, redirectUri, responseType, logou
             <button className="border-2 text-base sm:text-2xl font-bold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-1 sm:py-2" onClick={logout}>Logout</button>
           </div>
         }
-      
      </div>   
     );
 }

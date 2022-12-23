@@ -14,5 +14,4 @@ export default async function emptyPlaylist(token, id, uri) {
       };
 
     const reponse = await axios(config);
-    console.log(reponse);
 }

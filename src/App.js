@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import Header from "./components/Header";
 
@@ -13,11 +13,15 @@ import getUserId from "./functions/getUserId";
 import overwritePlaylist from "./functions/overwritePlaylist";
 import createPlaylist from "./functions/createPlaylist";
 import addTracks from "./functions/addTracks";
+import Loader from "./components/Loader";
+import ResultTracks from "./components/ResultTracks";
+import Genre from "./components/Genre";
+
+export const ResultContext = React.createContext();
 
 function App() {
-
   const CLIENT_ID = "4824b5ae50b14db4b523abf744daed42";
-  // const REDIRECT_URI = "http://localhost:3000/";
+//   const REDIRECT_URI = "http://localhost:3000/";
   const REDIRECT_URI = "https://randomify-silk.vercel.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
@@ -26,7 +30,8 @@ function App() {
   const [token, setToken] = useState("");
   const [artists, setArtists] = useState([])
 
-  const [userId, setUserId] = useState("");
+  const [exists, setExists] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [seedGenre, setSeedGenre] = useState("");
   const [availableGenres, setAvailableGenres] = useState([]);
@@ -38,13 +43,11 @@ function App() {
   const [tempo, setTempo] = useState(0.50);
   
   useEffect(() => {
-    
     const hash = window.location.hash;
     let token = window.localStorage.getItem("token");
 
     if(!token && hash) {
       token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
-      const timeout = hash.substring(1).split("&").find(elem => elem.startsWith("expires_in")).split("=")[1];
       
       setTimeout(() => {
         window.alert("You have exceeded the 1 hour activity. Please login again.");
@@ -64,8 +67,10 @@ function App() {
 
   const logout = () => {
     setToken("");
+    const results = document.getElementById("results").classList;
+    results.add("hidden");
     window.localStorage.removeItem("token");
-    window.location.reload();
+    window.location.href = REDIRECT_URI;
   }
 
   const genreSeeds = async (token) => {
@@ -80,22 +85,34 @@ function App() {
 
       setAvailableGenres(data.genres);
     } catch (e) {
-      console.log("something went wrong");
+      console.log(e);
     }
-    
   }
 
   const searchArtists = async (e) => {
     e.preventDefault()
 
-    if(seedGenre === "") {
+    let query = "";
+    let i = 0
+    seedGenre.forEach(genre => {
+      if(i === seedGenre.length-1) {
+        query += genre;
+      } else {
+        query += `${genre},`
+      }
+      i++;
+    });
+
+    if(query === "") {
       setArtists([]);
       return false;
     }
 
-    const tracks = await getRecommended(token, seedGenre, accousticness, danceability, energy, instrumentalness, loudness, tempo);
+    setLoading(true);
+    const tracks = await getRecommended(token, query, accousticness, danceability, energy, instrumentalness, loudness, tempo);
 
     setArtists(tracks);
+    setLoading(false);
 
     const results = document.getElementById("results").classList;
     const sliderId = document.getElementById("attribute-slider").classList;
@@ -104,17 +121,7 @@ function App() {
   } 
 
   function formatGenres(genres) {
-    let query = "";
-    let i = 0
-    genres.forEach(genre => {
-      if(i === genres.length-1) {
-        query += genre;
-      } else {
-        query += `${genre},`
-      }
-      i++;
-    });
-    setSeedGenre(query);
+    setSeedGenre(genres);
   }
 
   function handleNext() {
@@ -158,106 +165,31 @@ function App() {
     });
 
     const isExist = await checkPlaylist(token);
+    setExists(isExist);
 
     if(isExist) {
-      const confirmation = window.confirm("You already have a Randomify Playlist already! Would you like to overwrite the playlist?");
-      if(confirmation) {
-        overwritePlaylist(token, trackUris);
-      }
+      overwritePlaylist(token, trackUris);
     } else {
       const playlistId = await createPlaylist(token, userId);
-
       addTracks(token, playlistId, trackUris);
     }
-  
-      
-      
-      // .then(res => {
-      //   // console.log(res.data.id);
-
-      //     let trackUris = [];
-      //     artists.forEach(track => {
-      //       let uriString = track.uri;
-      //       trackUris = [...trackUris, uriString ];
-      //     });
-          
-      //     console.log(checkPlaylist(token));
-
-          
-      //     // checkPlaylist(token).then(isExists => {
-      //     //   if(isExists) {
-      //     //     window.alert("You already have a Randomify Playlist already!");
-      //     //   } else {
-      //     //     const userId = res.data.id;
-      //     //     axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-      //     //       "name": "Randomify #1",
-      //     //       "description": "Goofy ahh",
-      //     //       "public": true
-      //     //     }, 
-      //     //     {
-      //     //       headers: {
-      //     //           Authorization: `Bearer ${token}`
-      //     //       }
-      //     //     }).then(res => {
-      //     //       const playlistId = res.data.id;
-      //     //       axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks `, {
-      //     //         "uris": trackUris,
-      //     //         "position": 0
-      //     //       }, 
-      //     //       {
-      //     //         headers: {
-      //     //             Authorization: `Bearer ${token}`
-      //     //         }
-      //     //       })
-      //     //     }) 
-      //     //   }
-      //     // });
-      // });
-  }
-
-
-  const renderArtists = () => {
-    // console.log(artists)
-    return artists.map((artist, index) => (
-      <div className="mx-auto my-2 bg-gray-300 text-gray-900 rounded-lg shadow-lg w-8/12 sm:w-2/3 xl:w-1/2" key={Math.random() * index}>
-        <div className="flex flex-row">
-          <a className="basis-2/6 lg:basis-3/12 drop-shadow-2xl hover:underline" href={artist.external_urls.spotify}>
-            {artist.album.images ? <img className="rounded-l-md" src={artist.album.images[0].url} alt="Band lmao"/> : <div>No Image</div>}
-          </a>
-          <div className="flex flex-col basis-4/6 lg:basis-9/12 justify-center pl-5 sm:gap-y-2">
-            <h2 className="font-bold text-xs sm:text-2xl md:text-4xl"><a className="hover:underline" href={artist.external_urls.spotify}>{artist.name}</a></h2>
-            <h2 className="font-semibold text-sm sm:text-xl md:text-md lg:text-xl capitalize">{artist.artists[0].name}</h2>  
-            {/* <h2 className="font-semibold capitalize">Album: {artist.album.name}</h2> */}
-            {/* Not a good idea to have the embedded player */}
-            {/* <iframe className="rounded" src="https://open.spotify.com/embed/album/1tTNmG8vM17Aboe7vB43Tf?utm_source=generator" width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> */}
-          </div>
-        </div>
-      </div>
-    ));      
-
   }
 
   return (
-    <div className="flex flex-col overflow-auto h-screen">
+    <div className="flex flex-col overflow-auto h-screen bg-gray-900">
       <Header token={token} authEndpoint={AUTH_ENDPOINT} clientId={CLIENT_ID} redirectUri={REDIRECT_URI} responseType={RESPONSE_TYPE} scope={SCOPE} logout={logout} />
       {token 
         ? <div className="flex justify-center items-center px-5">
             <form onSubmit={searchArtists}>
               <div id="genre-selector" className="sm:mx-auto pb-5">
-                {/* <h3 className="text-5xl text-emerald-300 font-semibold">Click on genres you want to hear: </h3> */}
-                <GenresLayout genres={availableGenres} formatGenres={formatGenres} />
-
-                {
-                  // seedGenre !== "" 
-                  // ? 
-                  <div className={(seedGenre !== "" ? "flex justify-end gap-x-3" : "invisible") }>
-                    <button className="border-2 text-3xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" type={"button"} onClick={handleNext}>Next</button>
-                  </div>
-                  // : ""
-                }
-
+                <GenresLayout genres={availableGenres} setSeedGenre={setSeedGenre} />
+                <div className={(seedGenre !== "" ? "flex justify-end gap-x-3" : "invisible") }>
+                  <button className="border-2 text-3xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" type={"button"} onClick={handleNext}>Next</button>
+                </div>
               </div>
               <div id="attribute-slider" className="block pb-36 pt-36 opacity-0 hidden">
+                <div className="flex flex-wrap justify-center">
+                </div>
                 <div className="bg-emerald-600 border-emerald-500 rounded-2xl p-5">
                   <h1 className="text-lg sm:text-2xl font-semibold">Move the sliders depending on what you're feeling.<br /> Don't worry we won't judge 😉</h1>
                   <div className="flex justify-center">
@@ -291,20 +223,23 @@ function App() {
                 </div>
                 <div className="flex justify-between mt-3 text-xl sm:text-2xl text-gray-900">
                     <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"button"} onClick={handleBack}>Back</button>
-                    <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"submit"}>Search</button>
+                    <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"submit"}>{loading ? <Loader /> : "Search"}</button>
                   </div>
               </div>
             </form>
           </div>
         : <Splash token={token} authEndpoint={AUTH_ENDPOINT} clientId={CLIENT_ID} redirectUri={REDIRECT_URI} responseType={RESPONSE_TYPE} scope={SCOPE} logout={logout}/>}
       
-      <div id="results" className="flex flex-col hidden">
-        {renderArtists()}
-        <div className="flex flex-row justify-evenly py-5">
-          <button className="border-2 text-lg sm:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={handleRIB}>Run it back!</button>
-          <button className="border-2 text-lg sm:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={handleSave}>Save Playlist</button>
-        </div>
-      </div>
+      <ResultContext.Provider value={{
+        token: token,
+        artists: artists, 
+        exists: exists,
+        setExists: setExists,
+        handleRIB: handleRIB,
+        handleSave: handleSave
+      }}>
+        <ResultTracks token={token} artists={artists} exists={exists} setExists={setExists} handleRIB={handleRIB} handleSave={handleSave} />
+      </ResultContext.Provider>
       <div className="mt-auto">
         <Footer />
       </div>
