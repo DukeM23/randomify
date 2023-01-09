@@ -1,7 +1,7 @@
 import React from "react";
 import { ResultContext } from "../App";
-import Artists from "./Artist";
 import OverwritePrompt from "./OverwritePrompt";
+import { Suspense } from "react";
 
 function ResultTracks() {
     const value = React.useContext(ResultContext);
@@ -38,9 +38,9 @@ function ResultTracks() {
     return(
         <div id="results" className="flex flex-col hidden">
         {renderArtists()}
-        <div className="flex flex-row justify-evenly py-5">
-          <button className="border-2 text-lg sm:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={value.handleRIB}>Run it back!</button>
-          <button className="border-2 text-lg sm:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-2" onClick={value.handleSave}>Save Playlist</button>
+        <div className="flex flex-row justify-evenly text-base sm:text-2xl md:text-3xl lg:text-4xl pb-8 pt-4">
+          <button className="border-2 font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 md:px-4  py-2 md:py-4" onClick={value.handleRIB}>Run it back!</button>
+          <button className="border-2 font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 md:px-4  py-2 md:py-4" onClick={value.handleSave}>Save Playlist</button>
           { 
             value.exists 
             ? <OverwritePrompt token={value.token} artists={value.artists} setExists={value.setExists}/>

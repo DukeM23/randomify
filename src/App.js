@@ -21,8 +21,8 @@ export const ResultContext = React.createContext();
 
 function App() {
   const CLIENT_ID = "4824b5ae50b14db4b523abf744daed42";
-//   const REDIRECT_URI = "http://localhost:3000/";
-  const REDIRECT_URI = "https://randomify-silk.vercel.app/";
+  const REDIRECT_URI = "http://localhost:3000/";
+  // const REDIRECT_URI = "https://randomify-silk.vercel.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private playlist-modify-public";
@@ -41,6 +41,8 @@ function App() {
   const [instrumentalness, setInstrumentalness] = useState(0.50);
   const [loudness, setLoudness] = useState(0.50);
   const [tempo, setTempo] = useState(0.50);
+
+  const [orderedGenres, setOrderedGenres] = useState([]);
   
   useEffect(() => {
     const hash = window.location.hash;
@@ -82,13 +84,13 @@ function App() {
       });
 
       checkStatus(status);
-
       setAvailableGenres(data.genres);
+      
     } catch (e) {
       console.log(e);
     }
   }
-
+  
   const searchArtists = async (e) => {
     e.preventDefault()
 
@@ -119,10 +121,6 @@ function App() {
     results.remove("hidden");
     sliderId.add("hidden");
   } 
-
-  function formatGenres(genres) {
-    setSeedGenre(genres);
-  }
 
   function handleNext() {
     const genreId = document.getElementById("genre-selector").classList;
@@ -179,7 +177,7 @@ function App() {
     <div className="flex flex-col overflow-auto h-screen bg-gray-900">
       <Header token={token} authEndpoint={AUTH_ENDPOINT} clientId={CLIENT_ID} redirectUri={REDIRECT_URI} responseType={RESPONSE_TYPE} scope={SCOPE} logout={logout} />
       {token 
-        ? <div className="flex justify-center items-center px-5">
+        ? <div className="flex justify-center items-center px-20">
             <form onSubmit={searchArtists}>
               <div id="genre-selector" className="sm:mx-auto pb-5">
                 <GenresLayout genres={availableGenres} setSeedGenre={setSeedGenre} />

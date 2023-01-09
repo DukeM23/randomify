@@ -1,5 +1,7 @@
+import { list } from "postcss";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import AttributeSliders from "./AttributeSliders";
 import Genre from "./Genre";
 import Loader from "./Loader";
 
@@ -8,6 +10,7 @@ function GenresLayout({ genres, setSeedGenre }) {
 
   useEffect(() => {
     setSeedGenre(selectedGenres);
+    
   });
 
   function addGenre(genre) {
@@ -26,10 +29,12 @@ function GenresLayout({ genres, setSeedGenre }) {
       });
     });
   }
-
+  
   return (
-    <div className="flex flex-wrap justify-center space-x-1 sm:space-x-4 pt-5 pb-10">
-      {genres.length !== 0 ? (
+    <div className="grid grid-cols-4">
+      {/* <h4 className="flex justify-center">Please select genre(s) you're interested in! </h4> */}
+      <div className="col-span-3 grid grid-cols-4 pb-10 gap-x-1 gap-y-2">
+      {
         genres.map((genre, index) => {
           return (
             <Genre
@@ -40,11 +45,11 @@ function GenresLayout({ genres, setSeedGenre }) {
             />
           );
         })
-      ) : (
-        <div className="font-semibold text-3xl text-emerald-500 justify-center my-40">
-          <Loader />
-        </div>
-      )}
+      }
+      </div>
+      <div className="">
+        <AttributeSliders />
+      </div>
     </div>
   );
 }
