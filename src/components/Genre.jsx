@@ -17,19 +17,8 @@ function Genre({genre, addGenre, removeGenre}) {
     }
 
     return(
-        <div className='flex text-emerald-500' onClick={handleClick}>
-           <div className='flex items-center gap-x-2'>
-            <input id={genre} type='checkbox' className='rounded
-                          border-gray-300
-                          text-emerald-600
-                          shadow-sm
-                          focus:border-indigo-300
-                          focus:ring
-                          focus:ring-offset-0
-                          focus:ring-indigo-200
-                          focus:ring-opacity-50 w-5 h-5' />
-            <label forhtml={genre} className="text-2xl font-semibold">{genre}</label>
-           </div>
+        <div className={toggleColor()} onClick={handleClick}>
+            <p className='px-2 py-1 text-xs sm:text-lg font-bold cursor-pointer'>{genre}</p>
         </div>
     );
 }

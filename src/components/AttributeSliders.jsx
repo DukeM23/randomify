@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import getRecommended from "../functions/getReccomended";
 import Loader from "./Loader";
 
 function AttributeSliders() {
@@ -14,7 +15,11 @@ function AttributeSliders() {
     const handleClear = () => {
 
     };
-    
+
+    const handleSearch = () => {
+  
+    }
+
     return(
         <div id="attribute-slider" className="sticky top-10">
                 <div className="flex flex-wrap justify-center">
