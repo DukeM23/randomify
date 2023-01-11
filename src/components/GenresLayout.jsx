@@ -44,10 +44,10 @@ function GenresLayout({ genres, setSeedGenre }) {
   }
   
   return (
-    <div className="grid grid-cols-8 sm:grid-cols-4 gap-x-2">
+    <div className="grid grid-cols-10 sm:grid-cols-4 gap-x-2">
       {/* <h4 className="flex justify-center">Please select genre(s) you're interested in! </h4> */}
-      <div className="col-span-5 sm:col-span-3 pb-10">
-        <div className="flex flex-wrap justify-center space-x-1">
+      <div className="col-span-6 sm:col-span-3 pb-10">
+        <div className="flex flex-wrap  space-x-1">
           {
             genres.map((genre, index) => {
               return (
@@ -62,7 +62,7 @@ function GenresLayout({ genres, setSeedGenre }) {
           }
         </div>
       </div>
-      <div id="attribute-slider" className="col-span-3 sm:col-span-1">
+      <div id="attribute-slider" className="col-span-4 sm:col-span-1">
         <div className="sticky top-10">
           <div className="bg-emerald-600 border-emerald-500 rounded-2xl p-5">
             <h1 className="text-base sm:text-lg font-semibold">Move the sliders depending on what you're feeling.<br /> Don't worry we won't judge 😉</h1>

@@ -55,8 +55,8 @@ function AttributeSliders() {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-between mt-3 text-xl sm:text-2xl text-gray-900">
-                    <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"button"} onClick={handleClear}>Clear</button>
+                <div className="flex justify-between mt-3 text-sm sm:text-2xl text-gray-900">
+                    <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"button"} onClick={handleClear}>Clearsss</button>
                     <button className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2" type={"submit"}>{loading ? <Loader /> : "Search"}</button>
                   </div>
               </div>
