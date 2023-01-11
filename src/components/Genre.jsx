@@ -4,6 +4,7 @@ function Genre({genre, addGenre, removeGenre}) {
     const [selected, setSelected] = useState(true);
 
     function handleClick() {
+        console.log(genre)
         setSelected(selected ? false : true);
         if(!selected) {
             removeGenre(genre);
@@ -13,12 +14,12 @@ function Genre({genre, addGenre, removeGenre}) {
     }
 
     function toggleColor() {
-        return selected ? 'm-2 border-2 rounded-full border-emerald-500 bg-emerald-600 text-gray-900 font-semibold hover:bg-emerald-500' : 'm-2 border-2 rounded-full border-emerald-800 bg-emerald-900 text-emerald-100 font-semibold'
+        return selected ? 'border-2 rounded-full border-emerald-500 bg-emerald-600 text-gray-900 font-semibold hover:bg-emerald-500' : 'border-2 rounded-full border-emerald-800 bg-emerald-900 text-emerald-100 font-semibold'
     }
 
     return(
         <div className={toggleColor()} onClick={handleClick}>
-            <p className='px-2 py-1 text-xs sm:text-lg font-bold cursor-pointer'>{genre}</p>
+            <p className='px-2 py-1 text-sm font-semibold cursor-pointer sm:text-lg lg:text-xl lg:px-3 lg:py-2'>{genre}</p>
         </div>
     );
 }
