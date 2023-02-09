@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import getRecommended from "../functions/getReccomended";
 import Loader from "./Loader";
 
 function AttributeSliders() {
