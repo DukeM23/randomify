@@ -10,7 +10,6 @@ function GenresLayout({ genres, setSeedGenre }) {
 
   useEffect(() => {
     setSeedGenre(selectedGenres);
-    
   });
 
   function addGenre(genre) {
@@ -29,26 +28,23 @@ function GenresLayout({ genres, setSeedGenre }) {
       });
     });
   }
-  
+
   return (
-    <div className="grid grid-cols-4">
+    <div className="gap-x-10">
       {/* <h4 className="flex justify-center">Please select genre(s) you're interested in! </h4> */}
-      <div className="col-span-3 grid grid-cols-4 pb-10 gap-x-1 gap-y-2">
-      {
-        genres.map((genre, index) => {
-          return (
-            <Genre
-              genre={genre}
-              addGenre={addGenre}
-              removeGenre={removeGenre}
-              key={index}
-            />
-          );
-        })
-      }
-      </div>
-      <div className="">
-        <AttributeSliders />
+      <div className="sm:gap-x-1 sm:gap-y-2">
+        <div className="flex justify-center flex-wrap">
+          {genres.map((genre, index) => {
+            return (
+              <Genre
+                genre={genre}
+                addGenre={addGenre}
+                removeGenre={removeGenre}
+                key={index}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -25,5 +25,7 @@ export default async function overwritePlaylist(token, trackUris) {
 
     const reponsedel = await emptyPlaylist(token, playlistId, tracksUris);
     
-    addTracks(token, playlistId, trackUris);
+    let response = addTracks(token, playlistId, trackUris);
+
+    return response
 }

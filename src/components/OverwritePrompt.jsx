@@ -3,8 +3,6 @@ import React, {useState} from "react";
 import overwritePlaylist from "../functions/overwritePlaylist";
 
 function OverwritePrompt({token, artists, setExists}) {
-    const [open, setOpen] = useState(false);
-    
     function handleCancel() {
         setExists(false);
     }
@@ -16,7 +14,8 @@ function OverwritePrompt({token, artists, setExists}) {
             trackUris = [...trackUris, uriString ];
         });
 
-        overwritePlaylist(token, trackUris);
+        let res = await overwritePlaylist(token, trackUris)
+        console.log(res.status)
 
         setExists(false);
     } 

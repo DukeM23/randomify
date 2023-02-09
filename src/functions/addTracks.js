@@ -10,6 +10,5 @@ export default async function addTracks(token, playlistId, trackUris){
               Authorization: `Bearer ${token}`
           }
         })
-        console.log(response.data)
     return response;
 }
