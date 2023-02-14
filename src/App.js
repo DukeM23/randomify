@@ -24,7 +24,7 @@ export const TokenContext = React.createContext()
 
 // dotenv.config();
 
-console.log(process.env.REACT_APP_CLIENT_ID);
+
 
 function App() {
   const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
