@@ -69,7 +69,7 @@ function ResultTracks() {
             className="border-2 font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 md:px-4  py-2 md:py-4"
             onClick={value.handleSave}
           >
-            Save Playlist
+            {saved ? "Saved!" : "Save Playlist"}
           </button>
           {/* <p className="py-2 md:py-4">Playlist Saved!</p> */}
         </div>
@@ -78,6 +78,7 @@ function ResultTracks() {
             token={value.token}
             artists={value.artists}
             setExists={value.setExists}
+            setSaved={setSaved}
           />
         ) : (
           ""

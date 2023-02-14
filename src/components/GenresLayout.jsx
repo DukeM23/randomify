@@ -1,16 +1,36 @@
-import { list } from "postcss";
+import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import AttributeSliders from "./AttributeSliders";
 import Genre from "./Genre";
 import Loader from "./Loader";
 
-function GenresLayout({ genres, setSeedGenre }) {
+function GenresLayout({ token, setSeedGenre }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [genres, setGenres] = useState([]);
 
   useEffect(() => {
-    setSeedGenre(selectedGenres);
-  });
+      setSeedGenre(selectedGenres)
+
+      const genreSeeds = async (token) => {
+        try {
+          const { data } = await axios.get(
+            "https://api.spotify.com/v1/recommendations/available-genre-seeds",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          setGenres(data.genres);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
+      genreSeeds(token)
+  }, [setSeedGenre, selectedGenres, token]);
 
   function addGenre(genre) {
     setSelectedGenres((prevValue) => {
@@ -31,7 +51,6 @@ function GenresLayout({ genres, setSeedGenre }) {
 
   return (
     <div className="gap-x-10">
-      {/* <h4 className="flex justify-center">Please select genre(s) you're interested in! </h4> */}
       <div className="sm:gap-x-1 sm:gap-y-2">
         <div className="flex justify-center flex-wrap">
           {genres.map((genre, index) => {

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useState} from "react";
 import overwritePlaylist from "../functions/overwritePlaylist";
 
-function OverwritePrompt({token, artists, setExists}) {
+function OverwritePrompt({token, artists, setExists, setSaved}) {
     function handleCancel() {
         setExists(false);
     }
@@ -15,7 +15,13 @@ function OverwritePrompt({token, artists, setExists}) {
         });
 
         let res = await overwritePlaylist(token, trackUris)
-        console.log(res.status)
+
+        if(res.status === 201) {
+            setSaved(true)
+            setInterval(() => {
+                setSaved(false)
+            }, 1000)
+        }
 
         setExists(false);
     } 

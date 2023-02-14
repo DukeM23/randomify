@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Header({token, logout }) {
+function Header({token, logout}) {
     return(
      <div className='grid grid-cols-2 place-content-between py-10 px-6'>
         <div>
