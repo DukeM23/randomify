@@ -2,9 +2,7 @@ import axios from "axios";
 import React, {useState} from "react";
 import overwritePlaylist from "../functions/overwritePlaylist";
 
-function OverwritePrompt({token, artists, setExists}) {
-    const [open, setOpen] = useState(false);
-    
+function OverwritePrompt({token, artists, setExists, setSaved}) {
     function handleCancel() {
         setExists(false);
     }
@@ -16,7 +14,14 @@ function OverwritePrompt({token, artists, setExists}) {
             trackUris = [...trackUris, uriString ];
         });
 
-        overwritePlaylist(token, trackUris);
+        let res = await overwritePlaylist(token, trackUris)
+
+        if(res.status === 201) {
+            setSaved(true)
+            setInterval(() => {
+                setSaved(false)
+            }, 1000)
+        }
 
         setExists(false);
     } 

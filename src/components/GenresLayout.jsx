@@ -1,14 +1,36 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import AttributeSliders from "./AttributeSliders";
 import Genre from "./Genre";
 import Loader from "./Loader";
 
-function GenresLayout({ genres, setSeedGenre }) {
+function GenresLayout({ token, setSeedGenre }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [genres, setGenres] = useState([]);
 
   useEffect(() => {
-    setSeedGenre(selectedGenres);
-  });
+      setSeedGenre(selectedGenres)
+
+      const genreSeeds = async (token) => {
+        try {
+          const { data } = await axios.get(
+            "https://api.spotify.com/v1/recommendations/available-genre-seeds",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          setGenres(data.genres);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
+      genreSeeds(token)
+  }, [setSeedGenre, selectedGenres, token]);
 
   function addGenre(genre) {
     setSelectedGenres((prevValue) => {
@@ -28,23 +50,21 @@ function GenresLayout({ genres, setSeedGenre }) {
   }
 
   return (
-    <div className="flex flex-wrap justify-center space-x-1 sm:space-x-4 pt-5 pb-10">
-      {genres.length !== 0 ? (
-        genres.map((genre, index) => {
-          return (
-            <Genre
-              genre={genre}
-              addGenre={addGenre}
-              removeGenre={removeGenre}
-              key={index}
-            />
-          );
-        })
-      ) : (
-        <div className="font-semibold text-3xl text-emerald-500 justify-center my-40">
-          <Loader />
+    <div className="gap-x-10">
+      <div className="sm:gap-x-1 sm:gap-y-2">
+        <div className="flex justify-center flex-wrap">
+          {genres.map((genre, index) => {
+            return (
+              <Genre
+                genre={genre}
+                addGenre={addGenre}
+                removeGenre={removeGenre}
+                key={index}
+              />
+            );
+          })}
         </div>
-      )}
+      </div>
     </div>
   );
 }
