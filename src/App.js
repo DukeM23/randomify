@@ -22,7 +22,6 @@ import GenreSelection from "./components/GenreSelection";
 export const ResultContext = React.createContext();
 export const TokenContext = React.createContext()
 
-
 function App() {
   const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
   // const REDIRECT_URI = "http://localhost:3000/";
