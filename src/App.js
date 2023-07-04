@@ -86,7 +86,7 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="container mx-auto flex flex-col min-h-screen">
       <Header
         token={token}
         logout={logout}
