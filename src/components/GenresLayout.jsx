@@ -1,9 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import AttributeSliders from "./AttributeSliders";
 import Genre from "./Genre";
-import Loader from "./Loader";
 
 function GenresLayout({ token, setSeedGenre }) {
   const [selectedGenres, setSelectedGenres] = useState([]);

@@ -1,32 +1,23 @@
 import React, { useEffect, useState } from "react";
-// import * as dotenv from "dotenv";
 
 import Header from "./components/Header";
-
-import axios from "axios";
-import GenresLayout from "./components/GenresLayout";
 import Splash from "./components/Splash";
 import Footer from "./components/Footer";
 import checkPlaylist from "./functions/checkPlaylist";
-import checkStatus from "./functions/checkStatus";
-import getRecommended from "./functions/getReccomended";
 import getUserId from "./functions/getUserId";
 import overwritePlaylist from "./functions/overwritePlaylist";
 import createPlaylist from "./functions/createPlaylist";
 import addTracks from "./functions/addTracks";
-import Loader from "./components/Loader";
 import ResultTracks from "./components/ResultTracks";
-import AttributeSlider from "./components/AttributeSlider";
 import GenreSelection from "./components/GenreSelection";
 
 export const ResultContext = React.createContext();
 export const TokenContext = React.createContext()
 
-
 function App() {
   const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-  // const REDIRECT_URI = "http://localhost:3000/";
-  const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+  const REDIRECT_URI = "http://localhost:3000/";
+  // const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
   const AUTH_ENDPOINT = process.env.REACT_APP_AUTH_ENDPOINT;
   const RESPONSE_TYPE = process.env.REACT_APP_RESPONSE_TYPE;
   const SCOPE = process.env.REACT_APP_SCOPE;
@@ -95,13 +86,14 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col overflow-auto h-screen bg-gray-900">
+    <div className="flex flex-col h-screen">
       <Header
         token={token}
         logout={logout}
       />
-      {token ? (
-        <GenreSelection token={token} setArtists={setArtists} />
+      {
+        token ? (
+          <GenreSelection token={token} setArtists={setArtists} />
       ) : (
         <Splash
           token={token}
