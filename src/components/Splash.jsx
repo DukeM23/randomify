@@ -4,7 +4,7 @@ import logo from "../imgs/Spotify_Icon.png"
 
 function Splash({ authEndpoint, clientId, redirectUri, responseType, scope }) {
   return (
-    <div className="grid grid-cols-1 place-items-center gap-x-10 mb-auto">
+    <div className="grid grid-cols-1 place-items-center gap-x-8 mb-auto">
       {/* <img src={iphone} alt="mobile view of Randomify"className=""/> */}
       <div className="my-16 text-center">
         <div className="text-emerald-500 font-semibold text-base sm:text-3xl md:text-4xl lg:text-5xl">
