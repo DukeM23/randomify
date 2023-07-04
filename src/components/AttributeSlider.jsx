@@ -1,12 +1,16 @@
 import React, {useState} from "react";
 
-function AttributeSlider({attribute, setSliderVal}) {
+function AttributeSlider({attribute, dispatch, attrState}) {
     const [slider, setSlider] = useState(0.50);
 
     const handleSliderVal = (e) => {
         setSlider(e.target.value);
 
-        setSliderVal(slider);
+        dispatch({
+          type: "set_accousticness",
+          name: "Accousticness",
+          value: slider
+        });
     }
 
     return (

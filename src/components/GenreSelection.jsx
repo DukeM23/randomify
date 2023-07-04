@@ -1,10 +1,80 @@
-import React, { useEffect, useState } from "react";
+import React, { useReducer, useState } from "react";
 import GenresLayout from "./GenresLayout";
 import AttributeSlider from "./AttributeSlider";
 import Loader from "./Loader";
 
 import getRecommended from "../functions/getReccomended";
 
+const findAttributeIndex = (state, attributeName) => state.findIndex(attribute => attribute.name === attributeName)
+
+const attributeReducer = (state, action) => {
+  console.log(state)
+  switch(action.type) {
+    case "set_accousticness": {
+      // console.log(newState)
+      let index = findAttributeIndex(state, action.name)
+      
+      let newState = state 
+      newState[index].value = parseFloat(action.value)
+      return newState
+    }
+    case "set_danceability": {
+      let index = findAttributeIndex(state, "Danceability")
+
+      return state[index].value = action.value
+    }
+    case "set_energy": {
+      let index = findAttributeIndex(state, "Energy")
+
+      return state[index].value = action.value
+    }
+    case "set_instrumentalness": {
+      let index = findAttributeIndex(state, "Instrumentalness")
+
+      return state[index].value = action.value
+    }
+    case "set_loudness": {
+      let index = findAttributeIndex(state, "Loudness")
+
+      return state[index].value = action.value
+    }
+    case "set_tempo": {
+      let index = findAttributeIndex(state, "Tempo")
+
+      return state[index].value = action.value
+    }
+    default: {
+      console.log("Cant find index of : " + action.name)
+    }
+  }
+}
+
+const attributeState = [
+  {
+    name: "Accousticness",
+    value: 0.5,
+  },
+  {
+    name: "Danceability",
+    value: 0.5,
+  },
+  {
+    name: "Energy",
+    value: 0.5,
+  },
+  {
+    name: "Instrumentalness",
+    value: 0.5,
+  },
+  {
+    name: "Loudness",
+    value: 0.5,
+  },
+  {
+    name: "Tempo",
+    value: 0.5,
+  },
+]
 
 function GenreSelection({ token, setArtists }) {
     const [accousticness, setAccousticness] = useState(0.5);
@@ -14,9 +84,11 @@ function GenreSelection({ token, setArtists }) {
     const [loudness, setLoudness] = useState(0.5);
     const [tempo, setTempo] = useState(0.5);
 
+    const [state, dispatch] = useReducer(attributeReducer ,attributeState)
+
     const [loading, setLoading] = useState(false);
     const [seedGenre, setSeedGenre] = useState("");
- 
+
     const searchArtists = async (e) => {
         e.preventDefault();
 
@@ -77,7 +149,8 @@ function GenreSelection({ token, setArtists }) {
                     <div className="flex flex-col w-full px-10 gap-y-5 my-5 sm:px-5">
                       <AttributeSlider
                         attribute="Acousticness"
-                        setSliderVal={setAccousticness}
+                        attrState = {attributeState[0].value}
+                        dispatch={dispatch}
                       />
                       <AttributeSlider
                         attribute="Danceability"
