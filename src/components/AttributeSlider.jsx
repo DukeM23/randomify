@@ -1,27 +1,29 @@
 import React, {useState} from "react";
 
-function AttributeSlider({attribute, dispatch, attrState}) {
+function AttributeSlider({attribute, dispatch}) {
+    let { type, name } = attribute
+    // console.log(attribute)
     const [slider, setSlider] = useState(0.50);
 
     const handleSliderVal = (e) => {
         setSlider(e.target.value);
 
         dispatch({
-          type: "set_accousticness",
-          name: "Accousticness",
+          type: type,
+          name: name,
           value: slider
         });
     }
 
     return (
       <div className="font-semibold">
-        <label className="lg:text-lg" forhtml="danceability">
-          {attribute}
+        <label className="lg:text-lg" forhtml={name}>
+          {name}
         </label>
         <div className="flex justify-between items-center gap-x-2">
           <input
             className="w-10/12 range-lg cursor-pointer accent-gray-900 bg-gray-900"
-            id="danceability"
+            id={name}
             min={0}
             max={1}
             step="0.01"

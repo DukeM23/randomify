@@ -19,29 +19,39 @@ const attributeReducer = (state, action) => {
       return newState
     }
     case "set_danceability": {
-      let index = findAttributeIndex(state, "Danceability")
+      let index = findAttributeIndex(state, action.name)
 
-      return state[index].value = action.value
+      let newState = state 
+      newState[index].value = parseFloat(action.value)
+      return newState
     }
     case "set_energy": {
-      let index = findAttributeIndex(state, "Energy")
+      let index = findAttributeIndex(state, action.name)
 
-      return state[index].value = action.value
+      let newState = state 
+      newState[index].value = parseFloat(action.value)
+      return newState
     }
     case "set_instrumentalness": {
-      let index = findAttributeIndex(state, "Instrumentalness")
+      let index = findAttributeIndex(state, action.name)
 
-      return state[index].value = action.value
+      let newState = state 
+      newState[index].value = parseFloat(action.value)
+      return newState
     }
     case "set_loudness": {
-      let index = findAttributeIndex(state, "Loudness")
+      let index = findAttributeIndex(state, action.name)
 
-      return state[index].value = action.value
+      let newState = state 
+      newState[index].value = parseFloat(action.value)
+      return newState
     }
     case "set_tempo": {
-      let index = findAttributeIndex(state, "Tempo")
+      let index = findAttributeIndex(state, action.name)
 
-      return state[index].value = action.value
+      let newState = state 
+      newState[index].value = parseFloat(action.value)
+      return newState
     }
     default: {
       console.log("Cant find index of : " + action.name)
@@ -51,40 +61,40 @@ const attributeReducer = (state, action) => {
 
 const attributeState = [
   {
+    type: "set_accousticness",
     name: "Accousticness",
     value: 0.5,
   },
   {
+    type: "set_danceability",
     name: "Danceability",
     value: 0.5,
   },
   {
+    type: "set_energy",
     name: "Energy",
     value: 0.5,
   },
   {
+    type: "set_instrumentalness",
     name: "Instrumentalness",
     value: 0.5,
   },
   {
+    type: "set_loudness",
     name: "Loudness",
     value: 0.5,
   },
   {
+    type: "set_tempo",
     name: "Tempo",
     value: 0.5,
   },
 ]
 
 function GenreSelection({ token, setArtists }) {
-    const [accousticness, setAccousticness] = useState(0.5);
-    const [danceability, setDanceability] = useState(0.5);
-    const [energy, setEnergy] = useState(0.5);
-    const [instrumentalness, setInstrumentalness] = useState(0.5);
-    const [loudness, setLoudness] = useState(0.5);
-    const [tempo, setTempo] = useState(0.5);
 
-    const [state, dispatch] = useReducer(attributeReducer ,attributeState)
+    const [state, dispatch] = useReducer(attributeReducer, attributeState)
 
     const [loading, setLoading] = useState(false);
     const [seedGenre, setSeedGenre] = useState("");
@@ -104,19 +114,19 @@ function GenreSelection({ token, setArtists }) {
         });
 
         if (query === "") {
-        setArtists([]);
-        return false;
+          setArtists([]);
+          return false;
         }
 
         setLoading(true);
         const tracks = await getRecommended(token,
                                             query,
-                                            accousticness,
-                                            danceability,
-                                            energy,
-                                            instrumentalness,
-                                            loudness,
-                                            tempo
+                                            attributeState[0].value,
+                                            attributeState[1].value,
+                                            attributeState[2].value,
+                                            attributeState[3].value,
+                                            attributeState[4].value,
+                                            attributeState[5].value
                                             );
 
         setArtists(tracks);
@@ -147,31 +157,12 @@ function GenreSelection({ token, setArtists }) {
                 <div className="bg-emerald-600 border-emerald-500 border-2 rounded-2xl">
                   <div className="flex justify-center">
                     <div className="flex flex-col w-full px-10 gap-y-5 my-5 sm:px-5">
-                      <AttributeSlider
-                        attribute="Acousticness"
-                        attrState = {attributeState[0].value}
-                        dispatch={dispatch}
-                      />
-                      <AttributeSlider
-                        attribute="Danceability"
-                        setSliderVal={setDanceability}
-                      />
-                      <AttributeSlider
-                        attribute="Energy"
-                        setSliderVal={setEnergy}
-                      />
-                      <AttributeSlider
-                        attribute="Instrumentalness"
-                        setSliderVal={setInstrumentalness}
-                      />
-                      <AttributeSlider
-                        attribute="Loudness"
-                        setSliderVal={setLoudness}
-                      />
-                      <AttributeSlider
-                        attribute="Tempo"
-                        setSliderVal={setTempo}
-                      />
+                      {
+                        state.map(attr => <AttributeSlider
+                          attribute={attr}
+                          dispatch={dispatch}
+                        />)
+                      }
                     </div>
                   </div>
                 </div>
