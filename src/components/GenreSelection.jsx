@@ -1,63 +1,10 @@
 import React, { useReducer, useState } from "react";
 import GenresLayout from "./GenresLayout";
 import AttributeSlider from "./AttributeSlider";
+import attributeReducer from "../reducers/attributreReducer";
 import Loader from "./Loader";
-
 import getRecommended from "../functions/getReccomended";
 
-const findAttributeIndex = (state, attributeName) => state.findIndex(attribute => attribute.name === attributeName)
-
-const attributeReducer = (state, action) => {
-  console.log(state)
-  switch(action.type) {
-    case "set_accousticness": {
-      // console.log(newState)
-      let index = findAttributeIndex(state, action.name)
-      
-      let newState = state 
-      newState[index].value = parseFloat(action.value)
-      return newState
-    }
-    case "set_danceability": {
-      let index = findAttributeIndex(state, action.name)
-
-      let newState = state 
-      newState[index].value = parseFloat(action.value)
-      return newState
-    }
-    case "set_energy": {
-      let index = findAttributeIndex(state, action.name)
-
-      let newState = state 
-      newState[index].value = parseFloat(action.value)
-      return newState
-    }
-    case "set_instrumentalness": {
-      let index = findAttributeIndex(state, action.name)
-
-      let newState = state 
-      newState[index].value = parseFloat(action.value)
-      return newState
-    }
-    case "set_loudness": {
-      let index = findAttributeIndex(state, action.name)
-
-      let newState = state 
-      newState[index].value = parseFloat(action.value)
-      return newState
-    }
-    case "set_tempo": {
-      let index = findAttributeIndex(state, action.name)
-
-      let newState = state 
-      newState[index].value = parseFloat(action.value)
-      return newState
-    }
-    default: {
-      console.log("Cant find index of : " + action.name)
-    }
-  }
-}
 
 const attributeState = [
   {
@@ -150,7 +97,7 @@ function GenreSelection({ token, setArtists }) {
               id="genre-selector"
               className="pb-5 sm:col-span-4 sm:mx-auto lg:col-span- xl:col-span-7"
             >
-              <GenresLayout token={token} setSeedGenre={setSeedGenre} />
+              <GenresLayout token={token} setSeedGenre={setSeedGenre} handleRIB={handleRIB} />
             </div>
             <div className="sm:col-span-2 lg:col-span- xl:col-span-3">
               <div id="attribute-slider" className="sm:sticky sm:top-10">

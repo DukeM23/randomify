@@ -50,17 +50,19 @@ function GenresLayout({ token, setSeedGenre }) {
   return (
     <div className="gap-x-10">
       <div className="sm:gap-x-1 sm:gap-y-2">
-        <div className="flex justify-center flex-wrap">
-          {genres.map((genre, index) => {
-            return (
-              <Genre
-                genre={genre}
-                addGenre={addGenre}
-                removeGenre={removeGenre}
-                key={index}
-              />
-            );
-          })}
+        <div className="flex justify-center flex-wrap ">
+          {
+            genres.map((genre, index) => {
+              return (
+                <Genre
+                  key={index}
+                  genre={genre}
+                  addGenre={addGenre}
+                  removeGenre={removeGenre}
+                />
+              )
+            })
+          }
         </div>
       </div>
     </div>

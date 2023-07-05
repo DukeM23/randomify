@@ -1,7 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Genre({ genre, addGenre, removeGenre }) {
   const [selected, setSelected] = useState(true);
+
+  function formatGenre(genre) {
+    const arr = genre.split("-")
+    let newGenre = ""
+
+    for(const str of arr) {
+      let formatted = str.charAt(0).toUpperCase() + str.slice(1) + " "
+      newGenre += formatted
+    }
+    return newGenre
+  }
 
   function handleClick() {
     setSelected(selected ? false : true);
@@ -21,7 +32,9 @@ function Genre({ genre, addGenre, removeGenre }) {
   return (
     <div className={toggleColor()} onClick={handleClick}>
       <p className="px-2 py-1 cursor-pointer font-bold text-base sm:px-4 sm:py-2 lg:text-xl">
-        {genre}
+        {
+          formatGenre(genre)
+        }
       </p>
     </div>
   );
