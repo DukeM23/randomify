@@ -5,7 +5,6 @@ import attributeReducer from "../reducers/attributreReducer";
 import Loader from "./Loader";
 import getRecommended from "../functions/getReccomended";
 
-
 const attributeState = [
   {
     type: "set_accousticness",
@@ -90,7 +89,7 @@ function GenreSelection({ token, setArtists }) {
     }
 
     return (
-      <div className="flex justify-center items-center px-5 mb-auto sm:px-8 xl:px-52 2xl:px-92">
+      <div className="">
         <form id="customization" onSubmit={searchArtists}>
           <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10">
             <div
@@ -99,7 +98,7 @@ function GenreSelection({ token, setArtists }) {
             >
               <GenresLayout token={token} setSeedGenre={setSeedGenre} handleRIB={handleRIB} />
             </div>
-            <div className="sm:col-span-2 lg:col-span- xl:col-span-3">
+            <div className="hidden sm:block sm:col-span-2 lg:col-span- xl:col-span-3">
               <div id="attribute-slider" className="sm:sticky sm:top-10">
                 <div className="bg-emerald-600 border-emerald-500 border-2 rounded-2xl">
                   <div className="flex justify-center">
@@ -131,6 +130,19 @@ function GenreSelection({ token, setArtists }) {
                   </div>
                 )}
               </div>
+            </div>
+            <div className="fixed sm:hidden origin-top bottom-0 w-full transition-transform ease-in 1s translate-y-[55vh] hover:translate-y-[1vh] bg-emerald-600 border-emerald-500 border-2 rounded-t-2xl">
+              <div className="flex justify-center mt-4">
+                <button className="text-3xl font-semibold">Change it up!</button>
+              </div>
+              <div className="flex flex-col w-full px-10 gap-y-5 my-8 sm:px-5">
+                {
+                  state.map(attr => <AttributeSlider
+                    attribute={attr}
+                    dispatch={dispatch}
+                  />)
+                }
+                </div>
             </div>
           </div>
         </form>

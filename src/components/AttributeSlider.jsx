@@ -17,7 +17,7 @@ function AttributeSlider({attribute, dispatch}) {
 
     return (
       <div className="font-semibold">
-        <label className="lg:text-lg" forhtml={name}>
+        <label className="text-xl sm:text-lg" forhtml={name}>
           {name}
         </label>
         <div className="flex justify-between items-center gap-x-2">
