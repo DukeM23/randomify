@@ -4,7 +4,7 @@ import AttributeSlider from "./AttributeSlider";
 import attributeReducer from "../reducers/attributreReducer";
 import Loader from "./Loader";
 import getRecommended from "../functions/getReccomended";
-
+import Footer from "./Footer";
 const attributeState = [
   {
     type: "set_accousticness",
@@ -112,28 +112,12 @@ function GenreSelection({ token, setArtists }) {
                     </div>
                   </div>
                 </div>
-                {seedGenre.length !== 0 && (
-                  <div className="flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900">
-                    <button
-                      className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
-                      type={"button"}
-                      onClick={handleRIB}
-                    >
-                      Clear
-                    </button>
-                    <button
-                      className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
-                      type={"submit"}
-                    >
-                      {loading ? <Loader /> : "Search"}
-                    </button>
-                  </div>
-                )}
               </div>
             </div>
-            <div className="fixed sm:hidden origin-top bottom-0 w-full transition-transform ease-in 1s translate-y-[29rem] hover:translate-y-[1vh] bg-emerald-600 border-emerald-500 border-2 rounded-t-2xl">
+            <div className="text-gray-900 fixed sm:hidden origin-top bottom-0 w-full h-full transition-transform ease-in 1s translate-y-[92vh] hover:translate-y-[30vh] bg-emerald-600 border-emerald-500 border-2 rounded-t-2xl">
               <div className="flex justify-center mt-4">
-                <button className="text-3xl font-semibold">Change it up!</button>
+                {/* <button className="text-3xl font-semibold">Change it up!</button> */}
+                <p className="text-3xl font-semibold">Change it up!</p>
               </div>
               <div className="flex flex-col w-full px-10 gap-y-5 my-8 sm:px-5">
                 {
@@ -143,6 +127,25 @@ function GenreSelection({ token, setArtists }) {
                   />)
                 }
                 </div>
+                {
+                  seedGenre.length !== 0 && (
+                    <div className="flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900">
+                      <button
+                        className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                        type={"button"}
+                        onClick={handleRIB}
+                      >
+                        Clear
+                      </button>
+                      <button
+                        className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                        type={"submit"}
+                      >
+                        {loading ? <Loader /> : "Search"}
+                      </button>
+                    </div>
+                  )
+                }
               </div>
           </div>
         </form>

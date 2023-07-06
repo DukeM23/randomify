@@ -16,8 +16,8 @@ export const TokenContext = React.createContext()
 
 function App() {
   const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-  // const REDIRECT_URI = "http://localhost:3000/";
-  const REDIRECT_URI = "https://randomify-git-genre-selection-dukem23.vercel.app/"
+  const REDIRECT_URI = "http://localhost:3000/";
+  // const REDIRECT_URI = "https://randomify-git-genre-selection-dukem23.vercel.app/"
   // const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
   const AUTH_ENDPOINT = process.env.REACT_APP_AUTH_ENDPOINT;
   const RESPONSE_TYPE = process.env.REACT_APP_RESPONSE_TYPE;
@@ -87,7 +87,7 @@ function App() {
   }
 
   return (
-    <div className="container mx-auto flex flex-col min-h-screen">
+    <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
       <Header
         token={token}
         logout={logout}
