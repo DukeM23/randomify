@@ -131,7 +131,7 @@ function GenreSelection({ token, setArtists }) {
                 )}
               </div>
             </div>
-            <div className="fixed sm:hidden origin-top bottom-0 w-full transition-transform ease-in 1s translate-y-[55vh] hover:translate-y-[1vh] bg-emerald-600 border-emerald-500 border-2 rounded-t-2xl">
+            <div className="fixed sm:hidden origin-top bottom-0 w-full transition-transform ease-in 1s translate-y-[29rem] hover:translate-y-[1vh] bg-emerald-600 border-emerald-500 border-2 rounded-t-2xl">
               <div className="flex justify-center mt-4">
                 <button className="text-3xl font-semibold">Change it up!</button>
               </div>
@@ -143,7 +143,7 @@ function GenreSelection({ token, setArtists }) {
                   />)
                 }
                 </div>
-            </div>
+              </div>
           </div>
         </form>
       </div>
