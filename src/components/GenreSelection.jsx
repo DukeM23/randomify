@@ -114,7 +114,7 @@ function GenreSelection({ token, setArtists }) {
                 </div>
               </div>
             </div>
-            <div className="text-gray-900 fixed sm:hidden origin-top bottom-0 w-full h-full transition-transform ease-in 1s translate-y-[49rem] hover:translate-y-[15rem] bg-emerald-600 border-emerald-500 border-2 rounded-t-2xl">
+            <div className="text-gray-900 fixed sm:hidden origin-top bottom-0 w-full h-full transition-transform ease-in 1s translate-y-[92vh] hover:translate-y-[30vh] bg-emerald-600 border-emerald-500 border-2 rounded-t-2xl">
               <div className="flex justify-center mt-4">
                 <p className="text-3xl font-semibold">Change it up!</p>
               </div>
