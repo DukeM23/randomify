@@ -4,7 +4,7 @@ import AttributeSlider from "./AttributeSlider";
 import attributeReducer from "../reducers/attributreReducer";
 import Loader from "./Loader";
 import getRecommended from "../functions/getReccomended";
-import Footer from "./Footer";
+
 const attributeState = [
   {
     type: "set_accousticness",
@@ -114,41 +114,55 @@ function GenreSelection({ token, setArtists }) {
                 </div>
               </div>
             </div>
-            <div className="text-gray-900 fixed sm:hidden origin-top bottom-0 w-full h-full transition-transform ease-in 1s translate-y-[80vh] hover:translate-y-[30vh] bg-emerald-600 border-emerald-500 border-2 rounded-t-2xl">
-              <div className="flex justify-center mt-4">
-                <p className="text-3xl font-semibold">Change it up!</p>
-              </div>
-              <div className="flex flex-col w-full px-10 gap-y-5 my-8 sm:px-5">
-                {
-                  state.map(attr => <AttributeSlider
-                    attribute={attr}
-                    dispatch={dispatch}
-                  />)
-                }
-                </div>
-                {
-                  seedGenre.length !== 0 && (
-                    <div className="flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900">
-                      <button
-                        className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
-                        type={"button"}
-                        onClick={handleRIB}
-                      >
-                        Clear
-                      </button>
-                      <button
-                        className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
-                        type={"submit"}
-                      >
-                        {loading ? <Loader /> : "Search"}
-                      </button>
-                    </div>
-                  )
-                }
-              </div>
+            
           </div>
+          <div class="block sm:hidden m-8 overflow-hidden bg-emerald-600 border-emerald-500 border-2 rounded-2xl">
+            <div class="group outline-none accordion-section " tabindex="1">
+              <div class="group  text-gray-900 transition ease duration-500 cursor-pointer relative ">
+                <div class=" text-gray-900 transition ease duration-1000">
+                 <p className="text-center my-3 text-2xl font-bold">
+                  Change it up!
+                 </p>
+                </div>
+                
+              </div>
+              <div class="group-hover:max-h-screen max-h-0 px-4 overflow-hidden ease duration-1000">
+              <div className="text-gray-900 block sm:hidden overflow-hidden transition 1s ease-out">
+                <div className="flex flex-col w-full px-10 gap-y-5 my-8 sm:px-5">
+                  {
+                    state.map(attr => <AttributeSlider
+                      attribute={attr}
+                      dispatch={dispatch}
+                    />)
+                  }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {
+            seedGenre.length !== 0 && (
+              <div className="flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5">
+                <button
+                  className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                  type={"button"}
+                  onClick={handleRIB}
+                >
+                  Clear
+                </button>
+                <button
+                  className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                  type={"submit"}
+                >
+                  {loading ? <Loader /> : "Search"}
+                </button>
+              </div>
+            )
+          }
         </form>
-      </div>
+          
+        </div>
+
     );
 }
 
