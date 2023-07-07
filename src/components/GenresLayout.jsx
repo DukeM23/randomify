@@ -48,7 +48,7 @@ function GenresLayout({ token, setSeedGenre }) {
   }
 
   return (
-    <div className="flex justify-around flex-wrap ">
+    <div className="flex justify-center flex-wrap ">
       {
         genres.map((genre, index) => {
           return (
