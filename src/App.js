@@ -15,13 +15,6 @@ export const ResultContext = React.createContext();
 export const TokenContext = React.createContext()
 
 function App() {
-  const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-  const REDIRECT_URI = "https://randomify-git-genre-selection-dukem23.vercel.app/"
-  // const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-  const AUTH_ENDPOINT = process.env.REACT_APP_AUTH_ENDPOINT;
-  const RESPONSE_TYPE = process.env.REACT_APP_RESPONSE_TYPE;
-  const SCOPE = process.env.REACT_APP_SCOPE;
-
   const [token, setToken] = useState("");
   const [artists, setArtists] = useState([]);
 
@@ -30,7 +23,7 @@ function App() {
   useEffect(() => {
     const hash = window.location.hash;
     let token = window.localStorage.getItem("token");
-
+    console.log("hello")
     if (!token && hash) {
       token = hash
         .substring(1)
@@ -49,16 +42,19 @@ function App() {
       window.location.hash = "";
       window.localStorage.setItem("token", token);
     }
-
-    setToken(token);
-  }, []);
+    
+    // setToken(token);
+    // console.log(token)
+  }, [token]);
 
   const logout = () => {
     setToken("");
+    
     const results = document.getElementById("results").classList;
     results.add("hidden");
-    window.localStorage.removeItem("token");
-    window.location.href = REDIRECT_URI;
+    // window.localStorage.setItem("token", "");
+    console.log(window.localStorage)
+    window.location.href = "http://localhost:3000/";
   };
 
   function handleRIB() {
@@ -85,27 +81,11 @@ function App() {
     }
   }
 
+
   return (
     <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
-      <Header
-        token={token}
-        logout={logout}
-      />
-      {
-        token ? (
-          <GenreSelection token={token} setArtists={setArtists} />
-      ) : (
-        <Splash
-          token={token}
-          authEndpoint={AUTH_ENDPOINT}
-          clientId={CLIENT_ID}
-          redirectUri={REDIRECT_URI}
-          responseType={RESPONSE_TYPE}
-          scope={SCOPE}
-          logout={logout}
-        />
-      )}
-
+      <Header logout={ logout } />
+      <GenreSelection token={token} setArtists={setArtists} />
       <ResultContext.Provider
         value={{
           token: token,

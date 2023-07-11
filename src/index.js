@@ -3,11 +3,31 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Splash from './components/Splash';
+import GenreSelection from './components/GenreSelection';
+import GenresLayout from './components/GenresLayout';
+import ResultTracks from './components/ResultTracks';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Splash />
+  },
+  {
+    path: "/genre-selection",
+    element: <App />
+  },
+  {
+    path: "/result",
+    element: <ResultTracks />
+  }
+])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

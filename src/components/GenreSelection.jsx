@@ -38,12 +38,15 @@ const attributeState = [
   },
 ]
 
-function GenreSelection({ token, setArtists }) {
+const token = window.localStorage.getItem("token");
+
+function GenreSelection({ setArtists }) {
     const [state, dispatch] = useReducer(attributeReducer, attributeState)
 
     const [loading, setLoading] = useState(false);
     const [seedGenre, setSeedGenre] = useState("");
     const [show, setShow] = useState(false)
+    
 
     const searchArtists = async (e) => {
         e.preventDefault();
@@ -112,6 +115,21 @@ function GenreSelection({ token, setArtists }) {
                     </div>
                   </div>
                 </div>
+                <div className={`${seedGenre.length === 0 ? "invisible" : "hidden"} sm:flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}>
+                      <button
+                        className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                        type={"button"}
+                        onClick={handleRIB}
+                      >
+                        Clear
+                      </button>
+                      <button
+                        className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                        type={"submit"}
+                      >
+                        {loading ? <Loader /> : "Search"}
+                      </button>
+                    </div>
               </div>
             </div>
             
@@ -141,7 +159,7 @@ function GenreSelection({ token, setArtists }) {
               </div>
             </div>
           </div>
-          <div className={`${seedGenre.length === 0 ? "invisible" : "flex"} justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}>
+          <div className={`${seedGenre.length === 0 ? "invisible" : "flex"} sm:hidden justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}>
             <button
               className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
               type={"button"}

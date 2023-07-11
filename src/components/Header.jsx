@@ -1,6 +1,10 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
-function Header({token, logout}) {
+const token = window.localStorage.getItem("token");
+
+function Header({ logout }) {
+  console.log(token)
     return(
      <div className='grid grid-cols-2 place-content-between py-10 px-6'>
         <div>
@@ -14,6 +18,7 @@ function Header({token, logout}) {
             <button className="border-2 text-base sm:text-2xl font-bold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-1 sm:py-2" onClick={logout}>Logout</button>
           </div>
         }
+
      </div>   
     );
 }
