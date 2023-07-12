@@ -4,6 +4,7 @@ import AttributeSlider from "./AttributeSlider";
 import attributeReducer from "../reducers/attributreReducer";
 import Loader from "./Loader";
 import getRecommended from "../functions/getReccomended";
+import { useNavigate } from "react-router-dom";
 
 const attributeState = [
   {
@@ -40,14 +41,14 @@ const attributeState = [
 
 const token = window.localStorage.getItem("token");
 
-function GenreSelection({ setArtists }) {
+function GenreSelection({ token, setArtists }) {
     const [state, dispatch] = useReducer(attributeReducer, attributeState)
-
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [seedGenre, setSeedGenre] = useState("");
     const [show, setShow] = useState(false)
     
-
+    console.log(token)
     const searchArtists = async (e) => {
         e.preventDefault();
 
@@ -81,10 +82,14 @@ function GenreSelection({ setArtists }) {
         setArtists(tracks);
         setLoading(false);
 
-        const results = document.getElementById("results").classList;
-        const sliderId = document.getElementById("customization").classList;
-        results.remove("hidden");
-        sliderId.add("hidden");
+        // const results = document.getElementById("results").classList;
+        // const sliderId = document.getElementById("customization").classList;
+        // results.remove("hidden");
+        // sliderId.add("hidden");
+
+        navigate('/result', { state: {
+          tracks
+        }})
     };
 
     function handleRIB() {

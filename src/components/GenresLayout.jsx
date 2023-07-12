@@ -6,11 +6,11 @@ import Genre from "./Genre";
 function GenresLayout({ token,setSeedGenre }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [genres, setGenres] = useState([]);
-
+  
   useEffect(() => {
       setSeedGenre(selectedGenres)
 
-      const genreSeeds = async () => {
+      const genreSeeds = async (token) => {
         try {
           const { data } = await axios.get(
             "https://api.spotify.com/v1/recommendations/available-genre-seeds",

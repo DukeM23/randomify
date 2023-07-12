@@ -43,23 +43,10 @@ function App() {
       window.localStorage.setItem("token", token);
     }
     
-    // setToken(token);
+    setToken(token);
     // console.log(token)
   }, [token]);
 
-  const logout = () => {
-    setToken("");
-    
-    const results = document.getElementById("results").classList;
-    results.add("hidden");
-    // window.localStorage.setItem("token", "");
-    console.log(window.localStorage)
-    window.location.href = "http://localhost:3000/";
-  };
-
-  function handleRIB() {
-    window.location.reload();
-  }
 
   async function handleSave() {
     const userId = await getUserId(token);
@@ -84,27 +71,8 @@ function App() {
 
   return (
     <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
-      <Header logout={ logout } />
+      <Header />
       <GenreSelection token={token} setArtists={setArtists} />
-      <ResultContext.Provider
-        value={{
-          token: token,
-          artists: artists,
-          exists: exists,
-          setExists: setExists,
-          handleRIB: handleRIB,
-          handleSave: handleSave,
-        }}
-      >
-        <ResultTracks
-          token={token}
-          artists={artists}
-          exists={exists}
-          setExists={setExists}
-          handleRIB={handleRIB}
-          handleSave={handleSave}
-        />
-      </ResultContext.Provider>
       <Footer />
     </div>
   );

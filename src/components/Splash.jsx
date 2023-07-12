@@ -3,10 +3,11 @@ import logo from "../imgs/Spotify_Icon.png"
 import iphone from "../imgs/apple-iphone-13-2021-medium.png"
 
 import Header from "./Header";
+import Footer from "./Footer";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-// const REDIRECT_URI = "https://randomify-git-genre-selection-dukem23.vercel.app/"
-const REDIRECT_URI = "http://localhost:3000/genre-selection/"
+const REDIRECT_URI = "https://randomify-git-genre-selection-dukem23.vercel.app/genre-selection/"
+// const REDIRECT_URI = "http://localhost:3000/genre-selection/"
 const AUTH_ENDPOINT = process.env.REACT_APP_AUTH_ENDPOINT;
 const RESPONSE_TYPE = process.env.REACT_APP_RESPONSE_TYPE;
 const SCOPE = process.env.REACT_APP_SCOPE;
@@ -14,7 +15,7 @@ const SCOPE = process.env.REACT_APP_SCOPE;
 
 function Splash() {
   return (
-    <>
+    <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
       <Header />
       <div className="grid grid-cols-2 place-items-center gap-x-0 sm:gap-x-5 mb-auto my-10">
         
@@ -40,7 +41,10 @@ function Splash() {
           </div>
         </div>
       </div>
-    </>
+      <div className="mt-10">
+        <Footer />
+      </div>
+    </div>
   );
 }
 
