@@ -11,7 +11,7 @@ function Header() {
     setToken(token)
   }, [token])
   const logout = () => {
-    window.localStorage.removeItem("token");
+    window.localStorage.setItem("token", "");
     console.log(window.localStorage)
     window.location.href = "http://localhost:3000/";
   };

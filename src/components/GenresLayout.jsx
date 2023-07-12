@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import Genre from "./Genre";
 
-function GenresLayout({ token,setSeedGenre }) {
+function GenresLayout({ token, setSeedGenre }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [genres, setGenres] = useState([]);
   
@@ -27,8 +27,30 @@ function GenresLayout({ token,setSeedGenre }) {
         }
       };
 
+      const hash = window.location.hash;
+      let token = window.localStorage.getItem("token");
+      if ((!token || token === "") && hash) {
+        token = hash
+          .substring(1)
+          .split("&")
+          .find((elem) => elem.startsWith("access_token"))
+          .split("=")[1];
+  
+        setTimeout(() => {
+          window.alert(
+            "You have exceeded the 1 hour activity. Please login again."
+          );
+          window.localStorage.removeItem("token");
+          window.location.reload();
+        }, 3600 * 1000);
+  
+        window.location.hash = "";
+        window.localStorage.setItem("token", token);
+      }
+
+
       genreSeeds(token)
-  }, [ selectedGenres, token ]);
+  }, [token]);
 
   function addGenre(genre) {
     setSelectedGenres((prevValue) => {

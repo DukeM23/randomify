@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-import Header from "./components/Header";
 import Splash from "./components/Splash";
-import Footer from "./components/Footer";
 import checkPlaylist from "./functions/checkPlaylist";
 import getUserId from "./functions/getUserId";
 import overwritePlaylist from "./functions/overwritePlaylist";
@@ -10,6 +7,7 @@ import createPlaylist from "./functions/createPlaylist";
 import addTracks from "./functions/addTracks";
 import ResultTracks from "./components/ResultTracks";
 import GenreSelection from "./components/GenreSelection";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 export const ResultContext = React.createContext();
 export const TokenContext = React.createContext()
@@ -69,12 +67,30 @@ function App() {
   }
 
 
+  
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Splash />
+    },
+    {
+      path: "/genre-selection",
+      element: <GenreSelection />
+    },
+    {
+      path: "/result",
+      element: <ResultTracks />
+    }
+  ])
+  
+
   return (
-    <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
-      <Header />
-      <GenreSelection token={token} setArtists={setArtists} />
-      <Footer />
-    </div>
+    // <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
+    //   <Header />
+    //   <GenreSelection token={token} setArtists={setArtists} />
+    //   <Footer />
+    // </div>
+    <RouterProvider router={router} />
   );
 }
 

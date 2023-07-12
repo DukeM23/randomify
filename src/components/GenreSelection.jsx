@@ -1,10 +1,12 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import GenresLayout from "./GenresLayout";
 import AttributeSlider from "./AttributeSlider";
 import attributeReducer from "../reducers/attributreReducer";
 import Loader from "./Loader";
 import getRecommended from "../functions/getReccomended";
 import { useNavigate } from "react-router-dom";
+import Header from "./Header";
+import useToken from "../hooks/useToken";
 
 const attributeState = [
   {
@@ -39,16 +41,18 @@ const attributeState = [
   },
 ]
 
-const token = window.localStorage.getItem("token");
+// const token = window.localStorage.getItem("token");
 
-function GenreSelection({ token, setArtists }) {
+function GenreSelection({ setArtists }) {
     const [state, dispatch] = useReducer(attributeReducer, attributeState)
+    const [token, setToken] = useState("");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [seedGenre, setSeedGenre] = useState("");
     const [show, setShow] = useState(false)
     
-    console.log(token)
+    useToken()
+
     const searchArtists = async (e) => {
         e.preventDefault();
 
@@ -96,8 +100,10 @@ function GenreSelection({ token, setArtists }) {
         window.location.reload();
     }
 
+    console.log(seedGenre)
     return (
-      <div className="">
+      <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
+        <Header />
         <form id="customization" onSubmit={searchArtists}>
           <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10">
             <div
