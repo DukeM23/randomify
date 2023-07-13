@@ -25,7 +25,7 @@ function ResultTracks() {
 
   function artistFormat(artist) {
     return artist.artists
-      .map((el, index) => {
+      .map((el) => {
         return el.name;
       })
       .join(", ");
