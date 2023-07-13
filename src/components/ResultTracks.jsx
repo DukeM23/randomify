@@ -6,13 +6,23 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
+import getUserId from "../functions/getUserId";
+import useToken from "../hooks/useToken";
+import checkPlaylist from "../functions/checkPlaylist";
+import overwritePlaylist from "../functions/overwritePlaylist";
+import createPlaylist from "../functions/createPlaylist";
+import addTracks from "../functions/addTracks";
+
 function ResultTracks() {
   const [saved, setSaved] = useState(false); 
-  const value = React.useContext(ResultContext);
   const navigate = useNavigate()
   const { state } = useLocation();
   const { tracks } = state
-  console.log(state)
+  const [exists, setExists] = useState(false);
+
+  useToken()
+  const token = window.localStorage.getItem("token")
+
   function artistFormat(artist) {
     return artist.artists
       .map((el, index) => {
@@ -20,6 +30,27 @@ function ResultTracks() {
       })
       .join(", ");
   }
+
+  async function handleSave() {
+    const userId = await getUserId(token);
+
+    let trackUris = [];
+    tracks.forEach((track) => {
+      let uriString = track.uri;
+      trackUris = [...trackUris, uriString];
+    });
+
+    const isExist = await checkPlaylist(token);
+    setExists(isExist);
+
+    if (isExist) {
+      overwritePlaylist(token, trackUris);
+    } else {
+      const playlistId = await createPlaylist(token, userId);
+      addTracks(token, playlistId, trackUris);
+    }
+  }
+
 
   const renderArtists = () => {
     return tracks.map((artist, index) => (
@@ -58,7 +89,7 @@ function ResultTracks() {
   };
 
   return (
-    <>
+    <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
       <Header />
       <div
         id="results"
@@ -75,26 +106,26 @@ function ResultTracks() {
           <div className="flex content-center gap-x-6">
             <button
               className="border-2 font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 md:px-4  py-2 md:py-4"
-              // onClick={value.handleSave}
+              onClick={handleSave}
             >
               {saved ? "Saved!" : "Save Playlist"}
             </button>
             {/* <p className="py-2 md:py-4">Playlist Saved!</p> */}
           </div>
-          {/* {value.exists ? (
+          {exists ? (
             <OverwritePrompt
-              token={value.token}
-              artists={value.artists}
-              setExists={value.setExists}
+              token={token}
+              artists={tracks}
+              setExists={setExists}
               setSaved={setSaved}
             />
           ) : (
             ""
-          )} */}
+          )}
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

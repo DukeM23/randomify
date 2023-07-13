@@ -85,11 +85,6 @@ function App() {
   
 
   return (
-    // <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
-    //   <Header />
-    //   <GenreSelection token={token} setArtists={setArtists} />
-    //   <Footer />
-    // </div>
     <RouterProvider router={router} />
   );
 }

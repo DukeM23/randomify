@@ -12,7 +12,8 @@ function Header() {
   }, [token])
 
   const logout = () => {
-    window.localStorage.setItem("token", "");
+    // window.localStorage.setItem("token", "");
+    window.localStorage.removeItem("token");
     window.location.href = "http://localhost:3000/";
   };
   
@@ -22,7 +23,7 @@ function Header() {
           <h1 className='flex item-center text-emerald-500 font-semibold text-4xl sm:text-6xl'><a href={window.location.href}>Randomify</a></h1>
       </div>
     {
-      !token
+      (!token || token === "")
       ? <div className='flex item-center justify-self-end'>  
           {/* <a className='border-2 text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-grey-100 my-2 px-3 py-2' href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&`}>Login to Spotify</a> */}
         </div>

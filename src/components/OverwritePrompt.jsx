@@ -27,7 +27,7 @@ function OverwritePrompt({token, artists, setExists, setSaved}) {
     } 
 
     return(
-        <div className="absolute flex justify-center bg-transparent w-screen h-screen top-0 left-0">
+        <div className="absolute flex justify-center bg-transparent w-full h-screen top-0 left-0">
             <div className="fixed w-4/5 md:w-3/5 sm:h-1/5 top-1/2 border-4 border-gray-900 bg-white rounded-xl p-4 sm:p-6">
                 <div className="flex flex-col justify-center gap-y-2 text-gray-900 h-full">
                     <h3 className="text-base sm:text-xl lg:text-3xl font-bold">A Randomify playlist already exists!</h3>
