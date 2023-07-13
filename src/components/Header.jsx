@@ -10,13 +10,11 @@ function Header() {
     const token = window.localStorage.getItem("token");
     setToken(token)
   }, [token])
+
   const logout = () => {
     window.localStorage.setItem("token", "");
-    console.log(window.localStorage)
     window.location.href = "http://localhost:3000/";
   };
-  
-  console.log(token !== "")
   
   return(
     <div className='grid grid-cols-2 place-content-between py-10 px-6'>

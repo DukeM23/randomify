@@ -7,6 +7,7 @@ import getRecommended from "../functions/getReccomended";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import useToken from "../hooks/useToken";
+import ChangeItUp from "./ChangeItUp";
 
 const attributeState = [
   {
@@ -45,13 +46,14 @@ const attributeState = [
 
 function GenreSelection({ setArtists }) {
     const [state, dispatch] = useReducer(attributeReducer, attributeState)
-    const [token, setToken] = useState("");
+    // const [token, setToken] = useState("");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [seedGenre, setSeedGenre] = useState("");
     const [show, setShow] = useState(false)
     
     useToken()
+    const token = window.localStorage.getItem("token")
 
     const searchArtists = async (e) => {
         e.preventDefault();
@@ -82,14 +84,8 @@ function GenreSelection({ setArtists }) {
                                             attributeState[4].value,
                                             attributeState[5].value
                                             );
-
-        setArtists(tracks);
+        // setArtists(tracks);
         setLoading(false);
-
-        // const results = document.getElementById("results").classList;
-        // const sliderId = document.getElementById("customization").classList;
-        // results.remove("hidden");
-        // sliderId.add("hidden");
 
         navigate('/result', { state: {
           tracks
@@ -100,7 +96,7 @@ function GenreSelection({ setArtists }) {
         window.location.reload();
     }
 
-    console.log(seedGenre)
+
     return (
       <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
         <Header />
@@ -143,33 +139,8 @@ function GenreSelection({ setArtists }) {
                     </div>
               </div>
             </div>
-            
           </div>
-          <div class="block sm:hidden m-8 overflow-hidden bg-emerald-600 border-emerald-500 border-2 rounded-2xl">
-            <div class="group outline-none accordion-section " tabindex="1">
-              <div class="group  text-gray-900 transition ease duration-500 cursor-pointer relative" onClick={() => {setShow(!show)}}>
-                <div class=" text-gray-900 text-center transition ease duration-1000">
-                 <button type="button" className="my-3 text-2xl font-bold">
-                  Change it up!
-                 </button>
-                </div>
-                
-              </div>
-              <div class={`${show ? "max-h-screen" : "max-h-0"} px-4 overflow-hidden ease duration-1000`}>
-              <div className="text-gray-900 block sm:hidden overflow-hidden transition 1s ease-out">
-                <div className="flex flex-col w-full px-10 gap-y-5 my-8 sm:px-5">
-                  {
-                    state.map(attr => <AttributeSlider
-                      attribute={attr}
-                      dispatch={dispatch}
-                    />)
-                  }
-                  <button type="button" onClick={() => {setShow(false)}}>Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ChangeItUp state={state} dispatch={dispatch} />
           <div className={`${seedGenre.length === 0 ? "invisible" : "flex"} sm:hidden justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}>
             <button
               className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
@@ -187,8 +158,7 @@ function GenreSelection({ setArtists }) {
           </div>
         </form>
           
-        </div>
-
+      </div>
     );
 }
 

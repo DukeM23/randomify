@@ -6,7 +6,7 @@ import Genre from "./Genre";
 function GenresLayout({ token, setSeedGenre }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [genres, setGenres] = useState([]);
-  
+
   useEffect(() => {
       setSeedGenre(selectedGenres)
 
@@ -50,7 +50,8 @@ function GenresLayout({ token, setSeedGenre }) {
 
 
       genreSeeds(token)
-  }, [token]);
+      
+  }, [selectedGenres]);
 
   function addGenre(genre) {
     setSelectedGenres((prevValue) => {
@@ -70,7 +71,7 @@ function GenresLayout({ token, setSeedGenre }) {
   }
 
   return (
-    <div className="flex justify-center flex-wrap ">
+    <div className="flex justify-center flex-wrap">
       {
         genres.map((genre, index) => {
           return (
