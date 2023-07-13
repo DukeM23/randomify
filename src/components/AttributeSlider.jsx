@@ -2,7 +2,6 @@ import React, {useState} from "react";
 
 function AttributeSlider({attribute, dispatch}) {
     let { type, name } = attribute
-    // console.log(attribute)
     const [slider, setSlider] = useState(0.50);
 
     const handleSliderVal = (e) => {

@@ -1,9 +1,13 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import GenresLayout from "./GenresLayout";
 import AttributeSlider from "./AttributeSlider";
 import attributeReducer from "../reducers/attributreReducer";
 import Loader from "./Loader";
 import getRecommended from "../functions/getReccomended";
+import { useNavigate } from "react-router-dom";
+import Header from "./Header";
+import useToken from "../hooks/useToken";
+import ChangeItUp from "./ChangeItUp";
 
 const attributeState = [
   {
@@ -38,12 +42,18 @@ const attributeState = [
   },
 ]
 
-function GenreSelection({ token, setArtists }) {
+// const token = window.localStorage.getItem("token");
 
+function GenreSelection({ setArtists }) {
     const [state, dispatch] = useReducer(attributeReducer, attributeState)
-
+    // const [token, setToken] = useState("");
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [seedGenre, setSeedGenre] = useState("");
+    const [show, setShow] = useState(false)
+    
+    useToken()
+    const token = window.localStorage.getItem("token")
 
     const searchArtists = async (e) => {
         e.preventDefault();
@@ -74,22 +84,22 @@ function GenreSelection({ token, setArtists }) {
                                             attributeState[4].value,
                                             attributeState[5].value
                                             );
-
-        setArtists(tracks);
+        // setArtists(tracks);
         setLoading(false);
 
-        const results = document.getElementById("results").classList;
-        const sliderId = document.getElementById("customization").classList;
-        results.remove("hidden");
-        sliderId.add("hidden");
+        navigate('/result', { state: {
+          tracks
+        }})
     };
 
     function handleRIB() {
         window.location.reload();
     }
 
+
     return (
-      <div className="">
+      <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
+        <Header />
         <form id="customization" onSubmit={searchArtists}>
           <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10">
             <div
@@ -112,40 +122,42 @@ function GenreSelection({ token, setArtists }) {
                     </div>
                   </div>
                 </div>
-                {seedGenre.length !== 0 && (
-                  <div className="flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900">
-                    <button
-                      className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
-                      type={"button"}
-                      onClick={handleRIB}
-                    >
-                      Clear
-                    </button>
-                    <button
-                      className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
-                      type={"submit"}
-                    >
-                      {loading ? <Loader /> : "Search"}
-                    </button>
-                  </div>
-                )}
+                <div className={`${seedGenre.length === 0 ? "invisible" : "hidden"} sm:flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}>
+                      <button
+                        className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                        type={"button"}
+                        onClick={handleRIB}
+                      >
+                        Clear
+                      </button>
+                      <button
+                        className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                        type={"submit"}
+                      >
+                        {loading ? <Loader /> : "Search"}
+                      </button>
+                    </div>
               </div>
-            </div>
-            <div className="fixed sm:hidden origin-top bottom-0 w-full transition-transform ease-in 1s translate-y-[55vh] hover:translate-y-[1vh] bg-emerald-600 border-emerald-500 border-2 rounded-t-2xl">
-              <div className="flex justify-center mt-4">
-                <button className="text-3xl font-semibold">Change it up!</button>
-              </div>
-              <div className="flex flex-col w-full px-10 gap-y-5 my-8 sm:px-5">
-                {
-                  state.map(attr => <AttributeSlider
-                    attribute={attr}
-                    dispatch={dispatch}
-                  />)
-                }
-                </div>
             </div>
           </div>
+          <ChangeItUp state={state} dispatch={dispatch} />
+          <div className={`${seedGenre.length === 0 ? "invisible" : "flex"} sm:hidden justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}>
+            <button
+              className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+              type={"button"}
+              onClick={handleRIB}
+            >
+              Clear
+            </button>
+            <button
+              className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+              type={"submit"}
+            >
+              {loading ? <Loader /> : "Search"}
+            </button>
+          </div>
         </form>
+          
       </div>
     );
 }

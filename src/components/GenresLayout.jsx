@@ -27,8 +27,31 @@ function GenresLayout({ token, setSeedGenre }) {
         }
       };
 
+      const hash = window.location.hash;
+      let token = window.localStorage.getItem("token");
+      if ((!token || token === "") && hash) {
+        token = hash
+          .substring(1)
+          .split("&")
+          .find((elem) => elem.startsWith("access_token"))
+          .split("=")[1];
+  
+        setTimeout(() => {
+          window.alert(
+            "You have exceeded the 1 hour activity. Please login again."
+          );
+          window.localStorage.removeItem("token");
+          window.location.reload();
+        }, 3600 * 1000);
+  
+        window.location.hash = "";
+        window.localStorage.setItem("token", token);
+      }
+
+
       genreSeeds(token)
-  }, [setSeedGenre, selectedGenres, token]);
+      
+  }, [selectedGenres]);
 
   function addGenre(genre) {
     setSelectedGenres((prevValue) => {
@@ -48,7 +71,7 @@ function GenresLayout({ token, setSeedGenre }) {
   }
 
   return (
-    <div className="flex justify-around flex-wrap ">
+    <div className="flex justify-center flex-wrap">
       {
         genres.map((genre, index) => {
           return (
