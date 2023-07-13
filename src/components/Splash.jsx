@@ -6,8 +6,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-// const REDIRECT_URI = "https://randomify-git-genre-selection-dukem23.vercel.app/genre-selection/"
-const REDIRECT_URI = "http://localhost:3000/genre-selection"
+const REDIRECT_URI = "https://randomify-git-genre-selection-dukem23.vercel.app/genre-selection/"
+// const REDIRECT_URI = "http://localhost:3000/genre-selection"
 const AUTH_ENDPOINT = process.env.REACT_APP_AUTH_ENDPOINT;
 const RESPONSE_TYPE = process.env.REACT_APP_RESPONSE_TYPE;
 const SCOPE = process.env.REACT_APP_SCOPE;
@@ -18,7 +18,7 @@ function Splash() {
     <div className="container mx-auto flex flex-col justify-between h-4/6 min-h-screen">
       <Header />
       <div className="grid grid-cols-2 place-items-center gap-x-0 sm:gap-x-5 mb-auto my-10">
-        <img src={iphone} alt="mobile view of Randomify" className=""/>
+        <img src={iphone} alt="mobile view of Randomify"/>
         <div className="place-self-start self-center">
           <div className="flex flex-col gap-y-8 text-emerald-500 font-semibold text-base sm:text-3xl">
             <p>In need change of pace?</p>

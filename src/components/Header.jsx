@@ -14,7 +14,7 @@ function Header() {
   const logout = () => {
     // window.localStorage.setItem("token", "");
     window.localStorage.removeItem("token");
-    window.location.href = "http://localhost:3000/";
+    window.location.href = "/";
   };
   
   return(
