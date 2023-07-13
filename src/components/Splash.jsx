@@ -16,10 +16,10 @@ function Splash() {
   return (
     <div className="container mx-auto flex flex-col justify-between h-4/6 min-h-screen">
       <Header />
-      <div className="grid grid-cols-2 place-items-center gap-x-0 sm:gap-x-5 mb-auto my-10">
-        <img src={iphone} alt="mobile view of Randomify"/>
-        <div className="place-self-start self-center">
-          <div className="flex flex-col gap-y-8 text-emerald-500 font-semibold text-base sm:text-3xl">
+      <div className="grid grid-cols-2 place-items-center sm:gap-x-4 mb-auto my-10">
+        <img src={iphone} className="w-3/4 sm:w-2/3" alt="mobile view of Randomify"/>
+        <div className="place-self-start self-center mr-1">
+          <div className="flex flex-col gap-y-4 sm:gap-y6 md:gap-y-14 text-emerald-500 font-semibold text-base sm:text-2xl md:text-4xl">
             <p>In need change of pace?</p>
             <p>
               Or are you craving for a different kind of buzz?
@@ -29,12 +29,12 @@ function Splash() {
               your playlists!
             </p>
           </div>
-          <div className="flex justify-center mt-20">
+          <div className="flex sm:justify-center mt-3 sm:mt-10 md:mt-16">
             <a
-              className="border-2 text-xl sm:text-2xl md:text-3xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 my-2 px-5 py-3 sm:py-4"
+              className="border-2 text-base sm:text-2xl md:text-3xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 my-2 px-3 py-3 sm:py-4 sm:px-5"
               href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}
             >
-              Login to Spotify <img className="inline w-9 sm:w-16" src={logo} alt="Spotify Icon" />
+              Login to Spotify <img className="inline w-6 sm:w-14" src={logo} alt="Spotify Icon" />
             </a>
           </div>
         </div>

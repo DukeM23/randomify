@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import useToken from "../hooks/useToken";
 import ChangeItUp from "./ChangeItUp";
+import Footer from "./Footer";
 
 const attributeState = [
   {
@@ -157,7 +158,7 @@ function GenreSelection({ setArtists }) {
             </button>
           </div>
         </form>
-          
+        <Footer />
       </div>
     );
 }
