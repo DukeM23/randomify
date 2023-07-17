@@ -1,10 +1,11 @@
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 export default function Track ({artist, token}) {
     // const player = document.getElementById(artist.id)
     const player = new Audio(artist.preview_url)
-    console.log(player)
+    const audioRef = useRef(player)
+    // console.log(player)
     const [play, setPlay] = useState(false)
     
     function artistFormat(artist) {
@@ -15,24 +16,19 @@ export default function Track ({artist, token}) {
           .join(", ");
     }
 
-    function onMouseEnter() {
+    function onClick() {
         console.log(play)
         if(!play) {
-            player.play()
-            setPlay(!play)
+            audioRef.current.play()
+            console.log("play")
         } else {
-            player.pause()
-            player.currentTime = 0
-            setPlay(!play)
+            audioRef.current.pause()
+            console.log("paused")
+            // player.currentTime = 0
         }
-        
-    }
 
-    function onMouseLeave() {
-        if(play) {
-            player.pause()
-            setPlay(!play)
-        }
+        setPlay(!play)
+        
     }
 
     return (
@@ -68,7 +64,7 @@ export default function Track ({artist, token}) {
                     <button 
                         id={artist.id} 
                         className={(artist.preview_url === null ?  "hover:cursor-not-allowed opacity-75" : "") + " rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 md:px-4  py-2 md:py-4"}
-                        onClick={onMouseEnter}
+                        onClick={onClick}
                         // onMouseLeave={onMouseLeave}
                     >
                         
