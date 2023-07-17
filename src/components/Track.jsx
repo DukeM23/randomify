@@ -16,13 +16,16 @@ export default function Track ({artist, token}) {
     }
 
     function onMouseEnter() {
+        console.log(play)
         if(!play) {
             player.play()
             setPlay(!play)
         } else {
             player.pause()
+            player.currentTime = 0
             setPlay(!play)
         }
+        
     }
 
     function onMouseLeave() {
@@ -51,7 +54,7 @@ export default function Track ({artist, token}) {
                 }
             </a>
             <div className="col-span-2 flex flex-col justify-center gap-y-1 md:col-span-6">
-                <div className="flex gap-x-8 justify-between">
+                <div className="flex space-x-8 justify-between">
                     <h2 className="text-emerald-500 font-bold text-base sm:text-2xl md:text-3xl xl:text-4xl truncate">
                     <a
                         className="hover:underline"
@@ -71,6 +74,9 @@ export default function Track ({artist, token}) {
                         
                         <i class="fas fa-play ml-1"></i>
                     </button>
+                    {/* <audio controls className="w-3/12">
+                        <source src={artist.preview_url} type="audio/mpeg" />
+                    </audio> */}
                 </div>
                 <div className="text-emerald-600 text-sm sm:text-lg md:text-xl xl:text-2xl">
                     <p className="truncate">{artistFormat(artist)}</p>
