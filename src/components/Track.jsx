@@ -1,12 +1,22 @@
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 
 export default function Track ({artist, currRef, setCurrRef, play, setPlay}) {
     const players = document.getElementsByClassName("play")
     const player = new Audio(artist.preview_url)
     const audioRef = useRef(player)
     // const [play, setPlay] = useState(false)
-    
+
+    useEffect(() => {
+        console.log("component mounted")
+        return () => {
+          console.log("component unmounted")
+          audioRef.current.pause()
+        //   currRef.current.pause()
+          // console.log(currRef)
+        }
+      }, [])
+
     function artistFormat(artist) {
         return artist.artists
           .map((el) => {
@@ -39,7 +49,8 @@ export default function Track ({artist, currRef, setCurrRef, play, setPlay}) {
             setPlay(!play)
         } else {
             if(currRef === audioRef) {
-                audioRef.current.pause()
+                setCurrRef(audioRef)
+                currRef.current.pause()
                 setPlay(!play)
             } else {
                 currRef.current.pause()
