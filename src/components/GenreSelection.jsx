@@ -115,7 +115,8 @@ function GenreSelection({ setArtists }) {
                   <div className="flex justify-center">
                     <div className="flex flex-col w-full px-10 gap-y-5 my-5 sm:px-5">
                       {
-                        state.map(attr => <AttributeSlider
+                        state.map((attr, idx) => <AttributeSlider
+                          key={idx}
                           attribute={attr}
                           dispatch={dispatch}
                         />)

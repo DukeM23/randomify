@@ -17,10 +17,16 @@ import Track from "./Track";
 
 function ResultTracks() {
   const [saved, setSaved] = useState(false); 
-  const navigate = useNavigate()
-  const { state } = useLocation();
-  const { tracks } = state
   const [exists, setExists] = useState(false);
+  const [ currRef, setCurrRef ] = useState("")
+  const [play, setPlay] = useState(false)
+  const { state } = useLocation();
+
+  const navigate = useNavigate();
+  
+  const { tracks } = state;
+
+
 
   useToken()
   const token = window.localStorage.getItem("token")
@@ -45,8 +51,6 @@ function ResultTracks() {
     }
   }
 
-  console.log(tracks)
-
   return (
     <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
       <Header />
@@ -55,7 +59,7 @@ function ResultTracks() {
         className="flex flex-col divide-y divide-emerald-500 container mx-auto sm:flex h-4/6 sm:min-h-screen"
       >
         { 
-          tracks.map((artist, idx) => <Track key={idx} artist={artist} token={token} />)
+          tracks.map((artist, idx) => <Track key={idx} artist={artist} token={token} currRef={currRef} setCurrRef={setCurrRef} play={play} setPlay={setPlay} />)
         }
         <div className="flex flex-row justify-evenly text-lg sm:text-2xl md:text-3xl pb-8 pt-4">
           <button
