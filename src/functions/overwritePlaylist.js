@@ -1,31 +1,30 @@
-
 import addTracks from "./addTracks";
 import emptyPlaylist from "./emptyPlaylist";
 import getPlaylists from "./getPlaylist";
 import getPlaylistTracks from "./getPlaylistTracks";
 
 export default async function overwritePlaylist(token, trackUris) {
-    const playlists = await getPlaylists(token);
-    
-    let playlistId = "";
-    playlists.forEach(playlist => {
-        if(playlist.name.includes("Randomify")) {
-           playlistId = playlist.id;
-        }
-    });                                   
+  const playlists = await getPlaylists(token);
 
-    const tracks = await getPlaylistTracks(token, playlistId);
-    
-    let uris = [];
-    tracks.forEach(track => {
-        uris = [...uris, {"uri" : track.track.uri}];
-    });
+  let playlistId = "";
+  playlists.forEach((playlist) => {
+    if (playlist.name.includes("Randomify")) {
+      playlistId = playlist.id;
+    }
+  });
 
-    const tracksUris = {"tracks": uris}
+  const tracks = await getPlaylistTracks(token, playlistId);
 
-    const reponsedel = await emptyPlaylist(token, playlistId, tracksUris);
-    
-    let response = addTracks(token, playlistId, trackUris);
+  let uris = [];
+  tracks.forEach((track) => {
+    uris = [...uris, { uri: track.track.uri }];
+  });
 
-    return response
+  const tracksUris = { tracks: uris };
+
+  await emptyPlaylist(token, playlistId, tracksUris);
+
+  let response = addTracks(token, playlistId, trackUris);
+
+  return response;
 }

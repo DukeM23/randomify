@@ -1,38 +1,29 @@
-import React, { useEffect, useState } from "react";
-import Splash from "./components/Splash";
-import checkPlaylist from "./functions/checkPlaylist";
-import getUserId from "./functions/getUserId";
-import overwritePlaylist from "./functions/overwritePlaylist";
-import createPlaylist from "./functions/createPlaylist";
-import addTracks from "./functions/addTracks";
-import ResultTracks from "./components/ResultTracks";
-import GenreSelection from "./components/GenreSelection";
+import React from "react";
+import Splash from "./components/Splash/Splash";
+import ResultTracks from "./components/ResultTracks/ResultTracks";
+import GenreSelection from "./components/GenreSelection/GenreSelection";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 export const ResultContext = React.createContext();
-export const TokenContext = React.createContext()
+export const TokenContext = React.createContext();
 
 function App() {
-
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Splash />
+      element: <Splash />,
     },
     {
       path: "/genre-selection",
-      element: <GenreSelection />
+      element: <GenreSelection />,
     },
     {
       path: "/result",
-      element: <ResultTracks />
-    }
-  ])
-  
+      element: <ResultTracks />,
+    },
+  ]);
 
-  return (
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
