@@ -10,7 +10,7 @@ export default async function getRecommended(
   loudness,
   tempo
 ) {
-  const { data, status } = await axios.get(
+  const response = await axios.get(
     "https://api.spotify.com/v1/recommendations",
     {
       headers: {
@@ -27,6 +27,5 @@ export default async function getRecommended(
       },
     }
   );
-
-  return data.tracks;
+  return response;
 }

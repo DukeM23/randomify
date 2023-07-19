@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Genre from "./Genre";
 
 function GenresLayout({ setSeedGenre }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [genres, setGenres] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setSeedGenre(selectedGenres);
@@ -22,7 +24,8 @@ function GenresLayout({ setSeedGenre }) {
 
         setGenres(data.genres);
       } catch (e) {
-        console.log(e);
+        window.alert("Request could not be handled. Please login again");
+        navigate("/");
       }
     };
 

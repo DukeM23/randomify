@@ -57,7 +57,7 @@ function ResultTracks() {
         id="results"
         className="flex flex-col divide-y divide-emerald-500 container mx-auto sm:flex h-4/6 sm:min-h-screen"
       >
-        {tracks.map((artist, idx) => (
+        {tracks.tracks.map((artist, idx) => (
           <Track
             key={idx}
             artist={artist}

@@ -4,12 +4,12 @@ import AttributeSlider from "./AttributeSlider";
 import attributeReducer from "../../reducers/attributreReducer";
 import Loader from "../Loaders/Loader";
 import getRecommended from "../../functions/getReccomended";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import Header from "../Layouts/Header";
 import useToken from "../../hooks/useToken";
 import ChangeItUp from "./ChangeItUp";
 import Footer from "../Layouts/Footer";
-
+import axios from "axios";
 const attributeState = [
   {
     type: "set_accousticness",
@@ -71,24 +71,60 @@ function GenreSelection({ setArtists }) {
       return false;
     }
 
-    setLoading(true);
-    const tracks = await getRecommended(
-      token,
-      query,
-      attributeState[0].value,
-      attributeState[1].value,
-      attributeState[2].value,
-      attributeState[3].value,
-      attributeState[4].value,
-      attributeState[5].value
-    );
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await getRecommended(
+        token,
+        query,
+        attributeState[0].value,
+        attributeState[1].value,
+        attributeState[2].value,
+        attributeState[3].value,
+        attributeState[4].value,
+        attributeState[5].value
+      );
+      console.log(response);
+      setLoading(false);
+      navigate("/result", {
+        state: {
+          tracks: response.data,
+        },
+      });
+    } catch (err) {
+      // throw new Error("Something went werong");
+      alert(err);
+      navigate("/");
+    }
 
-    navigate("/result", {
-      state: {
-        tracks,
-      },
-    });
+    // try {
+    //   const response = await axios.get(
+    //     "https://api.spotify.com/v1/recommendations",
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}123`,
+    //       },
+    //       params: {
+    //         seed_genres: query,
+    //         target_accousticness: attributeState[0].value,
+    //         target_danceability: attributeState[1].value,
+    //         target_energy: attributeState[2].value,
+    //         target_instrumentalness: attributeState[3].value,
+    //         target_loudness: attributeState[4].value,
+    //         target_tempo: attributeState[5].value,
+    //       },
+    //     }
+    //   );
+    //   setLoading(false);
+    //   navigate("/result", {
+    //     state: {
+    //       tracks: response.data,
+    //     },
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    //   alert(err);
+    //   navigate("/");
+    // }
   };
 
   function handleRIB() {
