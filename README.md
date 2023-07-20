@@ -14,6 +14,7 @@ Randomify was initially a project to play around with TailwindCSS. Now Randomify
 - [ ] Implement Framer Motion for Transitions
   - [ ] Add page transitions
 - [ ] Implement Material UI (?)
+- [ ] Add Lazy Loading
 
 ## Suggestions / Feedback
 
