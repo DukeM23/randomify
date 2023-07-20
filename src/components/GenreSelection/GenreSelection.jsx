@@ -91,40 +91,9 @@ function GenreSelection({ setArtists }) {
         },
       });
     } catch (err) {
-      // throw new Error("Something went werong");
-      alert(err);
+      alert("Request could not be handled. Please login again.");
       navigate("/");
     }
-
-    // try {
-    //   const response = await axios.get(
-    //     "https://api.spotify.com/v1/recommendations",
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}123`,
-    //       },
-    //       params: {
-    //         seed_genres: query,
-    //         target_accousticness: attributeState[0].value,
-    //         target_danceability: attributeState[1].value,
-    //         target_energy: attributeState[2].value,
-    //         target_instrumentalness: attributeState[3].value,
-    //         target_loudness: attributeState[4].value,
-    //         target_tempo: attributeState[5].value,
-    //       },
-    //     }
-    //   );
-    //   setLoading(false);
-    //   navigate("/result", {
-    //     state: {
-    //       tracks: response.data,
-    //     },
-    //   });
-    // } catch (err) {
-    //   console.log(err);
-    //   alert(err);
-    //   navigate("/");
-    // }
   };
 
   function handleRIB() {

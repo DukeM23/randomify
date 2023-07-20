@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import OverwritePrompt from "./OverwritePrompt";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Track from "./Track";
 import Header from "../Layouts/Header";
 import Footer from "../Layouts/Footer";
@@ -17,10 +17,10 @@ import RIBButton from "../Buttons/RIBButton";
 function ResultTracks() {
   const [saved, setSaved] = useState(false);
   const [exists, setExists] = useState(false);
-  const [currRef, setCurrRef] = useState("");
   const [play, setPlay] = useState(false);
+  const [currRef, setCurrRef] = useState("");
+  const navigate = useNavigate();
   const { state } = useLocation();
-
   const { tracks } = state;
 
   useEffect(() => {
@@ -31,22 +31,27 @@ function ResultTracks() {
   const token = window.localStorage.getItem("token");
 
   async function handleSave() {
-    const userId = await getUserId(token);
+    try {
+      const userId = await getUserId(token);
 
-    let trackUris = [];
-    tracks.forEach((track) => {
-      let uriString = track.uri;
-      trackUris = [...trackUris, uriString];
-    });
+      let trackUris = [];
+      tracks.forEach((track) => {
+        let uriString = track.uri;
+        trackUris = [...trackUris, uriString];
+      });
 
-    const isExist = await checkPlaylist(token);
-    setExists(isExist);
+      const isExist = await checkPlaylist(token);
+      setExists(isExist);
 
-    if (isExist) {
-      overwritePlaylist(token, trackUris);
-    } else {
-      const playlistId = await createPlaylist(token, userId);
-      addTracks(token, playlistId, trackUris);
+      if (isExist) {
+        overwritePlaylist(token, trackUris);
+      } else {
+        const playlistId = await createPlaylist(token, userId);
+        addTracks(token, playlistId, trackUris);
+      }
+    } catch (err) {
+      alert("Request could not be handled. Please login again.");
+      navigate("/");
     }
   }
 

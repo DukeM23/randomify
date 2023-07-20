@@ -24,7 +24,7 @@ function GenresLayout({ setSeedGenre }) {
 
         setGenres(data.genres);
       } catch (e) {
-        window.alert("Request could not be handled. Please login again");
+        window.alert("Request could not be handled. Please login again.");
         navigate("/");
       }
     };
