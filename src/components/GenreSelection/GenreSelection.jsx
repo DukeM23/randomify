@@ -4,12 +4,12 @@ import AttributeSlider from "./AttributeSlider";
 import attributeReducer from "../../reducers/attributreReducer";
 import Loader from "../Loaders/Loader";
 import getRecommended from "../../functions/getReccomended";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Header from "../Layouts/Header";
 import useToken from "../../hooks/useToken";
 import ChangeItUp from "./ChangeItUp";
 import Footer from "../Layouts/Footer";
-import axios from "axios";
+
 const attributeState = [
   {
     type: "set_accousticness",
@@ -83,7 +83,6 @@ function GenreSelection({ setArtists }) {
         attributeState[4].value,
         attributeState[5].value
       );
-      console.log(response);
       setLoading(false);
       navigate("/result", {
         state: {

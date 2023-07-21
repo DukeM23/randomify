@@ -9,7 +9,7 @@ export default function PlayButton({ artist, onClick }) {
       }
       onClick={onClick}
     >
-      <i class="fas fa-play ml-1"></i>
+      <i className="fas fa-play ml-1"></i>
     </button>
   );
 }

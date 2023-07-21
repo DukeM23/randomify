@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { useState, useEffect } from "react";
 import OverwritePrompt from "./OverwritePrompt";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import Track from "./Track";
+import { useLocation, useNavigate } from "react-router-dom";
+// import Track from "./Track";
 import Header from "../Layouts/Header";
 import Footer from "../Layouts/Footer";
 
@@ -13,6 +13,9 @@ import overwritePlaylist from "../../functions/overwritePlaylist";
 import createPlaylist from "../../functions/createPlaylist";
 import addTracks from "../../functions/addTracks";
 import RIBButton from "../Buttons/RIBButton";
+import TrackSkeleton from "./TrackSkeleton";
+
+const Track = React.lazy(() => import("./Track"));
 
 function ResultTracks() {
   const [saved, setSaved] = useState(false);
@@ -63,6 +66,7 @@ function ResultTracks() {
         className="flex flex-col divide-y divide-emerald-500 container mx-auto sm:flex h-4/6 sm:min-h-screen"
       >
         {tracks.tracks.map((artist, idx) => (
+          // <Suspense fallback={<TrackSkeleton />}>
           <Track
             key={idx}
             artist={artist}
@@ -72,6 +76,7 @@ function ResultTracks() {
             play={play}
             setPlay={setPlay}
           />
+          // </Suspense>
         ))}
         <div className="flex flex-row justify-evenly text-lg sm:text-2xl md:text-3xl pb-8 pt-4">
           <RIBButton />
