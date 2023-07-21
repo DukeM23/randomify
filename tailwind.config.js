@@ -14,6 +14,19 @@ module.exports = {
           200: "#FF2171",
         },
       },
+      animation: {
+        skeleton: "skeleton 4s ease-in infinite",
+      },
+      keyframes: {
+        skeleton: {
+          "0%, 100%": {
+            "background-color": "#065f46",
+          },
+          "50%": {
+            "background-color": "#10b981",
+          },
+        },
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
