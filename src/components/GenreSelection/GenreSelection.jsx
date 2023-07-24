@@ -91,6 +91,7 @@ function GenreSelection({ setArtists }) {
       });
     } catch (err) {
       alert("Request could not be handled. Please login again.");
+      window.localStorage.removeItem("token");
       navigate("/");
     }
   };

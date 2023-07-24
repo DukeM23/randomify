@@ -29,6 +29,7 @@ function OverwritePrompt({ token, artists, setExists, setSaved }) {
       setExists(false);
     } catch (err) {
       alert("Request could not be handled. Please login again.");
+      window.localStorage.removeItem("token");
       navigate("/");
     }
   }
