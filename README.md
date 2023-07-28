@@ -15,7 +15,7 @@ Randomify was initially a project to play around with TailwindCSS. Now Randomify
   - [ ] Add page transitions
 - [ ] Implement Material UI (?)
 - [x] Add Lazy Loading
-- [ ] Add 404 Page
+- [x] Add 404 Page
 
 ## Suggestions / Feedback
 
