@@ -1,16 +1,16 @@
-import React, { useReducer, useState } from "react";
-import GenresLayout from "./GenresLayout";
+import React, { Suspense, useReducer, useState } from "react";
 import AttributeSlider from "./AttributeSlider";
 import attributeReducer from "../../reducers/attributreReducer";
 import Loader from "../Loaders/Loader";
 import getRecommended from "../../functions/getReccomended";
 import { useNavigate } from "react-router-dom";
-import Header from "../Layouts/Header";
 import useToken from "../../hooks/useToken";
 import ChangeItUp from "./ChangeItUp";
-import Footer from "../Layouts/Footer";
-
 import { motion } from "framer-motion";
+import GenreSkeleton from "./GenreSkeleton";
+// import GenresLayout from "./GenresLayout";
+
+const GenresLayout = React.lazy(() => import("./GenresLayout"));
 
 const attributeState = [
   {
@@ -109,14 +109,15 @@ function GenreSelection({ setArtists }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {/* <Header /> */}
-      <form id="customization" onSubmit={searchArtists}>
-        <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10">
+      <form id="customization" className="block" onSubmit={searchArtists}>
+        <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10 h-full">
           <div
             id="genre-selector"
-            className="pb-5 sm:col-span-4 sm:mx-auto lg:col-span- xl:col-span-7"
+            className="pb-5 sm:col-span-4 sm:mx-auto lg:col-span- xl:col-span-7 w-full"
           >
-            <GenresLayout setSeedGenre={setSeedGenre} handleRIB={handleRIB} />
+            <Suspense fallback={<GenreSkeleton />}>
+              <GenresLayout setSeedGenre={setSeedGenre} handleRIB={handleRIB} />
+            </Suspense>
           </div>
           <div className="hidden sm:block sm:col-span-2 lg:col-span- xl:col-span-3">
             <div id="attribute-slider" className="sm:sticky sm:top-10">
@@ -174,9 +175,10 @@ function GenreSelection({ setArtists }) {
             {loading ? <Loader /> : "Search"}
           </button>
         </div>
-        <ChangeItUp state={state} dispatch={dispatch} />
+        <div className="sticky bottom-5">
+          <ChangeItUp state={state} dispatch={dispatch} />
+        </div>
       </form>
-      {/* <Footer /> */}
     </motion.div>
   );
 }

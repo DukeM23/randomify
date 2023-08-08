@@ -4,7 +4,7 @@ import AttributeSlider from "./AttributeSlider";
 export default function ChangeItUp({ state, dispatch }) {
   const [show, setShow] = useState(false);
   return (
-    <div className="block sm:hidden m-8 overflow-hidden bg-emerald-600 border-emerald-500 border-2 rounded-2xl">
+    <div className="sticky top-10 sm:hidden m-8 overflow-hidden bg-emerald-600 border-emerald-500 border-2 rounded-2xl">
       <div className="group outline-none accordion-section">
         <div
           className="group  text-gray-900 transition ease duration-500 cursor-pointer relative"

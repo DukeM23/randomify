@@ -10,8 +10,5 @@ export default function TrackSkeleton() {
         <div className="w-12 h-12 animate-skeleton bg-emerald-800 rounded-full"></div>
       </div>
     </div>
-    // <div className="grid grid-cols-3 gap-x-4 py-2 px-4 sm:px-4 md:grid-cols-8 md:py-4 md:gap-x-8">
-    //   <div className="bg-emerald-500 h-48 w-48"></div>
-    // </div>
   );
 }

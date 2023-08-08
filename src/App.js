@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <div className="container mx-auto sm:flex h-screen">
-        <div className="flex flex-col justify-between h-full">
+        <div className="flex flex-col justify-between w-full">
           <Header />
           <div className="mb-auto">
             <AnimatedRoutes />

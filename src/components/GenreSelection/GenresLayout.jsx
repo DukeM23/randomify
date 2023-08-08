@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Genre from "./Genre";
 
-import { motion } from "framer-motion";
-
 function GenresLayout({ setSeedGenre }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [genres, setGenres] = useState([]);
@@ -74,7 +72,7 @@ function GenresLayout({ setSeedGenre }) {
   }
 
   return (
-    <div className="flex justify-center flex-wrap">
+    <div className="flex justify-center flex-wrap min-h-full">
       {genres.map((genre, index) => {
         return (
           <Genre
