@@ -11,6 +11,7 @@ function Footer() {
           className="hover:underline"
           href="https://portfolio-website-6cmhfakgn-dukem23.vercel.app/"
           target="_blank"
+          rel="noreferrer"
         >
           Duke Maquiling
         </a>

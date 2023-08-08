@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Genre from "./Genre";
 
+import { motion } from "framer-motion";
+
 function GenresLayout({ setSeedGenre }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [genres, setGenres] = useState([]);

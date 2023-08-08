@@ -1,31 +1,26 @@
 import React from "react";
-import Splash from "./components/Splash/Splash";
-import ResultTracks from "./components/ResultTracks/ResultTracks";
-import GenreSelection from "./components/GenreSelection/GenreSelection";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import FourOhFour from "./components/404/404";
+import { BrowserRouter as Router } from "react-router-dom";
+import Header from "./components/Layouts/Header";
+import Footer from "./components/Layouts/Footer";
+import AnimatedRoutes from "./components/AnimatedRoutes/AnimatedRoutes";
 
 export const ResultContext = React.createContext();
 export const TokenContext = React.createContext();
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Splash />,
-      errorElement: <FourOhFour />,
-    },
-    {
-      path: "/genre-selection",
-      element: <GenreSelection />,
-    },
-    {
-      path: "/result",
-      element: <ResultTracks />,
-    },
-  ]);
-
-  return <RouterProvider router={router} />;
+  return (
+    <Router>
+      <div className="container mx-auto sm:flex h-screen">
+        <div className="flex flex-col justify-between h-full">
+          <Header />
+          <div className="mb-auto">
+            <AnimatedRoutes />
+          </div>
+          <Footer />
+        </div>
+      </div>
+    </Router>
+  );
 }
 
 export default App;

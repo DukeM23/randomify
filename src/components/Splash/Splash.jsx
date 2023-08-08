@@ -5,6 +5,8 @@ import iphone from "../../imgs/apple-iphone-13-2021-medium.png";
 import Header from "../Layouts/Header";
 import Footer from "../Layouts/Footer";
 
+import { motion } from "framer-motion";
+
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 // const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
 const REDIRECT_URI =
@@ -15,8 +17,13 @@ const SCOPE = process.env.REACT_APP_SCOPE;
 
 function Splash() {
   return (
-    <div className="container mx-auto flex flex-col justify-between h-4/6 min-h-screen">
-      <Header />
+    <motion.div
+      className="container mx-auto flex flex-col justify-between h-4/6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {/* <Header /> */}
       <div className="grid grid-cols-2 place-items-center sm:gap-x-4 mb-auto my-10">
         <img
           src={iphone}
@@ -48,8 +55,8 @@ function Splash() {
           </div>
         </div>
       </div>
-      <Footer />
-    </div>
+      {/* <Footer /> */}
+    </motion.div>
   );
 }
 

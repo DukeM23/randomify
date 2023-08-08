@@ -15,6 +15,9 @@ import addTracks from "../../functions/addTracks";
 import RIBButton from "../Buttons/RIBButton";
 import TrackSkeleton from "./TrackSkeleton";
 
+import { motion } from "framer-motion";
+import useIntersectionOberserver from "../../hooks/useIntersectionObserver";
+
 const Track = React.lazy(() => import("./Track"));
 
 function ResultTracks() {
@@ -22,6 +25,7 @@ function ResultTracks() {
   const [exists, setExists] = useState(false);
   const [play, setPlay] = useState(false);
   const [currRef, setCurrRef] = useState("");
+
   const navigate = useNavigate();
   const { state } = useLocation();
   const { tracks } = state;
@@ -60,16 +64,20 @@ function ResultTracks() {
   }
 
   return (
-    <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
-      <Header />
+    <motion.div
+      className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {/* <Header /> */}
       <div
         id="results"
         className="flex flex-col divide-y divide-emerald-500 container mx-auto sm:flex h-4/6 sm:min-h-screen"
       >
         {tracks.tracks.map((artist, idx) => (
-          <Suspense fallback={<TrackSkeleton />}>
+          <Suspense key={idx} fallback={<TrackSkeleton />}>
             <Track
-              key={idx}
               artist={artist}
               token={token}
               currRef={currRef}
@@ -99,8 +107,8 @@ function ResultTracks() {
           )}
         </div>
       </div>
-      <Footer />
-    </div>
+      {/* <Footer /> */}
+    </motion.div>
   );
 }
 

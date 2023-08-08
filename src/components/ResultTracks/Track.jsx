@@ -1,17 +1,39 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import PlayButton from "../Buttons/PlayButton";
 import AlbumImage from "./AlbumImage";
+import useIntersectionOberserver from "../../hooks/useIntersectionObserver";
 
 export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
+  const targetElement = useRef(null);
+  // const [isInView, setIsInView] = useState(false);
+
   const player = new Audio(artist.preview_url);
   const audioRef = useRef(player);
 
   useEffect(() => {
+    // const observer = new IntersectionObserver(onIntersection, {
+    //   threshold: 1,
+    //   rootMargin: "200px",
+    // });
+    // observer.observe(targetElement.current);
+
     return () => {
       audioRef.current.pause();
+      // try {
+      //   observer.unobserve(targetElement.current);
+      // } catch (e) {
+      //   return;
+      // }
     };
   }, []);
 
+  // function onIntersection(entries) {
+  //   // Do something with the intersection data, such as triggering
+  //   // an animation or lazy loading content
+  //   setIsInView(true);
+  //   console.log("hello");
+  // }
+  useIntersectionOberserver();
   function artistFormat(artist) {
     return artist.artists
       .map((el) => {
@@ -40,7 +62,7 @@ export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
   }
 
   return (
-    <div className="grid grid-cols-8 gap-x-4 py-2 px-4 sm:px-4 md:py-4 md:gap-x-8">
+    <div className="grid grid-cols-8 gap-x-4 py-2 px-4 sm:px-4 md:py-4 md:gap-x-8 track">
       <AlbumImage artist={artist} />
       <div className="col-span-6 flex justify-between items-center gap-x-5 gap-y-1 sm:col-span-6 xl:col-span-7">
         <div className="min-w-0">

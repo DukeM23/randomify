@@ -10,6 +10,8 @@ import useToken from "../../hooks/useToken";
 import ChangeItUp from "./ChangeItUp";
 import Footer from "../Layouts/Footer";
 
+import { motion } from "framer-motion";
+
 const attributeState = [
   {
     type: "set_accousticness",
@@ -101,8 +103,13 @@ function GenreSelection({ setArtists }) {
   }
 
   return (
-    <div className="container mx-auto sm:flex flex-col h-4/6 sm:min-h-screen">
-      <Header />
+    <motion.div
+      className=""
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {/* <Header /> */}
       <form id="customization" onSubmit={searchArtists}>
         <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10">
           <div
@@ -169,8 +176,8 @@ function GenreSelection({ setArtists }) {
         </div>
         <ChangeItUp state={state} dispatch={dispatch} />
       </form>
-      <Footer />
-    </div>
+      {/* <Footer /> */}
+    </motion.div>
   );
 }
 
