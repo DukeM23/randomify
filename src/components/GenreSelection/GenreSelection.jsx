@@ -175,7 +175,7 @@ function GenreSelection({ setArtists }) {
             {loading ? <Loader /> : "Search"}
           </button>
         </div>
-        <div className="sticky bottom-5">
+        <div className="sticky bottom-1">
           <ChangeItUp state={state} dispatch={dispatch} />
         </div>
       </form>

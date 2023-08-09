@@ -10,8 +10,8 @@ export const TokenContext = React.createContext();
 function App() {
   return (
     <Router>
-      <div className="container mx-auto sm:flex h-screen">
-        <div className="flex flex-col justify-between w-full">
+      <div className="container mx-auto sm:flex">
+        <div className="flex flex-col justify-between w-full min-h-screen">
           <Header />
           <div className="mb-auto">
             <AnimatedRoutes />

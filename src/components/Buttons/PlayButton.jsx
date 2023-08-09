@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function PlayButton({ artist, onClick }) {
   const { id, preview_url } = artist;
   return (
@@ -9,7 +11,7 @@ export default function PlayButton({ artist, onClick }) {
       }
       onClick={onClick}
     >
-      <i className="fas fa-play ml-1"></i>
+      <i className={`fas fa-play ml-1`}></i>
     </button>
   );
 }

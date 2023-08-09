@@ -70,7 +70,6 @@ function ResultTracks() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {/* <Header /> */}
       <div
         id="results"
         className="flex flex-col divide-y divide-emerald-500 container mx-auto sm:flex h-4/6 sm:min-h-screen"
@@ -107,7 +106,6 @@ function ResultTracks() {
           )}
         </div>
       </div>
-      {/* <Footer /> */}
     </motion.div>
   );
 }
