@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import PlayButton from "../Buttons/PlayButton";
 import AlbumImage from "./AlbumImage";
 import useIntersectionOberserver from "../../hooks/useIntersectionObserver";
@@ -14,6 +14,7 @@ export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
   }, []);
 
   useIntersectionOberserver();
+
   function artistFormat(artist) {
     return artist.artists
       .map((el) => {

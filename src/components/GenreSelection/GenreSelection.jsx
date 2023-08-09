@@ -5,7 +5,7 @@ import Loader from "../Loaders/Loader";
 import getRecommended from "../../functions/getReccomended";
 import { useNavigate } from "react-router-dom";
 import useToken from "../../hooks/useToken";
-import ChangeItUp from "./ChangeItUp";
+import ChangeItUp from ".//ChangeItUp/ChangeItUp";
 import { motion } from "framer-motion";
 import GenreSkeleton from "./GenreSkeleton";
 // import GenresLayout from "./GenresLayout";
@@ -110,10 +110,10 @@ function GenreSelection({ setArtists }) {
       exit={{ opacity: 0 }}
     >
       <form id="customization" className="block" onSubmit={searchArtists}>
-        <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10 h-full">
+        <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10">
           <div
             id="genre-selector"
-            className="pb-5 sm:col-span-4 sm:mx-auto lg:col-span- xl:col-span-7 w-full"
+            className="pb-5 sm:col-span-4 sm:mx-auto lg:col-span- xl:col-span-7 w-full min-h-screen"
           >
             <Suspense fallback={<GenreSkeleton />}>
               <GenresLayout setSeedGenre={setSeedGenre} handleRIB={handleRIB} />
@@ -121,7 +121,7 @@ function GenreSelection({ setArtists }) {
           </div>
           <div className="hidden sm:block sm:col-span-2 lg:col-span- xl:col-span-3">
             <div id="attribute-slider" className="sm:sticky sm:top-10">
-              <div className="bg-emerald-600 border-emerald-500 border-2 rounded-2xl">
+              <div className="bg-emerald-500 border-emerald-700 border-2 rounded-2xl">
                 <div className="flex justify-center">
                   <div className="flex flex-col w-full gap-y-5 my-5 px-10 sm:px-3">
                     {state.map((attr, idx) => (
@@ -140,14 +140,14 @@ function GenreSelection({ setArtists }) {
                 } sm:flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}
               >
                 <button
-                  className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                  className="border-2 rounded-full border-transparent text-emerald-600 hover:border-emerald-500 font-bold my-2 px-3 py-2"
                   type={"button"}
                   onClick={handleRIB}
                 >
                   Clear
                 </button>
                 <button
-                  className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                  className="border-2 rounded-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-gray-900 font-bold my-2 px-3 py-2"
                   type={"submit"}
                 >
                   {loading ? <Loader /> : "Search"}
@@ -159,23 +159,23 @@ function GenreSelection({ setArtists }) {
         <div
           className={`${
             seedGenre.length === 0 ? "invisible" : "flex"
-          } sm:hidden justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}
+          } sm:hidden justify-around font-bold text-xl xl:text-2xl text-gray-900 mb-5`}
         >
           <button
-            className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+            className="border-2 rounded-full border-transparent text-emerald-600 hover:border-emerald-500 font-bold my-2 px-3 py-2"
             type={"button"}
             onClick={handleRIB}
           >
             Clear
           </button>
           <button
-            className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+            className="border-2 rounded-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-gray-900 font-bold my-2 px-3 py-2"
             type={"submit"}
           >
             {loading ? <Loader /> : "Search"}
           </button>
         </div>
-        <div className="sticky bottom-1">
+        <div className="block sm:hidden sticky bottom-0 py-[1px] backdrop-blur-sm">
           <ChangeItUp state={state} dispatch={dispatch} />
         </div>
       </form>

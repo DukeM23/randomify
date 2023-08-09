@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function AttributeSlider({ attribute, dispatch }) {
-  let { type, name } = attribute;
-  const [slider, setSlider] = useState(0.5);
+  let { type, name, value } = attribute;
+  const [slider, setSlider] = useState(value);
+
+  useEffect(() => {
+    setSlider(value);
+  }, []);
 
   const handleSliderVal = (e) => {
     setSlider(e.target.value);
-
     dispatch({
       type: type,
       name: name,
@@ -30,6 +33,7 @@ function AttributeSlider({ attribute, dispatch }) {
           value={slider}
           onChange={handleSliderVal}
         />
+
         <p className="text-base w-9">{slider}</p>
       </div>
     </div>
