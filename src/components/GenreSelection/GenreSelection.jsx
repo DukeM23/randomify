@@ -147,7 +147,7 @@ function GenreSelection({ setArtists }) {
                   Clear
                 </button>
                 <button
-                  className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+                  className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:text-emerald-500 font-bold my-2 px-3 py-2"
                   type={"submit"}
                 >
                   {loading ? <Loader /> : "Search"}
@@ -159,23 +159,23 @@ function GenreSelection({ setArtists }) {
         <div
           className={`${
             seedGenre.length === 0 ? "invisible" : "flex"
-          } sm:hidden justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}
+          } sm:hidden justify-around font-bold text-xl xl:text-2xl text-gray-900 mb-5`}
         >
           <button
-            className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+            className="border-2 rounded-full border-transparent text-emerald-600 hover:border-emerald-500 font-bold my-2 px-3 py-2"
             type={"button"}
             onClick={handleRIB}
           >
             Clear
           </button>
           <button
-            className="border-2 rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 font-bold my-2 px-3 py-2"
+            className="border-2 rounded-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-gray-900 font-bold my-2 px-3 py-2"
             type={"submit"}
           >
             {loading ? <Loader /> : "Search"}
           </button>
         </div>
-        <div className="sticky bottom-5">
+        <div className="sticky bottom-0 py-1 drop-shadow-xl">
           <ChangeItUp state={state} dispatch={dispatch} />
         </div>
       </form>

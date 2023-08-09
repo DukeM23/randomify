@@ -6,6 +6,7 @@ export default function GenreSkeleton() {
     <div className="flex justify-center flex-wrap">
       {genreLength.map((_, idx) => {
         const index = Math.floor(Math.random() * widths.length);
+        console.log(`w-${widths[index]}`);
         return (
           <div
             key={idx}
