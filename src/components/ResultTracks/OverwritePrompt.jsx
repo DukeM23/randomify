@@ -3,16 +3,16 @@ import React, { useState } from "react";
 import overwritePlaylist from "../../functions/overwritePlaylist";
 import { useNavigate } from "react-router-dom";
 
-function OverwritePrompt({ token, artists, setExists, setSaved }) {
+function OverwritePrompt({ token, tracks, setExists, setSaved }) {
   const navigate = useNavigate();
-
+  console.log(tracks);
   function handleCancel() {
     setExists(false);
   }
 
   async function handleOverwrite() {
     let trackUris = [];
-    artists.forEach((track) => {
+    tracks.tracks.forEach((track) => {
       let uriString = track.uri;
       trackUris = [...trackUris, uriString];
     });
@@ -28,6 +28,7 @@ function OverwritePrompt({ token, artists, setExists, setSaved }) {
 
       setExists(false);
     } catch (err) {
+      // console.log(err);
       alert("Request could not be handled. Please login again.");
       window.localStorage.removeItem("token");
       navigate("/");
@@ -35,7 +36,7 @@ function OverwritePrompt({ token, artists, setExists, setSaved }) {
   }
 
   return (
-    <div className="absolute flex justify-center bg-transparent w-full h-screen top-0 left-0">
+    <div className=" flex justify-center bg-transparent w-full h-screen top-0 left-0 backdrop-blur-sm">
       <div className="fixed w-4/5 md:w-3/5 sm:h-1/5 top-1/2 border-4 border-gray-900 bg-white rounded-xl p-4 sm:p-6">
         <div className="flex flex-col justify-center gap-y-2 text-gray-900 h-full">
           <h3 className="text-base sm:text-xl lg:text-3xl font-bold">
@@ -46,7 +47,7 @@ function OverwritePrompt({ token, artists, setExists, setSaved }) {
           </p>
           <div className="flex justify-end gap-x-3 mt-2">
             <button
-              className="border-2 text-xs sm:text-lg font-semibold rounded-full border-emerald-500 text-gray-900 px-3 py-2"
+              className="border-2 text-xs sm:text-lg font-semibold rounded-full border-gray-900 bg-gray-900 text-gray-100 px-3 py-2"
               onClick={handleCancel}
             >
               Cancel

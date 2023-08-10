@@ -6,14 +6,16 @@ function AttributeSlider({ attribute, dispatch }) {
 
   useEffect(() => {
     setSlider(value);
-  }, []);
+  }, [attribute]);
 
   const handleSliderVal = (e) => {
     setSlider(e.target.value);
     dispatch({
       type: type,
-      name: name,
-      value: slider,
+      payload: {
+        name: name,
+        value: e.target.value,
+      },
     });
   };
 

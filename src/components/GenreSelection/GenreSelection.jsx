@@ -8,7 +8,9 @@ import useToken from "../../hooks/useToken";
 import ChangeItUp from ".//ChangeItUp/ChangeItUp";
 import { motion } from "framer-motion";
 import GenreSkeleton from "./GenreSkeleton";
-// import GenresLayout from "./GenresLayout";
+import { useEffect } from "react";
+import ReducerContext from "./ReducerContext";
+import Slider from "./Sliders";
 
 const GenresLayout = React.lazy(() => import("./GenresLayout"));
 
@@ -47,6 +49,10 @@ const attributeState = [
 
 function GenreSelection({ setArtists }) {
   const [state, dispatch] = useReducer(attributeReducer, attributeState);
+  const providerState = {
+    state,
+    dispatch,
+  };
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [seedGenre, setSeedGenre] = useState("");
@@ -110,74 +116,67 @@ function GenreSelection({ setArtists }) {
       exit={{ opacity: 0 }}
     >
       <form id="customization" className="block" onSubmit={searchArtists}>
-        <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10">
-          <div
-            id="genre-selector"
-            className="pb-5 sm:col-span-4 sm:mx-auto lg:col-span- xl:col-span-7 w-full min-h-screen"
-          >
-            <Suspense fallback={<GenreSkeleton />}>
-              <GenresLayout setSeedGenre={setSeedGenre} handleRIB={handleRIB} />
-            </Suspense>
-          </div>
-          <div className="hidden sm:block sm:col-span-2 lg:col-span- xl:col-span-3">
-            <div id="attribute-slider" className="sm:sticky sm:top-10">
-              <div className="bg-emerald-500 border-emerald-700 border-2 rounded-2xl">
-                <div className="flex justify-center">
-                  <div className="flex flex-col w-full gap-y-5 my-5 px-10 sm:px-3">
-                    {state.map((attr, idx) => (
-                      <AttributeSlider
-                        key={idx}
-                        attribute={attr}
-                        dispatch={dispatch}
-                      />
-                    ))}
-                  </div>
+        <ReducerContext.Provider value={providerState}>
+          <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10">
+            <div
+              id="genre-selector"
+              className="pb-5 sm:col-span-4 sm:mx-auto lg:col-span- xl:col-span-7 w-full min-h-screen"
+            >
+              <Suspense fallback={<GenreSkeleton />}>
+                <GenresLayout
+                  setSeedGenre={setSeedGenre}
+                  handleRIB={handleRIB}
+                />
+              </Suspense>
+            </div>
+            <div className="hidden sm:block sm:col-span-2 lg:col-span- xl:col-span-3">
+              <div id="attribute-slider" className="sm:sticky sm:top-10">
+                <Slider />
+                <div
+                  className={`${
+                    seedGenre.length === 0 ? "invisible" : "hidden"
+                  } sm:flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}
+                >
+                  <button
+                    className="border-2 rounded-full border-transparent text-emerald-600 hover:border-emerald-500 font-bold my-2 px-3 py-2"
+                    type={"button"}
+                    onClick={handleRIB}
+                  >
+                    Clear
+                  </button>
+                  <button
+                    className="border-2 rounded-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-gray-900 font-bold my-2 px-3 py-2"
+                    type={"submit"}
+                  >
+                    {loading ? <Loader /> : "Search"}
+                  </button>
                 </div>
-              </div>
-              <div
-                className={`${
-                  seedGenre.length === 0 ? "invisible" : "hidden"
-                } sm:flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}
-              >
-                <button
-                  className="border-2 rounded-full border-transparent text-emerald-600 hover:border-emerald-500 font-bold my-2 px-3 py-2"
-                  type={"button"}
-                  onClick={handleRIB}
-                >
-                  Clear
-                </button>
-                <button
-                  className="border-2 rounded-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-gray-900 font-bold my-2 px-3 py-2"
-                  type={"submit"}
-                >
-                  {loading ? <Loader /> : "Search"}
-                </button>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          className={`${
-            seedGenre.length === 0 ? "invisible" : "flex"
-          } sm:hidden justify-around font-bold text-xl xl:text-2xl text-gray-900 mb-5`}
-        >
-          <button
-            className="border-2 rounded-full border-transparent text-emerald-600 hover:border-emerald-500 font-bold my-2 px-3 py-2"
-            type={"button"}
-            onClick={handleRIB}
+          <div
+            className={`${
+              seedGenre.length === 0 ? "invisible" : "flex"
+            } sm:hidden justify-around font-bold text-xl xl:text-2xl text-gray-900 mb-5`}
           >
-            Clear
-          </button>
-          <button
-            className="border-2 rounded-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-gray-900 font-bold my-2 px-3 py-2"
-            type={"submit"}
-          >
-            {loading ? <Loader /> : "Search"}
-          </button>
-        </div>
-        <div className="block sm:hidden sticky bottom-0 py-[1px] backdrop-blur-sm">
-          <ChangeItUp state={state} dispatch={dispatch} />
-        </div>
+            <button
+              className="border-2 rounded-full border-transparent text-emerald-600 hover:border-emerald-500 font-bold my-2 px-3 py-2"
+              type={"button"}
+              onClick={handleRIB}
+            >
+              Clear
+            </button>
+            <button
+              className="border-2 rounded-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-gray-900 font-bold my-2 px-3 py-2"
+              type={"submit"}
+            >
+              {loading ? <Loader /> : "Search"}
+            </button>
+          </div>
+          <div className="block sm:hidden sticky bottom-0 py-[1px] backdrop-blur-sm">
+            <ChangeItUp />
+          </div>
+        </ReducerContext.Provider>
       </form>
     </motion.div>
   );

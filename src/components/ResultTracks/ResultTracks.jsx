@@ -16,7 +16,6 @@ import RIBButton from "../Buttons/RIBButton";
 import TrackSkeleton from "./TrackSkeleton";
 
 import { motion } from "framer-motion";
-import useIntersectionOberserver from "../../hooks/useIntersectionObserver";
 
 const Track = React.lazy(() => import("./Track"));
 
@@ -42,7 +41,7 @@ function ResultTracks() {
       const userId = await getUserId(token);
 
       let trackUris = [];
-      tracks.forEach((track) => {
+      tracks.tracks.forEach((track) => {
         let uriString = track.uri;
         trackUris = [...trackUris, uriString];
       });
@@ -57,6 +56,7 @@ function ResultTracks() {
         addTracks(token, playlistId, trackUris);
       }
     } catch (err) {
+      console.log(err);
       alert("Request could not be handled. Please login again.");
       window.localStorage.removeItem("token");
       navigate("/");
@@ -100,16 +100,20 @@ function ResultTracks() {
               {saved ? "Saved!" : "Save Playlist"}
             </button>
           </div>
-          {exists && (
+        </div>
+      </div>
+      {exists && (
+        <div className="fixed h-screen w-screen top-0 left-0 z-90">
+          <div className="relative top-0">
             <OverwritePrompt
               token={token}
-              artists={tracks}
+              tracks={tracks}
               setExists={setExists}
               setSaved={setSaved}
             />
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </motion.div>
   );
 }
