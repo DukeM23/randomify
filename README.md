@@ -14,12 +14,15 @@ Randomify was initially a project to play around with TailwindCSS. Now Randomify
 - [x] Implement Framer Motion for Transitions
   - [x] Add page transitions
   - [x] Optimize transitions for consistent page transitions
-- [ ] Implement Material UI (?)
-- [ ] Implement Accessibility
 - [x] Implement better UI on mobile
 - [x] Add Lazy Loading
 - [x] Add 404 Page
 - [x] Handle Tracks that do not have any info on it
+- [ ] Implement Material UI (?)
+- [ ] Implement Accessibility
+  - [ ] Make Genre component into a button
+  - [ ] Add Links to artists in Track
+- [x] Have AttributeSlider be synced whenever values change
 
 ## Suggestions / Feedback
 
