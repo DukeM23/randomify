@@ -1,5 +1,4 @@
 import React, { Suspense, useReducer, useState } from "react";
-import AttributeSlider from "./AttributeSlider";
 import attributeReducer from "../../reducers/attributreReducer";
 import Loader from "../Loaders/Loader";
 import getRecommended from "../../functions/getReccomended";
@@ -8,7 +7,6 @@ import useToken from "../../hooks/useToken";
 import ChangeItUp from ".//ChangeItUp/ChangeItUp";
 import { motion } from "framer-motion";
 import GenreSkeleton from "./GenreSkeleton";
-import { useEffect } from "react";
 import ReducerContext from "./ReducerContext";
 import Slider from "./Sliders";
 

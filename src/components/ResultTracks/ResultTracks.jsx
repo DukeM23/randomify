@@ -72,20 +72,21 @@ function ResultTracks() {
         className="flex flex-col divide-y divide-emerald-500 container mx-auto sm:flex h-4/6 sm:min-h-screen"
       >
         {tracks.tracks.map((artist, idx) => {
-          if (artist.album.images.length !== 0) {
-            return (
-              <Suspense key={idx} fallback={<TrackSkeleton />}>
-                <Track
-                  artist={artist}
-                  token={token}
-                  currRef={currRef}
-                  setCurrRef={setCurrRef}
-                  play={play}
-                  setPlay={setPlay}
-                />
-              </Suspense>
-            );
+          if (artist.album.images.length === 0) {
+            return null;
           }
+          return (
+            <Suspense key={idx} fallback={<TrackSkeleton />}>
+              <Track
+                artist={artist}
+                token={token}
+                currRef={currRef}
+                setCurrRef={setCurrRef}
+                play={play}
+                setPlay={setPlay}
+              />
+            </Suspense>
+          );
         })}
         <div className="flex flex-row justify-evenly text-lg sm:text-2xl md:text-3xl pb-8 pt-4">
           <RIBButton />

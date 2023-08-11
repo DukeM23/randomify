@@ -18,10 +18,10 @@ Randomify was initially a project to play around with TailwindCSS. Now Randomify
 - [x] Add Lazy Loading
 - [x] Add 404 Page
 - [x] Handle Tracks that do not have any info on it
-- [ ] Implement Material UI (?)
-- [ ] Implement Accessibility
-  - [ ] Make Genre component into a button
-  - [ ] Add Links to artists in Track
+      ~~- [ ] Implement Material UI (?)~~
+- [x] Implement Accessibility
+  - [x] Make Genre component into a button
+  - [x] Add Links to artists in Track
 - [x] Have AttributeSlider be synced whenever values change
 
 ## Suggestions / Feedback

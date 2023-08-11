@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AttributeSlider from "../AttributeSlider";
 import { useReducerContext } from "../ReducerContext";
 
@@ -6,7 +6,6 @@ export default function ChangeItUp() {
   const [show, setShow] = useState(false);
 
   const { state, dispatch } = useReducerContext();
-  console.log(state);
   return (
     <div className="block my-5 mx-2 overflow-hidden bg-emerald-500 border-emerald-700 border-2 rounded-2xl">
       <div className="group outline-none accordion-section">

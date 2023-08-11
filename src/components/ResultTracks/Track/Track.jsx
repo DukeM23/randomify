@@ -8,20 +8,13 @@ export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
   const audioRef = useRef(player);
 
   useEffect(() => {
+    const currentAudioRef = audioRef.current;
     return () => {
-      audioRef.current.pause();
+      currentAudioRef.pause();
     };
   }, []);
 
   useIntersectionOberserver();
-
-  // function artistFormat(artist) {
-  //   return artist.artists
-  //     .map((el) => {
-  //       return el.name;
-  //     })
-  //     .join(", ");
-  // }
 
   function onClick() {
     if (!play) {

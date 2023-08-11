@@ -1,11 +1,9 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import overwritePlaylist from "../../functions/overwritePlaylist";
 import { useNavigate } from "react-router-dom";
 
 function OverwritePrompt({ token, tracks, setExists, setSaved }) {
   const navigate = useNavigate();
-  console.log(tracks);
   function handleCancel() {
     setExists(false);
   }
@@ -28,7 +26,6 @@ function OverwritePrompt({ token, tracks, setExists, setSaved }) {
 
       setExists(false);
     } catch (err) {
-      // console.log(err);
       alert("Request could not be handled. Please login again.");
       window.localStorage.removeItem("token");
       navigate("/");

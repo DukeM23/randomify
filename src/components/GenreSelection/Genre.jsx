@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 function Genre({ genre, addGenre, removeGenre }) {
   const [selected, setSelected] = useState(true);

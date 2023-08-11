@@ -6,7 +6,7 @@ function AttributeSlider({ attribute, dispatch }) {
 
   useEffect(() => {
     setSlider(value);
-  }, [attribute]);
+  }, [value]);
 
   const handleSliderVal = (e) => {
     setSlider(e.target.value);
