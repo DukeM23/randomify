@@ -2,9 +2,6 @@ import React from "react";
 import logo from "../../imgs/Spotify_Icon.png";
 import iphone from "../../imgs/apple-iphone-13-2021-medium.png";
 
-import Header from "../Layouts/Header";
-import Footer from "../Layouts/Footer";
-
 import { motion } from "framer-motion";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;

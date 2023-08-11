@@ -20,7 +20,7 @@ function Header() {
           <a href={window.location.href}>Randomify</a>
         </h1>
       </div>
-      {(!token || token === "") && (
+      {token && (
         <div className="flex item-center justify-self-end">
           <button
             className="border-2 text-base sm:text-2xl font-bold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-1 sm:py-2"
