@@ -8,9 +8,9 @@ import Footer from "../Layouts/Footer";
 import { motion } from "framer-motion";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-// const REDIRECT_URI =
-//   "https://randomify-git-dev-main-dukem23.vercel.app/genre-selection/";
+// const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+const REDIRECT_URI =
+  "https://randomify-git-dev-main-dukem23.vercel.app/genre-selection/";
 const AUTH_ENDPOINT = process.env.REACT_APP_AUTH_ENDPOINT;
 const RESPONSE_TYPE = process.env.REACT_APP_RESPONSE_TYPE;
 const SCOPE = process.env.REACT_APP_SCOPE;
@@ -27,7 +27,7 @@ function Splash() {
       <div className="grid grid-cols-2 place-items-center sm:gap-x-4 mb-auto my-10">
         <img
           src={iphone}
-          className="w-3/4 sm:w-2/3"
+          className="w-3/4 sm:w-1/3"
           alt="mobile view of Randomify"
         />
         <div className="place-self-start self-center mr-1">

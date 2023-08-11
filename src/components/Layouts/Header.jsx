@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
-
-const token = window.localStorage.getItem("token");
 
 function Header() {
   const [token, setToken] = useState("");
@@ -12,7 +9,6 @@ function Header() {
   }, [token]);
 
   const logout = () => {
-    // window.localStorage.setItem("token", "");
     window.localStorage.removeItem("token");
     window.location.href = "/";
   };
@@ -24,11 +20,7 @@ function Header() {
           <a href={window.location.href}>Randomify</a>
         </h1>
       </div>
-      {!token || token === "" ? (
-        <div className="flex item-center justify-self-end">
-          {/* <a className='border-2 text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-grey-100 my-2 px-3 py-2' href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&`}>Login to Spotify</a> */}
-        </div>
-      ) : (
+      {(!token || token === "") && (
         <div className="flex item-center justify-self-end">
           <button
             className="border-2 text-base sm:text-2xl font-bold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 py-1 sm:py-2"
