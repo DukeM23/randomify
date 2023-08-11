@@ -1,11 +1,13 @@
-import { useRef, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import PlayButton from "../../Buttons/PlayButton";
 import AlbumImage from "../AlbumImage";
 import useIntersectionOberserver from "../../../hooks/useIntersectionObserver";
 
-export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
+export default function Track({ artist, currRef, setCurrRef }) {
   const player = new Audio(artist.preview_url);
   const audioRef = useRef(player);
+
+  const [play, setPlay] = useState(false);
 
   useEffect(() => {
     const currentAudioRef = audioRef.current;
@@ -20,7 +22,6 @@ export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
     if (!play) {
       audioRef.current.play();
       setCurrRef(audioRef);
-      console.log("play");
       setPlay(!play);
     } else {
       if (currRef === audioRef) {
@@ -59,7 +60,12 @@ export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
           </div>
         </div>
         <span className="play">
-          <PlayButton artist={artist} onClick={onClick} play={play} />
+          <PlayButton
+            artist={artist}
+            onClick={onClick}
+            audioRef={audioRef}
+            currRef={currRef}
+          />
         </span>
       </div>
     </div>
