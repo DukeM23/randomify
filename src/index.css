@@ -10,4 +10,12 @@
   .track.show {
     @apply transition-opacity ease-in-out duration-700 opacity-100;
   }
+
+  .artist-link ~ .artist-link::before {
+    content: ", ";
+  }
 }
+
+/* @layer utilities {
+  
+} */

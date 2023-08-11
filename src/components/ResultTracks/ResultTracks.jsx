@@ -2,9 +2,6 @@ import React, { Suspense } from "react";
 import { useState, useEffect } from "react";
 import OverwritePrompt from "./OverwritePrompt";
 import { useLocation, useNavigate } from "react-router-dom";
-// import Track from "./Track";
-import Header from "../Layouts/Header";
-import Footer from "../Layouts/Footer";
 
 import getUserId from "../../functions/getUserId";
 import useToken from "../../hooks/useToken";
@@ -13,11 +10,11 @@ import overwritePlaylist from "../../functions/overwritePlaylist";
 import createPlaylist from "../../functions/createPlaylist";
 import addTracks from "../../functions/addTracks";
 import RIBButton from "../Buttons/RIBButton";
-import TrackSkeleton from "./TrackSkeleton";
+import TrackSkeleton from "./Track/TrackSkeleton";
 
 import { motion } from "framer-motion";
 
-const Track = React.lazy(() => import("./Track"));
+const Track = React.lazy(() => import("./Track/Track"));
 
 function ResultTracks() {
   const [saved, setSaved] = useState(false);

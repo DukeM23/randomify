@@ -4,17 +4,18 @@ function Genre({ genre, addGenre, removeGenre }) {
   const [selected, setSelected] = useState(true);
 
   function formatGenre(genre) {
-    const arr = genre.split("-")
-    let newGenre = ""
+    const arr = genre.split("-");
+    let newGenre = "";
 
-    for(const str of arr) {
-      let formatted = str.charAt(0).toUpperCase() + str.slice(1) + " "
-      newGenre += formatted
+    for (const str of arr) {
+      let formatted = str.charAt(0).toUpperCase() + str.slice(1) + " ";
+      newGenre += formatted;
     }
-    return newGenre
+    return newGenre;
   }
 
-  function handleClick() {
+  function handleClick(e) {
+    e.preventDefault();
     setSelected(selected ? false : true);
     if (!selected) {
       removeGenre(genre);
@@ -30,13 +31,11 @@ function Genre({ genre, addGenre, removeGenre }) {
   }
 
   return (
-    <div className={toggleColor()} onClick={handleClick}>
+    <button className={toggleColor()} onClick={handleClick}>
       <p className="px-2 py-1 cursor-pointer font-bold text-base sm:px-4 sm:py-2 lg:text-xl">
-        {
-          formatGenre(genre)
-        }
+        {formatGenre(genre)}
       </p>
-    </div>
+    </button>
   );
 }
 

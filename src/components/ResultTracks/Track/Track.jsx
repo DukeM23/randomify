@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
-import PlayButton from "../Buttons/PlayButton";
-import AlbumImage from "./AlbumImage";
-import useIntersectionOberserver from "../../hooks/useIntersectionObserver";
+import PlayButton from "../../Buttons/PlayButton";
+import AlbumImage from "../AlbumImage";
+import useIntersectionOberserver from "../../../hooks/useIntersectionObserver";
 
 export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
   const player = new Audio(artist.preview_url);
@@ -15,13 +15,13 @@ export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
 
   useIntersectionOberserver();
 
-  function artistFormat(artist) {
-    return artist.artists
-      .map((el) => {
-        return el.name;
-      })
-      .join(", ");
-  }
+  // function artistFormat(artist) {
+  //   return artist.artists
+  //     .map((el) => {
+  //       return el.name;
+  //     })
+  //     .join(", ");
+  // }
 
   function onClick() {
     if (!play) {
@@ -47,7 +47,7 @@ export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
       <AlbumImage artist={artist} />
       <div className="col-span-6 flex justify-between items-center gap-x-5 gap-y-1 sm:col-span-6 xl:col-span-7">
         <div className="min-w-0">
-          <h2 className="text-emerald-500 font-bold text-base sm:text-2xl md:text-3xl xl:text-4xl truncate">
+          <h2 className="text-emerald-500 font-bold text-lg sm:text-2xl md:text-3xl xl:text-4xl truncate">
             <a
               className="hover:underline"
               href={artist.external_urls.spotify}
@@ -57,8 +57,12 @@ export default function Track({ artist, currRef, setCurrRef, play, setPlay }) {
               {artist.name}
             </a>
           </h2>
-          <div className="text-emerald-600 text-sm sm:text-lg md:text-xl xl:text-2xl">
-            <p className="truncate">{artistFormat(artist)}</p>
+          <div className="text-emerald-600 text-base md:text-xl xl:text-2xl truncate">
+            {artist.artists.map((artist, idx) => (
+              <a key={idx} href={artist.href} className="artist-link">
+                <span className="hover:underline">{artist.name}</span>
+              </a>
+            ))}
           </div>
         </div>
         <span className="play">

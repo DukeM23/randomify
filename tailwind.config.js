@@ -16,6 +16,8 @@ module.exports = {
       },
       animation: {
         skeleton: "skeleton 4s ease-in infinite",
+        "playing-sides": "playing-sides 1s ease-in-out infinite",
+        "playing-middle": "playing-middle 1s ease-in-out infinite",
       },
       keyframes: {
         skeleton: {
@@ -24,6 +26,22 @@ module.exports = {
           },
           "50%": {
             "background-color": "#10b981",
+          },
+        },
+        "playing-sides": {
+          "0%, 100%": {
+            height: "40%",
+          },
+          "50%": {
+            height: "20%",
+          },
+        },
+        "playing-middle": {
+          "0%, 100%": {
+            height: "20%",
+          },
+          "50%": {
+            height: "70%",
           },
         },
       },
