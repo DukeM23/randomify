@@ -1,16 +1,24 @@
 import { useRef, useState } from "react";
 
-export default function PlayButton({ artist, onClick, currRef, audioRef }) {
+export default function PlayButton({
+  artist,
+  onClick,
+  currRef,
+  audioRef,
+  play,
+  playingTrack,
+  setPlayingTrack,
+}) {
   const { id, preview_url } = artist;
-
-  // const [play, setPlay] = useState(false);
 
   function handleOnClick(e) {
     e.preventDefault();
+
     if (preview_url) {
       // setPlay((prevVal) => !prevVal);
       onClick();
     }
+    // console.log(currRef.duration);
   }
   return (
     <button
@@ -21,7 +29,7 @@ export default function PlayButton({ artist, onClick, currRef, audioRef }) {
       }
       onClick={handleOnClick}
     >
-      {currRef !== audioRef ? (
+      {playingTrack !== artist.id ? (
         <i className={`fas fa-play ml-1`}></i>
       ) : (
         <div className="h-full w-full">

@@ -21,6 +21,7 @@ function ResultTracks() {
   const [exists, setExists] = useState(false);
   const [play, setPlay] = useState(false);
   const [currRef, setCurrRef] = useState("");
+  const [playingTrack, setPlayingTrack] = useState("");
 
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -84,6 +85,8 @@ function ResultTracks() {
                 setCurrRef={setCurrRef}
                 play={play}
                 setPlay={setPlay}
+                playingTrack={playingTrack}
+                setPlayingTrack={setPlayingTrack}
               />
             </Suspense>
           );

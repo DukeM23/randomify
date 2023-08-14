@@ -3,7 +3,13 @@ import PlayButton from "../../Buttons/PlayButton";
 import AlbumImage from "../AlbumImage";
 import useIntersectionOberserver from "../../../hooks/useIntersectionObserver";
 
-export default function Track({ artist, currRef, setCurrRef }) {
+export default function Track({
+  artist,
+  currRef,
+  setCurrRef,
+  playingTrack,
+  setPlayingTrack,
+}) {
   const player = new Audio(artist.preview_url);
   const audioRef = useRef(player);
 
@@ -19,20 +25,39 @@ export default function Track({ artist, currRef, setCurrRef }) {
   useIntersectionOberserver();
 
   function onClick() {
+    // console.log(currRef.current.currentTime);
+
+    const timer = setTimeout(() => {
+      setPlayingTrack("");
+      setPlay(false);
+      console.log("Time is done");
+    }, audioRef.current.duration * 1000);
+
+    setPlayingTrack(artist.id);
+    console.log(play);
     if (!play) {
+      // If a Track is not playing
       audioRef.current.play();
       setCurrRef(audioRef);
       setPlay(!play);
+      console.log("hello");
     } else {
+      // If a Track is playing
       if (currRef === audioRef) {
+        // If targeted track is the same as the playing Track
         setCurrRef(audioRef);
         currRef.current.pause();
+        currRef.current.currentTime = 0;
         setPlay(!play);
       } else {
+        // If targeted track is NOT the same as the playing Track
         currRef.current.pause();
+        currRef.current.currentTime = 0;
         audioRef.current.play();
         setCurrRef(audioRef);
       }
+      clearTimeout(timer);
+      setPlayingTrack("");
     }
   }
 
@@ -65,6 +90,7 @@ export default function Track({ artist, currRef, setCurrRef }) {
             onClick={onClick}
             audioRef={audioRef}
             currRef={currRef}
+            playingTrack={playingTrack}
           />
         </span>
       </div>
