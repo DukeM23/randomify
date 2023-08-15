@@ -25,39 +25,85 @@ export default function Track({
   useIntersectionOberserver();
 
   function onClick() {
-    // console.log(currRef.current.currentTime);
+    // console.log(currRef);
 
     const timer = setTimeout(() => {
       setPlayingTrack("");
       setPlay(false);
       console.log("Time is done");
-    }, audioRef.current.duration * 1000);
+    }, currRef.current.duration * 1000);
 
     setPlayingTrack(artist.id);
-    console.log(play);
     if (!play) {
       // If a Track is not playing
-      audioRef.current.play();
-      setCurrRef(audioRef);
-      setPlay(!play);
-      console.log("hello");
-    } else {
-      // If a Track is playing
-      if (currRef === audioRef) {
-        // If targeted track is the same as the playing Track
+      console.log(`${playingTrack} !== ${artist.id}`);
+      if (playingTrack === "") {
+        audioRef.current.play();
         setCurrRef(audioRef);
-        currRef.current.pause();
-        currRef.current.currentTime = 0;
         setPlay(!play);
-      } else {
-        // If targeted track is NOT the same as the playing Track
+        console.log("Initial Play");
+      } else if (playingTrack !== artist.id) {
+        console.log(currRef);
         currRef.current.pause();
         currRef.current.currentTime = 0;
         audioRef.current.play();
         setCurrRef(audioRef);
+        console.log("Switching over songs");
+      } else {
+        currRef.current.pause();
+        currRef.current.currentTime = 0;
+        setPlay(!play);
+        setPlayingTrack("");
+        console.log("Pausing current song");
+      }
+    } else {
+      // If a Track is playing
+      console.log(`${playingTrack} !== ${artist.id}`);
+      // if (currRef === audioRef) {
+      //   // If targeted track is the same as the playing Track
+      //   setCurrRef(audioRef);
+      //   if (playingTrack === artist.id) {
+      //     currRef.current.pause();
+      //     currRef.current.currentTime = 0;
+      //   }
+      //   setPlay(!play);
+      //   console.log("Playing the same track");
+      // } else {
+      //   // If targeted track is NOT the same as the playing Track
+      //   if (playingTrack !== artist.id) {
+      //     currRef.current.pause();
+      //     currRef.current.currentTime = 0;
+      //     audioRef.current.play();
+      //     setCurrRef(audioRef);
+      //     setPlayingTrack(artist.id);
+      //     console.log(`${playingTrack} !== ${artist.id}`);
+      //   }
+      //   setPlay(!play);
+      //   console.log("Playing 2 different tracks");
+      // }
+
+      if (playingTrack === artist.id) {
+        currRef.current.pause();
+        currRef.current.currentTime = 0;
+        setPlay(!play);
+        setPlayingTrack("");
+        console.log("Playing the same track");
+      } else {
+        currRef.current.pause();
+        currRef.current.currentTime = 0;
+        audioRef.current.play();
+        setCurrRef(audioRef);
+        setPlayingTrack(artist.id);
+        console.log(playingTrack);
+        // console.log(`${playingTrack} !== ${artist.id}`);
+
+        // setPlay(!play);
+        console.log("Playing 2 different tracks");
       }
       clearTimeout(timer);
-      // setPlayingTrack("");
+      if (!play) {
+        setPlayingTrack("");
+      }
     }
   }
 
