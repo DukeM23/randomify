@@ -4,6 +4,9 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx,html}"],
   theme: {
     extend: {
+      minHeight: {
+        screen: ["100vh /* fallback for Opera, IE and etc. */", "100dvh"],
+      },
       colors: {
         cream: {
           100: "#FFFAD7",
