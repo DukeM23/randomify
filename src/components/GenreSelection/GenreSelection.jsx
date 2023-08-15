@@ -8,7 +8,7 @@ import ChangeItUp from ".//ChangeItUp/ChangeItUp";
 import { motion } from "framer-motion";
 import GenreSkeleton from "./GenreSkeleton";
 import ReducerContext from "./ReducerContext";
-import Slider from "./Sliders";
+import Sliders from "./Sliders";
 
 const GenresLayout = React.lazy(() => import("./GenresLayout"));
 
@@ -114,6 +114,13 @@ function GenreSelection({ setArtists }) {
       exit={{ opacity: 0 }}
     >
       <form id="customization" className="block" onSubmit={searchArtists}>
+        <div className="text-xl sm:text-3xl text-center font-bold text-emerald-500 my-10 mx-2">
+          <h1 className="mb-5">Choose genres to randomify.</h1>
+          <p>
+            <span className="underline text-emerald-500">Change It Up</span> by
+            moving the sliders till your heart's content
+          </p>
+        </div>
         <ReducerContext.Provider value={providerState}>
           <div className="gap-x-0 sm:grid sm:grid-cols-6 sm:gap-x-5 xl:grid-cols-10">
             <div
@@ -129,7 +136,7 @@ function GenreSelection({ setArtists }) {
             </div>
             <div className="hidden sm:block sm:col-span-2 lg:col-span- xl:col-span-3">
               <div id="attribute-slider" className="sm:sticky sm:top-10">
-                <Slider />
+                <Sliders />
                 <div
                   className={`${
                     seedGenre.length === 0 ? "invisible" : "hidden"

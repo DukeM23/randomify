@@ -18,7 +18,7 @@ export default function ChangeItUp() {
         >
           <div className=" text-gray-900 text-center transition ease duration-1000">
             <button type="button" className="my-3 text-2xl font-bold">
-              Change it up!
+              {!show ? "Change it up!" : "Close"}
             </button>
           </div>
         </div>
@@ -36,14 +36,14 @@ export default function ChangeItUp() {
                   dispatch={dispatch}
                 />
               ))}
-              <button
+              {/* <button
                 type="button"
                 onClick={() => {
                   setShow(false);
                 }}
               >
                 Close
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

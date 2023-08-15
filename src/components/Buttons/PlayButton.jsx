@@ -1,24 +1,12 @@
-import { useRef, useState } from "react";
-
-export default function PlayButton({
-  artist,
-  onClick,
-  currRef,
-  audioRef,
-  play,
-  playingTrack,
-  setPlayingTrack,
-}) {
+export default function PlayButton({ artist, onClick, playingTrack }) {
   const { id, preview_url } = artist;
 
   function handleOnClick(e) {
     e.preventDefault();
 
     if (preview_url) {
-      // setPlay((prevVal) => !prevVal);
       onClick();
     }
-    // console.log(currRef.duration);
   }
   return (
     <button

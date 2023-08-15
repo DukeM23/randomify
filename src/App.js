@@ -13,7 +13,7 @@ function App() {
       <div className="container mx-auto sm:flex">
         <div className="flex flex-col justify-between w-full min-h-screen">
           <Header />
-          <div className="mb-auto">
+          <div className="my-auto">
             <AnimatedRoutes />
           </div>
           <Footer />

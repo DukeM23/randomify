@@ -2,13 +2,15 @@ import addTracks from "./addTracks";
 import emptyPlaylist from "./emptyPlaylist";
 import getPlaylists from "./getPlaylist";
 import getPlaylistTracks from "./getPlaylistTracks";
+import getUserId from "./getUserId";
 
 export default async function overwritePlaylist(token, trackUris) {
   const playlists = await getPlaylists(token);
+  const userId = await getUserId(token);
 
   let playlistId = "";
   playlists.forEach((playlist) => {
-    if (playlist.name.includes("Randomify")) {
+    if (playlist.name.includes(`${userId}'s Randomify`)) {
       playlistId = playlist.id;
     }
   });

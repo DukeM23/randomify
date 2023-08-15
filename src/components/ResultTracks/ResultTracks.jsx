@@ -19,7 +19,6 @@ const Track = React.lazy(() => import("./Track/Track"));
 function ResultTracks() {
   const [saved, setSaved] = useState(false);
   const [exists, setExists] = useState(false);
-  const [play, setPlay] = useState(false);
   const [currRef, setCurrRef] = useState("");
   const [playingTrack, setPlayingTrack] = useState("");
 
@@ -37,7 +36,7 @@ function ResultTracks() {
   async function handleSave() {
     try {
       const userId = await getUserId(token);
-
+      console.log(userId);
       let trackUris = [];
       tracks.tracks.forEach((track) => {
         let uriString = track.uri;
@@ -83,24 +82,29 @@ function ResultTracks() {
                 token={token}
                 currRef={currRef}
                 setCurrRef={setCurrRef}
-                play={play}
-                setPlay={setPlay}
                 playingTrack={playingTrack}
                 setPlayingTrack={setPlayingTrack}
               />
             </Suspense>
           );
         })}
-        <div className="flex flex-row justify-evenly text-lg sm:text-2xl md:text-3xl pb-8 pt-4">
+        <div className="flex flex-row flex-wrap justify-evenly text-lg sm:text-2xl md:text-3xl pb-8 pt-4 gap-y-4">
           <RIBButton />
           <div className="flex content-center gap-x-6">
             <button
-              className="border-2 font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 md:px-4  py-2 md:py-4"
+              className={`border-2 font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 md:px-4  py-2 md:py-4`}
               onClick={handleSave}
             >
-              {saved ? "Saved!" : "Save Playlist"}
+              Save Playlist
             </button>
           </div>
+          <h1
+            className={`basis-full text-center font-semibold text-emerald-500 transition-opacity duration-1000 ease-in-out ${
+              !saved ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            Playlist saved!
+          </h1>
         </div>
       </div>
       {exists && (
@@ -115,6 +119,7 @@ function ResultTracks() {
           </div>
         </div>
       )}
+      <div></div>
     </motion.div>
   );
 }
