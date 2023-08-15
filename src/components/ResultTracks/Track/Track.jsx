@@ -57,7 +57,7 @@ export default function Track({
         setCurrRef(audioRef);
       }
       clearTimeout(timer);
-      setPlayingTrack("");
+      // setPlayingTrack("");
     }
   }
 
