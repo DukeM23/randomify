@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "../../imgs/Spotify_Icon.png";
-import iphone from "../../imgs/apple-iphone-13-2021-medium.png";
+import iphone from "../../imgs/iphone-view-randomify.png";
+import imac from "../../imgs/imac-view-randomify.png";
 
 import { motion } from "framer-motion";
 
@@ -20,14 +21,19 @@ function Splash() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="grid grid-cols-2 place-items-center sm:gap-x-4 ">
+      <div className="grid grid-cols-2 place-items-center sm:gap-x-10 ">
         <img
           src={iphone}
-          className="w-3/4 sm:w-2/3 lg:w-2/3 xl:w-1/2"
+          className="block sm:hidden w-3/4 sm:w-2/3 lg:w-2/3 xl:w-1/2"
+          alt="mobile view of Randomify"
+        />
+        <img
+          src={imac}
+          className="hidden sm:block w-auto lg:w-3/4"
           alt="mobile view of Randomify"
         />
         <div className="place-self-start self-center mr-1">
-          <div className="flex flex-col gap-y-4 sm:gap-y6 md:gap-y-12 text-emerald-500 font-semibold text-base sm:text-lg md:text-2xl lg:text-3xl">
+          <div className="flex flex-col gap-y-4 sm:gap-y-6 text-emerald-500 font-semibold text-base sm:text-lg md:text-2xl lg:text-3xl">
             <p>In need change of pace?</p>
             <p>Or are you craving for a different kind of buzz?</p>
             <p>
@@ -36,7 +42,7 @@ function Splash() {
               playlists!
             </p>
           </div>
-          <div className="flex sm:justify-center mt-3 sm:mt-10 md:mt-16">
+          <div className="flex sm:justify-center mt-3 sm:mt-5">
             <a
               className="border-2 text-base sm:text-xl md:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 my-2 px-3 py-3 sm:py-4 sm:px-5"
               href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}

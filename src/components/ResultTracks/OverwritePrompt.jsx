@@ -13,7 +13,7 @@ function OverwritePrompt({ token, tracks, setExists, setSaved }) {
 
   async function handleOverwrite() {
     let trackUris = [];
-    tracks.tracks.forEach((track) => {
+    tracks.forEach((track) => {
       let uriString = track.uri;
       trackUris = [...trackUris, uriString];
     });

@@ -20,25 +20,35 @@ function ResultTracks() {
   const [saved, setSaved] = useState(false);
   const [exists, setExists] = useState(false);
   const [currRef, setCurrRef] = useState("");
+  const [resultTracks, setResultTracks] = useState([]);
   const [playingTrack, setPlayingTrack] = useState("");
 
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { tracks } = state;
 
   useEffect(() => {
+    if (state === null) {
+      alert("Request could not be handled. Please login again.");
+      window.localStorage.removeItem("token");
+      console.log("Broke");
+      navigate("/");
+    } else {
+      const { tracks } = state;
+      setResultTracks(tracks.tracks);
+      // console.log(resultTracks);
+    }
+
     window.scrollTo(0, 0);
   }, []);
-
+  console.log(resultTracks);
   useToken();
   const token = window.localStorage.getItem("token");
 
   async function handleSave() {
     try {
       const userId = await getUserId(token);
-      console.log(userId);
       let trackUris = [];
-      tracks.tracks.forEach((track) => {
+      resultTracks.forEach((track) => {
         let uriString = track.uri;
         trackUris = [...trackUris, uriString];
       });
@@ -71,7 +81,7 @@ function ResultTracks() {
         id="results"
         className="flex flex-col divide-y divide-emerald-500 container mx-auto sm:flex h-4/6 sm:min-h-screen"
       >
-        {tracks.tracks.map((artist, idx) => {
+        {resultTracks.map((artist, idx) => {
           if (artist.album.images.length === 0) {
             return null;
           }
@@ -112,7 +122,7 @@ function ResultTracks() {
           <div className="relative top-0">
             <OverwritePrompt
               token={token}
-              tracks={tracks}
+              tracks={resultTracks}
               setExists={setExists}
               setSaved={setSaved}
             />
