@@ -24,4 +24,6 @@ Randomify was initially a project to play around with TailwindCSS. Now Randomify
   - [x] Add Links to artists in Track
 - [x] Have AttributeSlider be synced whenever values change
 
+## Suggestions / Feedback
+
 Have any suggestions or feedback? Open an issue under Github!

@@ -1,8 +1,8 @@
 export default function GenreSkeleton() {
-  const genreLength = new Array(45).fill("");
+  const genreLength = new Array(60).fill("");
   const widths = ["w-32", "w-36", "w-40", "w-48"];
   return (
-    <div className="flex justify-center flex-wrap h-screen">
+    <div className="flex justify-center flex-wrap">
       {genreLength.map((_, idx) => {
         let index = Math.floor(Math.random() * widths.length);
         return (

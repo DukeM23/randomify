@@ -6,9 +6,9 @@ import imac from "../../imgs/imac-view-randomify.png";
 import { motion } from "framer-motion";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-// const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-const REDIRECT_URI =
-  "https://randomify-git-dev-main-dukem23.vercel.app/genre-selection/";
+const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+// const REDIRECT_URI =
+//   "https://randomify-git-dev-main-dukem23.vercel.app/genre-selection/";
 const AUTH_ENDPOINT = process.env.REACT_APP_AUTH_ENDPOINT;
 const RESPONSE_TYPE = process.env.REACT_APP_RESPONSE_TYPE;
 const SCOPE = process.env.REACT_APP_SCOPE;
@@ -16,22 +16,16 @@ const SCOPE = process.env.REACT_APP_SCOPE;
 function Splash() {
   return (
     <motion.div
-      className="container mx-auto flex flex-col justify-between h-full"
+      className="container mx-auto flex flex-col justify-between h-full px-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
       <div className="grid grid-cols-2 place-items-center sm:gap-x-10 ">
-        <img
-          src={iphone}
-          className="block sm:hidden w-3/4 sm:w-2/3 lg:w-2/3 xl:w-1/2"
-          alt="mobile view of Randomify"
-        />
-        <img
-          src={imac}
-          className="hidden sm:block w-auto lg:w-3/4"
-          alt="mobile view of Randomify"
-        />
+        <picture className="w-3/4 sm:w-auto lg:w-5/6">
+          <source media="(min-width:650px)" srcset={imac} />
+          <img src={iphone} alt="mobile view of Randomify" />
+        </picture>
         <div className="place-self-start self-center mr-1">
           <div className="flex flex-col gap-y-4 sm:gap-y-6 text-emerald-500 font-semibold text-base sm:text-lg md:text-2xl lg:text-3xl">
             <p>In need change of pace?</p>
@@ -42,7 +36,7 @@ function Splash() {
               playlists!
             </p>
           </div>
-          <div className="flex sm:justify-center mt-3 sm:mt-5">
+          <div className="flex sm:justify-center mt-3 sm:mt-5 lg:mt-10">
             <a
               className="border-2 text-base sm:text-xl md:text-2xl font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 my-2 px-3 py-3 sm:py-4 sm:px-5"
               href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}
