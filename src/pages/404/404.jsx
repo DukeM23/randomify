@@ -1,6 +1,3 @@
-import Footer from "../Layouts/Footer";
-import Header from "../Layouts/Header";
-
 export default function FourOhFour() {
   return (
     <div className="container mx-auto flex flex-col justify-between h-screen sm:min-h-screen">

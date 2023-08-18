@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { useState, useEffect } from "react";
-import OverwritePrompt from "./OverwritePrompt";
+import OverwritePrompt from "../../components/ResultTracks/OverwritePrompt";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import getUserId from "../../functions/getUserId";
@@ -9,12 +9,15 @@ import checkPlaylist from "../../functions/checkPlaylist";
 import overwritePlaylist from "../../functions/overwritePlaylist";
 import createPlaylist from "../../functions/createPlaylist";
 import addTracks from "../../functions/addTracks";
-import RIBButton from "../Buttons/RIBButton";
-import TrackSkeleton from "./Track/TrackSkeleton";
+import RIBButton from "../../components/Buttons/RIBButton";
+import TrackSkeleton from "../../components/ResultTracks/Track/TrackSkeleton";
 
 import { motion } from "framer-motion";
+import SavePlaylist from "../../components/Buttons/SavePlaylist";
 
-const Track = React.lazy(() => import("./Track/Track"));
+const Track = React.lazy(() =>
+  import("../../components/ResultTracks/Track/Track")
+);
 
 function ResultTracks() {
   const [saved, setSaved] = useState(false);
@@ -26,23 +29,21 @@ function ResultTracks() {
   const navigate = useNavigate();
   const { state } = useLocation();
 
+  useToken();
+  const token = window.localStorage.getItem("token");
+
   useEffect(() => {
     if (state === null) {
       alert("Request could not be handled. Please login again.");
       window.localStorage.removeItem("token");
-      console.log("Broke");
       navigate("/");
     } else {
       const { tracks } = state;
       setResultTracks(tracks.tracks);
-      // console.log(resultTracks);
     }
 
     window.scrollTo(0, 0);
   }, []);
-  console.log(resultTracks);
-  useToken();
-  const token = window.localStorage.getItem("token");
 
   async function handleSave() {
     try {
@@ -63,7 +64,6 @@ function ResultTracks() {
         addTracks(token, playlistId, trackUris);
       }
     } catch (err) {
-      console.log(err);
       alert("Request could not be handled. Please login again.");
       window.localStorage.removeItem("token");
       navigate("/");
@@ -101,12 +101,7 @@ function ResultTracks() {
         <div className="flex flex-row flex-wrap justify-evenly text-lg sm:text-2xl md:text-3xl pb-8 pt-4 gap-y-4">
           <RIBButton />
           <div className="flex content-center gap-x-6">
-            <button
-              className={`border-2 font-semibold rounded-full border-emerald-500 bg-emerald-600 hover:bg-emerald-500 text-gray-900 px-3 md:px-4  py-2 md:py-4`}
-              onClick={handleSave}
-            >
-              Save Playlist
-            </button>
+            <SavePlaylist handleSave={handleSave} />
           </div>
           <h1
             className={`basis-full text-center font-semibold text-emerald-500 transition-opacity duration-1000 ease-in-out ${
