@@ -6,9 +6,9 @@ import imac from "../../imgs/imac-view-randomify.png";
 import { motion } from "framer-motion";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-// const REDIRECT_URI =
-//   "https://randomify-git-dev-main-dukem23.vercel.app/genre-selection/";
+// const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+const REDIRECT_URI =
+  "https://randomify-git-dev-main-dukem23.vercel.app/genre-selection/";
 const AUTH_ENDPOINT = process.env.REACT_APP_AUTH_ENDPOINT;
 const RESPONSE_TYPE = process.env.REACT_APP_RESPONSE_TYPE;
 const SCOPE = process.env.REACT_APP_SCOPE;
