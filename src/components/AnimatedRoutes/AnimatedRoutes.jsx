@@ -2,12 +2,13 @@ import { useLocation, Routes, Route } from "react-router-dom";
 import React from "react";
 import { AnimatePresence } from "framer-motion";
 
-import Splash from "../Splash/Splash";
-// import ResultTracks from "../ResultTracks/ResultTracks";
-import GenreSelection from "../GenreSelection/GenreSelection";
-import FourOhFour from "../404/404";
+import Splash from "../../pages/Splash/Splash";
+import GenreSelection from "../../pages/GenereSelection/GenreSelection";
+import FourOhFour from "../../pages/404/404";
 
-const ResultTracks = React.lazy(() => import("../ResultTracks/ResultTracks"));
+const ResultTracks = React.lazy(() =>
+  import("../../pages/ResultTracks/ResultTracks")
+);
 
 function AnimatedRoutes() {
   const location = useLocation();

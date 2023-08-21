@@ -77,7 +77,7 @@ export default function Track({
       }
     }
   }
-
+  console.log(artist);
   return (
     <div className="grid grid-cols-8 gap-x-4 py-2 px-4 sm:px-4 md:py-4 md:gap-x-8 track">
       <AlbumImage artist={artist} />
@@ -95,7 +95,12 @@ export default function Track({
           </h2>
           <div className="text-emerald-600 text-base md:text-xl xl:text-2xl truncate">
             {artist.artists.map((artist, idx) => (
-              <a key={idx} href={artist.href} className="artist-link">
+              <a
+                key={idx}
+                href={artist.external_urls.spotify}
+                target="_blank"
+                className="artist-link"
+              >
                 <span className="hover:underline">{artist.name}</span>
               </a>
             ))}

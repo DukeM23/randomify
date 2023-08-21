@@ -1,49 +1,21 @@
 import React, { Suspense, useReducer, useState } from "react";
 import attributeReducer from "../../reducers/attributreReducer";
-import Loader from "../Loaders/Loader";
+import Loader from "../../components/Loaders/Loader";
 import getRecommended from "../../functions/getReccomended";
 import { useNavigate } from "react-router-dom";
 import useToken from "../../hooks/useToken";
-import ChangeItUp from ".//ChangeItUp/ChangeItUp";
+import ChangeItUp from "../../components/GenreSelection/ChangeItUp/ChangeItUp";
 import { motion } from "framer-motion";
-import GenreSkeleton from "./GenreSkeleton";
-import ReducerContext from "./ReducerContext";
-import Sliders from "./Sliders";
+import GenreSkeleton from "../../components/GenreSelection/GenreSkeleton";
+import ReducerContext from "../../components/GenreSelection/ReducerContext";
+import Sliders from "../../components/GenreSelection/Sliders";
+import { attributeState } from "../../data/attributeState";
+import ClearButton from "../../components/Buttons/ClearButton";
+import SearchSubmit from "../../components/Buttons/SearchSubmit";
 
-const GenresLayout = React.lazy(() => import("./GenresLayout"));
-
-const attributeState = [
-  {
-    type: "set_accousticness",
-    name: "Accousticness",
-    value: 0.5,
-  },
-  {
-    type: "set_danceability",
-    name: "Danceability",
-    value: 0.5,
-  },
-  {
-    type: "set_energy",
-    name: "Energy",
-    value: 0.5,
-  },
-  {
-    type: "set_instrumentalness",
-    name: "Instrumentalness",
-    value: 0.5,
-  },
-  {
-    type: "set_loudness",
-    name: "Loudness",
-    value: 0.5,
-  },
-  {
-    type: "set_tempo",
-    name: "Tempo",
-    value: 0.5,
-  },
-];
+const GenresLayout = React.lazy(() =>
+  import("../../components/GenreSelection/GenresLayout")
+);
 
 function GenreSelection({ setArtists }) {
   const [state, dispatch] = useReducer(attributeReducer, attributeState);
@@ -142,19 +114,8 @@ function GenreSelection({ setArtists }) {
                     seedGenre.length === 0 ? "invisible" : "hidden"
                   } sm:flex justify-around font-bold lg:text-xl xl:text-2xl text-gray-900 mb-5`}
                 >
-                  <button
-                    className="border-2 rounded-full border-transparent text-emerald-600 hover:border-emerald-500 font-bold my-2 px-3 py-2"
-                    type={"button"}
-                    onClick={handleRIB}
-                  >
-                    Clear
-                  </button>
-                  <button
-                    className="border-2 rounded-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-gray-900 font-bold my-2 px-3 py-2"
-                    type={"submit"}
-                  >
-                    {loading ? <Loader /> : "Search"}
-                  </button>
+                  <ClearButton />
+                  <SearchSubmit loading={loading} />
                 </div>
               </div>
             </div>
@@ -164,19 +125,8 @@ function GenreSelection({ setArtists }) {
               seedGenre.length === 0 ? "invisible" : "flex"
             } sm:hidden justify-around font-bold text-xl xl:text-2xl text-gray-900 mb-5`}
           >
-            <button
-              className="border-2 rounded-full border-transparent text-emerald-600 hover:border-emerald-500 font-bold my-2 px-3 py-2"
-              type={"button"}
-              onClick={handleRIB}
-            >
-              Clear
-            </button>
-            <button
-              className="border-2 rounded-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-gray-900 font-bold my-2 px-3 py-2"
-              type={"submit"}
-            >
-              {loading ? <Loader /> : "Search"}
-            </button>
+            <ClearButton />
+            <SearchSubmit loading={loading} />
           </div>
           <div className="block sm:hidden sticky bottom-0 py-[1px] backdrop-blur-sm">
             <ChangeItUp />
